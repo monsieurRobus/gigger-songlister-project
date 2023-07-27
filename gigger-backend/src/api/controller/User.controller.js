@@ -1,0 +1,364 @@
+const User = require('../models/User.model')
+const { confirmationCode } = require('../../utils/confirmationCode')
+const { generateToken } = require('../../utils/token')
+const nodemailer = require('nodemailer')
+const bcrypt = require('bcrypt')
+const PORT = process.env.PORT || 3000
+const ENDPOINT = process.env.ENDPOINT || `http://localhost:${PORT}`
+const EMAIL = process.env.EMAIL || ''
+const PASSWORD = process.env.PASSWORD_EMAIL || ''
+const HOST = process.env.HOST || 'localhost'
+const PROTOCOL = process.env.PROTOCOL || 'http://'
+
+
+const getAllUsers = async (req, res, next) => {
+
+    try {
+            
+        const users = await User.find()
+        return res.status(200).json({ message: 'Users found', users: users })
+    
+    }
+    catch (error)
+    {
+        return next(error)
+    }
+
+}
+
+const getUserById = async (req, res, next) => {
+
+    try {
+        const { id } = req.params
+
+        const userFound = await User.findById(id)
+
+        if (userFound) {
+            
+            return res.status(200).json({ message: 'User found', user: userFound })
+        
+        }
+        else
+        {
+            return res.status(404).json({ message: 'User not found' })
+        }
+    }
+    catch(error)
+    {
+        return next(error)
+    }
+
+}
+
+const resendCode = async (req, res, next) => {
+    try {
+
+      // NodeMailer Config
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: EMAIL,
+          pass: PASSWORD,
+        },
+      });
+
+      // User Exists?
+      const userExists = await User.findOne({ email: req.body.email });
+      
+      if (userExists) {
+        const mailOptions = {
+          from: EMAIL,
+          to: req.body.email,
+          subject: 'Confirmation code ',
+          html: `<h1>Register FUll</h1><h2>This is yout code! <span style="color: #ed6d6b;">${userExists.confirmation}</span>`,
+        };
+  
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+            return res.status(200).json({
+              resend: true,
+            });
+          }
+        });
+      } else {
+        return res.status(404).json('User does not exist :(');
+      }
+    } catch (error) {
+      return next(setError(500, error.message || 'General error sending code'));
+    }
+  };
+
+const registerUser = async (req, res, next) => {
+
+    try {
+        
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: EMAIL,
+                pass: PASSWORD
+            }
+        })
+
+        const confirmation = confirmationCode()
+        const { name, email, password, role } = req.body
+        const userExists = await User.findOne({email: email })
+
+        if (!userExists) {
+            const userToAdd = new User({ name, email, password, role, confirmation })
+            const userAdded = await userToAdd.save()
+
+            const mailOptions = {
+                from: emailCode,
+                to: email,
+                subject: `This is your confirmation code for ${process.env.APP_NAME}`,
+                html: `<h1>This is your confirmation code for  ${process.env.APP_NAME}</h1><h2>${confirmation}</h2>`
+            }
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              })
+
+            if (userAdded)
+            {
+                
+                return res.status(200).json({ message: 'User added successfully', user: userAdded })
+            }
+
+        }
+        else {
+
+            return res.status(409).json({ message: 'User already exists' })
+
+        }
+
+
+    }
+    catch (error) {
+        return next(error)
+    }
+
+}
+
+const loginUser = async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+  
+      const user = await User.findOne({ email })
+
+      if (!user) {
+        return res.status(404).json('User not found')
+        
+      } else {
+        
+        if (bcrypt.compareSync(password, user.password)) {
+            
+          const token = generateToken(user._id, email);
+            
+          return res.status(200).json({
+            user: {
+                
+                username: user.name,
+                email,
+                _id: user._id,
+                active: user.active,
+            },
+            token,
+          });
+        } else {
+            return res.status(404).json('Invalid password');
+        }
+      }
+    } catch (error) {
+      return next(
+        error.message
+      );
+    }
+  };
+
+
+  
+const activateUser = async (req, res, next) => {
+
+    try {
+        const { email, confirmationCode } = req.body
+
+        const userToActivate = await User.findOne({email: email})
+        delete userToActivate.password
+
+        if(userToActivate)
+        {
+            if(!userToActivate.active)
+            {
+                userToActivate.active = (parseInt(userToActivate.confirmation) === confirmationCode) ? true : false
+                const userActivated = await userToActivate.save()
+                if(userActivated)
+                {                    
+                    return res.status(200).json({ message: 'User activated successfully', user: userToActivate })
+                }
+                else
+                {
+                    return res.status(500).json({ message: 'Error activating user' })
+                }
+            }
+            else
+            {
+                return res.status(409).json({ message: 'User already activated' })
+            }
+
+        }
+        else
+        {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+    }
+    catch(error)
+    {
+        return next(error)
+    }
+
+}
+
+const deleteUser = async (req, res, next) => {
+
+    try {
+
+        const { id } = req.params
+
+        const userToDelete = await User.findById(id)
+
+        if (userToDelete) {
+            const userDeleted = await User.findByIdAndDelete(id)
+            if (userDeleted) {
+                return res.status(200).json({ message: 'User deleted successfully' })
+            }
+            else
+            {
+                return res.status(500).json({ message: 'Error deleting user' })
+            }
+        }
+        else {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+    }
+    catch (error) {
+        return next(error)
+    }
+
+}
+
+const modifyPassword = async (req, res, next) => {
+
+  // Modify password if logged
+  try {
+    const { password, newPassword } = req.body;
+
+    const { _id } = req.user;
+    if (bcrypt.compareSync(password, req.user.password)) {
+      const newPasswordHash = bcrypt.hashSync(newPassword, 10);
+      try {
+        await User.findByIdAndUpdate(_id, { password: newPasswordHash });
+
+        const updateUser = await User.findById(_id);
+
+        if (bcrypt.compareSync(newPassword, updateUser.password)) {
+          return res.status(200).json({
+            updateUser: true,
+          });
+        } else {
+          return res.status(404).json({
+            updateUser: false,
+          });
+        }
+      } catch (error) {
+        return res.status(404).json(error.message);
+      }
+    } else {
+      return res.status(404).json('Password did not match');
+    }
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const update = async (req, res, next) => {
+  let catchImg = req.file?.path;
+  try {
+
+    await User.syncIndexes();
+
+    // NUevo user
+    const patchUser = new User(req.body);
+    
+   
+    // estas cosas no quiero que me cambien por lo cual lo cojo del req.user gracias a que esto es con auth
+    patchUser._id = req.user._id;
+    patchUser.password = req.user.password;
+    patchUser.rol = req.user.rol;
+    patchUser.confirmationCode = req.user.confirmationCode;
+    patchUser.check = req.user.check;
+    patchUser.email = req.user.email;
+
+    // actualizamos en la db con el id y la instancia del modelo de user
+    try {
+    
+      // Cogemos usuario a actualizar
+      const updateUser = await User.findById(req.user._id);
+
+      // Cogemos las keys
+      const updateKeys = Object.keys(req.body);
+
+      // preparamos testeo
+      const testing = [];
+      
+      updateKeys.forEach((item) => {
+        if (updateUser[item] == req.body[item]) {
+          testUpdate.push({
+            [item]: true,
+          });
+        } else {
+          testUpdate.push({
+            [item]: false,
+          });
+        }
+      });
+
+      if (req.file) {
+        updateUser.image == req.file.path
+          ? testUpdate.push({
+              file: true,
+            })
+          : testUpdate.push({
+              file: false,
+            });
+      }
+      return res.status(200).json({
+        testUpdate,
+      });
+    } catch (error) {
+      return res.status(404).json(error.message);
+    }
+  } catch (error) {
+    return next(error);
+  }
+};
+
+module.exports = { 
+    getAllUsers,
+    getUserById,
+    activateUser,
+    registerUser,
+    deleteUser,
+    loginUser,
+    resendCode,
+  modifyPassword,
+ }

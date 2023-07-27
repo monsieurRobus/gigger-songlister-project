@@ -1,0 +1,6 @@
+/gigger-backend/.env
+/gigger-backend/node_modules
+/gigger-frontend/.env
+/gigger-frontend/node_modules
+
+.env
