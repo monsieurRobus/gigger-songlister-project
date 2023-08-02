@@ -10,11 +10,11 @@ import LoginPage from './pages/Login/LoginPage.jsx'
 import RegisterPage from './pages/Register/RegisterPage.jsx'
 import {ConfirmationCode} from './pages/ConfirmationCode/ConfirmationCode.jsx'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
-import ProtectedCheckChildren from '../../registerBack/src/ui/ProtectedCheckChildren.jsx'
 import Dashboard from './pages/DashBoard/Dashboard.jsx'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx'
 import ChangePassword from './pages/ChangePassword/ChangePassword.jsx'
 import UserList from './pages/UserList/UserList.jsx'
+import ProtectedCheckChildren from './components/ProtectedRoute/ProtectedCheckChildren.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

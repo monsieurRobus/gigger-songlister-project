@@ -1,11 +1,14 @@
 
 import './App.css'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet, redirect } from 'react-router-dom'
 import HeaderMain from './components/HeaderMain/HeaderMain'
+
+
 
 
 function App() {
 
+  
   return (
     <main>
       <HeaderMain />
