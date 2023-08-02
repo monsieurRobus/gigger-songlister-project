@@ -4,7 +4,7 @@ const {db} = require('./src/utils/db')
 const express = require('express')
 const cors = require('cors');
 const routerUser = require('./src/api/routes/User.routes')
-
+const routerSong = require('./src/api/routes/Song.routes')
 const endpoint = process.env.ENDPOINT || '/api/v1'
 
 
@@ -17,7 +17,10 @@ server.use(
   })
 )
 server.use(endpoint, router)
+
 router.use('/user', routerUser)
+router.use('/songs', routerSong)
+
 router.get('/', (req, res) => {
     res.status(200).json({message: 'test'})
 

@@ -34,7 +34,16 @@ const UserSchema = new mongoose.Schema({
     confirmation: {
         type: String,
         default: ''
-    }},
+    },
+    favouriteSetlists:[{
+        type: mongoose.Types.ObjectId,
+        ref: 'Setlist'
+    }],
+    favouriteSongs:[{
+        type: mongoose.Types.ObjectId,
+        ref:'Song'
+    }]    
+},
     {
         timestamps: true
     }
