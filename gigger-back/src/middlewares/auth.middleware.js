@@ -13,8 +13,8 @@ const isAuth = async (req, res, next) => {
   try {
     
     const decoded = verifyToken(token, process.env.JWT_SECRET);    
-    req.user = await User.findById(decoded.id);
 
+    req.user = await User.findById(decoded.id);
     next();
   } catch (error) {
     return next(error);

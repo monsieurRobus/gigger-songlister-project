@@ -6,11 +6,13 @@ import Swal from 'sweetalert2'
 import { deleteUser,update } from '../../services/user.service'
 import useDeleteUserError from '../../hooks/useDeleteUserError'
 import { useForm } from 'react-hook-form'
+import useUpdateUserError from '../../hooks/useUpdateUserError'
 
 
 const Dashboard = () => {
   const [res, setRes] = useState({})
   const [send, setSend] = useState(false)
+  const [updateOk, setUpdateOk] = useState(false)
   const [deleteOk, setDeleteOk] = useState(false)
   const [edit, setEdit] = useState(false)
   const [classInput, setClassInput] =useState("input-disabled")
@@ -23,13 +25,14 @@ const Dashboard = () => {
   }
    
   
+
   const sendEditedProfile = async(id,formData) => {
 
     const valuesToSend = {
       name: formData.name,
       avatar: formData.avatar
     }
-    console.log("UPDATEATE MALDITO")
+    console.log("hola")
     setSend(true)
     setRes(await update(valuesToSend))
     setSend(false)
@@ -39,7 +42,7 @@ const Dashboard = () => {
 
   const handleEditProfile = (formData) => {
 
-    edit ? sendEditedProfile(user._id,formData) : setEdit(!edit)
+    edit ? sendEditedProfile(user._id,formData) : null
 
   }
 
@@ -74,11 +77,11 @@ const Dashboard = () => {
   useEffect(() => {
   },[user])
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   useDeleteUserError(res, setRes, setDeleteOk)
-
-  // },[res])
+    // useDeleteUserError(res, setRes, setDeleteOk)
+    useUpdateUserError(res,setRes,setUpdateOk)
+  },[res])
 
   if(deleteOk) {
     logout()
@@ -104,8 +107,9 @@ const Dashboard = () => {
             <label>avatar:</label>
             <input className={classInput} type="text" name="avatar" disabled={!edit} placeholder={user?.avatar} {...register("avatar")}/>
             <label>Role:</label>
-            <input className={classInput} type="email" name="email" disabled={!edit} placeholder={user?.role}/>
-            <button onClick={handleEditProfile} >{edit ? 'Save Profile':'Edit Profile'}</button>
+            <h3>{user?.role}</h3>
+            <button onClick={()=>handleEditProfile} >Save Profile</button>
+            <button onClick={()=>setEdit(!edit)}>Edit</button>
             {/* <button onClick={handleDeleteUser} className={'delete-button'} disabled={!edit}>Delete User</button>           */}
             
           </div>

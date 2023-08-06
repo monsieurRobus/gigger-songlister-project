@@ -27,12 +27,12 @@ const SongSchema = new mongoose.Schema({
             ref: 'Setlist'
         }
     ],
-    user: [
+    user: 
         {
             type: mongoose.Types.ObjectId,
             ref: 'User'
         }
-    ],
+    ,
     tags: [
         {
             type: mongoose.Types.ObjectId,

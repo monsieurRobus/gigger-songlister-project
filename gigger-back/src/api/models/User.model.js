@@ -42,7 +42,19 @@ const UserSchema = new mongoose.Schema({
     favouriteSongs:[{
         type: mongoose.Types.ObjectId,
         ref:'Song'
-    }]    
+    }],
+    ownedSongs: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref:'Song'
+        }
+    ],
+    ownedSetlist: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref:'Setlist'
+        }
+    ]    
 },
     {
         timestamps: true

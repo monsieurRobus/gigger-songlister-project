@@ -19,10 +19,6 @@ const getAllUsers = async (req, res, next) => {
     try {
 
         const countUsers = await mongoose.connection.db.collection('users').countDocuments()        
-        console.log(countUsers)
-        const {authorization} = req.headers
-        const token = authorization.split(' ')[1]
-        const decoded = verifyToken(token)
         const users = await User.find()
         return res.status(200).json({ message: 'Users found', users: users })
     
@@ -221,11 +217,12 @@ const activateUser = async (req, res, next) => {
         const { email, confirmationCode } = req.body
 
         const userToActivate = await User.findOne({email: email})
-        if(userToActivate.password)
-          delete userToActivate.password
-
+        
         if(userToActivate)
         {
+          if(userToActivate?.password)
+          delete userToActivate.password
+
             if(!userToActivate.active)
             {
                 userToActivate.active = (parseInt(userToActivate.confirmation) === confirmationCode) ? true : false
@@ -457,23 +454,9 @@ const update = async (req, res, next) => {
 
       const updateKeys = Object.keys(req.body);
 
-      const testing = [];
-      
-      // updateKeys.forEach((item) => {
-      //   if (updateUser[item] == req.body[item]) {
-      //     testUpdate.push({
-      //       [item]: true,
-      //     });
-      //   } else {
-      //     testUpdate.push({
-      //       [item]: false,
-      //     });
-      //   }
-      // });
-
-      return res.status(200).json('oki uwu');
+      return res.status(200).json({updated:true , user: req.body})
     } catch (error) {
-      return res.status(404).json(error.message);
+      return res.status(404).json(error.message)
     }
   } catch (error) {
     return next(error);
