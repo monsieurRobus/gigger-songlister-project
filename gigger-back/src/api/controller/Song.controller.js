@@ -115,7 +115,7 @@ const deleteSong = async (req,res,next) => {
         // Delete song reference in user
 
         const userSongOwner = await User.findById(new mongoose.Types.ObjectId(songDeleted.user))
-        const indexToDelete = userSongOwner.ownedSongs?.indexOf(id.toString)
+        const indexToDelete = userSongOwner?.ownedSongs?.indexOf(id.toString)
         if(indexToDelete)
         {
             userSongOwner.ownedSongs.splice(indexToDelete,1)

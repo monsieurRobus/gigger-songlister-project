@@ -5,6 +5,10 @@ const { generateToken, verifyToken } = require('../../utils/token')
 const nodemailer = require('nodemailer')
 const bcrypt = require('bcrypt')
 const randomPassword = require('../../utils/randomPassword')
+const Song = require('../models/Song.model')
+const Setlist = require('../models/Setlist.model')
+const Event = require('../models/Event.model')
+
 
 const PORT = process.env.PORT || 3000
 const ENDPOINT = process.env.ENDPOINT || `http://localhost:${PORT}`
@@ -264,6 +268,11 @@ const deleteUser = async (req, res, next) => {
         const userToDelete = await User.findById(id)
 
         if (userToDelete) {
+
+            const songsToDelete = await Song.deleteMany({user: id})
+            const setlistToDelete = await Setlist.deleteMany({user: id})
+            const eventsToDelete = await Event.deleteMany({user: id})
+
             const userDeleted = await User.findByIdAndDelete(id)
             if (userDeleted) {
                 return res.status(200).json({ message: 'User deleted successfully' })

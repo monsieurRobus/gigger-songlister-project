@@ -6,6 +6,9 @@ const cors = require('cors');
 const routerUser = require('./src/api/routes/User.routes')
 const routerSong = require('./src/api/routes/Song.routes')
 const routerSetlist = require('./src/api/routes/Setlist.routes')
+const routerTag = require('./src/api/routes/Tag.routes')
+const routerEvent = require('./src/api/routes/Event.routes')
+
 const endpoint = process.env.ENDPOINT || '/api/v1'
 
 
@@ -22,6 +25,8 @@ server.use(endpoint, router)
 router.use('/user', routerUser)
 router.use('/songs', routerSong)
 router.use('/setlist', routerSetlist)
+router.use('/tags', routerTag)
+router.use('/events', routerEvent)
 
 router.get('/', (req, res) => {
     res.status(200).json({message: 'test'})

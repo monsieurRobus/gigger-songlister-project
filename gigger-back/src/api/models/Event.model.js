@@ -12,10 +12,10 @@ const EventSchema = new mongoose.Schema ({
     description: {
         type: String
     },
-    setlist: {
+    setlist: [{
         type: mongoose.Types.ObjectId,
         ref: 'Setlist'
-    },
+    }],
     user: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
@@ -29,4 +29,4 @@ const EventSchema = new mongoose.Schema ({
 
 const Event = mongoose.model('Event',EventSchema)
 
-model.exports = Event
+module.exports = Event

@@ -54,6 +54,12 @@ const UserSchema = new mongoose.Schema({
             type: mongoose.Types.ObjectId,
             ref:'Setlist'
         }
+    ],
+    ownedEvents: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref:'Event'
+        }
     ]    
 },
     {

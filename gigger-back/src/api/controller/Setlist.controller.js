@@ -115,7 +115,7 @@ const deleteSetlist = async (req,res,next) => {
         // Delete setlist reference in user
 
         const userSetlistOwner = await User.findById(new mongoose.Types.ObjectId(setlistDeleted.user))
-        const indexToDelete = userSetlistOwner.ownedSetlist?.indexOf(id.toString)
+        const indexToDelete = userSetlistOwner?.ownedSetlist?.indexOf(id.toString)
         if(indexToDelete)
         {
             userSetlistOwner.ownedSetlist.splice(indexToDelete,1)
