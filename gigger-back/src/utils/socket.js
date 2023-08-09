@@ -2,6 +2,7 @@ const { Server } = require("socket.io")
 const express = require("express");
 const { createServer } = require("http");
 const { server } = require("./server");
+const Setlist = require("../api/models/Setlist.model");
 
 const PORT= process.env.PORT_SOCKET
 
@@ -12,8 +13,15 @@ const io = new Server(httpServer, {
       }
 })
 
-io.on("connect", socket => 
-    console.log("Conexión establecida")
+io.on("connect", socket => {
+    
+    const updateSetlist = Setlist.watch()
+
+    updateSetlist.on('change', change => {
+        socket.emit('data-update')
+    })
+
+}
 )
 
 httpServer.listen(PORT)

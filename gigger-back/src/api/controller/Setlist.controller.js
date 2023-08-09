@@ -205,7 +205,7 @@ const updateSetlist = async(req,res,next) => {
             console.log(updatedSetlist.key)
         })
 
-        io.emit('updated-setlist')
+        
         return res.status(200).json({updated:true , setlist: updatedSetlist})  
 
     }
