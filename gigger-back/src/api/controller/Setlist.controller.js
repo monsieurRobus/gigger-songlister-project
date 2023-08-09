@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Song = require('../models/Song.model')
 const User = require('../models/User.model')
 const Setlist = require('../models/Setlist.model')
+const { io } = require('../../utils/socket')
 
 const getAllSetlists = async (req, res, next) => {
     try {
@@ -204,7 +205,7 @@ const updateSetlist = async(req,res,next) => {
             console.log(updatedSetlist.key)
         })
 
-        
+        io.emit('updated-setlist')
         return res.status(200).json({updated:true , setlist: updatedSetlist})  
 
     }

@@ -1,4 +1,4 @@
-import { token } from "stylis";
+import { token } from "../utils/token";
 import { APIuser } from "./serviceApiUser.config";
 
 export const getSetlistById = async (id) => {

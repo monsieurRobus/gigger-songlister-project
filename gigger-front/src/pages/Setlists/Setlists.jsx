@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './Setlists.css'
 import { useParams } from 'react-router'
 import { getAllSetlistsPaginated } from '../../services/setlists.service'
+import { socket } from '../../socket'
 
 const Setlists = () => {
     const { pageReq } = useParams()
