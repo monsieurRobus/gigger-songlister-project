@@ -230,6 +230,7 @@ const activateUser = async (req, res, next) => {
             if(!userToActivate.active)
             {
                 userToActivate.active = (parseInt(userToActivate.confirmation) === confirmationCode) ? true : false
+                console.log(userToActivate.active)
                 const userActivated = await userToActivate.save()
                 if(userActivated)
                 {                    

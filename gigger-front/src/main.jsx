@@ -5,6 +5,8 @@ import App from './App.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import './index.css'
+
+import { Provider } from 'react-redux'
 import { AuthContextProvider } from './hooks/AuthContext.jsx'
 import LoginPage from './pages/Login/LoginPage.jsx'
 import RegisterPage from './pages/Register/RegisterPage.jsx'
@@ -18,40 +20,43 @@ import ProtectedCheckChildren from './components/ProtectedRoute/ProtectedCheckCh
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter basename="/">
-      <AuthContextProvider>      
-        <Routes>
-          <Route path="/" element={<App />}>
-          <Route path="/login" element={ <LoginPage /> } />
-          <Route path="/register" element={ <RegisterPage /> } />
-          <Route path="/forgotPassword" element={ <ForgotPassword /> } /> 
-          <Route path="/user/:pageReq" element={ <UserList /> } /> 
-          <Route path="/user" element={ <UserList /> } /> 
-          <Route path="/changePassword" element={
-            <ProtectedRoute>            
-              <ChangePassword />
-            </ProtectedRoute>
-          }/>
-          <Route path="/verifyCode" element={ 
-            <ProtectedCheckChildren>
-              <ConfirmationCode />
-            </ProtectedCheckChildren> } />
-          <Route path="/dashboard">
-            <Route path="" element={ 
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute> 
-            } />
-            <Route path="/dashboard/edit/:userId" element={ 
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute> 
-            } />
-          </Route> 
-        </Route>
-      </Routes>        
-      </AuthContextProvider>
-    </BrowserRouter>  
+  <React.StrictMode>  
+    {/* <Provider > */}
+      <BrowserRouter basename="/">
+        <AuthContextProvider>      
+          <Routes>
+            <Route path="/" element={<App />}>
+            <Route index element={<h1>Sisisi</h1>} />
+            <Route path="/login" element={ <LoginPage /> } />
+            <Route path="/register" element={ <RegisterPage /> } />
+            <Route path="/forgotPassword" element={ <ForgotPassword /> } /> 
+            <Route path="/user/:pageReq" element={ <UserList /> } /> 
+            <Route path="/user" element={ <UserList /> } /> 
+            <Route path="/changePassword" element={
+              <ProtectedRoute>            
+                <ChangePassword />
+              </ProtectedRoute>
+            }/>
+            <Route path="/verifyCode" element={ 
+              <ProtectedCheckChildren>
+                <ConfirmationCode />
+              </ProtectedCheckChildren> } />
+            <Route path="/dashboard">
+              <Route path="" element={ 
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute> 
+              } />
+              <Route path="/dashboard/edit/:userId" element={ 
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute> 
+              } />
+            </Route> 
+          </Route>
+        </Routes>        
+        </AuthContextProvider>
+      </BrowserRouter> 
+    {/* </Provider>  */}
   </React.StrictMode>
 )

@@ -12,7 +12,7 @@ header.main {
     flex-direction: row;
     justify-content:space-around ;
     align-items:center;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 img.avatar {
@@ -30,4 +30,8 @@ img.avatar {
     justify-content:center;
     align-items:center;
     margin-left: 10px;
+}
+
+.active {
+    color: tomato;
 }

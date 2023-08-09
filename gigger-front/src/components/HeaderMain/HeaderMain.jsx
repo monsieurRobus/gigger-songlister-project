@@ -5,7 +5,7 @@ import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons'
 
-const classActivePending = (isActive,isPending) => {
+const classActivePending = ({isActive,isPending}) => {
     return isActive ? 'active' : isPending ? 'pending' : ''
 }
 
@@ -13,7 +13,7 @@ const LoggedNav =({handleLogout,avatar}) => (
     <header className={'main'}>
         <nav className={'loggedNav'}>
             <div>
-                <span>RegisterFull</span>
+                <NavLink to="/" className={classActivePending}><span>RegisterFull</span></NavLink>
             </div>     
             <div className={'navMenu'}>
             <NavLink to='/user' className={classActivePending}>Users</NavLink>
