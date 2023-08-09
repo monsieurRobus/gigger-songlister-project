@@ -42,7 +42,7 @@ const UserList = () => {
 
   return (
     <section>
-      Soy admin: {user.role}
+      Soy usuario tipo: {user.role}
       <nav>{paginator.map((page)=>page)}</nav>
       <div className={'user-list'}>        
         {users.map((user) => (

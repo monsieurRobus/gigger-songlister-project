@@ -35,8 +35,8 @@ const getAllEventsPaginated = async (req, res, next) => {
         const skip = (page - 1) * limit
         const countEvent = await mongoose.connection.db.collection('events').countDocuments()
         const totalPages = Math.ceil(countEvent / limit)
-        const event = await Event.find().skip(skip).limit(limit)
-        return res.status(200).json({ message: `${countEvent} Event found, showing page ${page} of ${totalPages}`, event, totalPages, currentPage: page, limit })
+        const events = await Event.find().skip(skip).limit(limit)
+        return res.status(200).json({ message: `${countEvent} Event found, showing page ${page} of ${totalPages}`, events, totalPages, currentPage: page, limit })
   
     }
     catch(error)
@@ -85,7 +85,7 @@ const addNewEvent = async (req,res,next) => {
         if(eventSaved)
             {
                 
-                user.ownedEvent.push(eventSaved._id)
+                user.ownedEvents.push(eventSaved._id)
                 user.save()
                 return res.status(200).json({ message: 'Event was saved uwu ', event: event})
 

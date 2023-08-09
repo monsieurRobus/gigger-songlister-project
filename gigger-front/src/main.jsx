@@ -15,6 +15,10 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx'
 import ChangePassword from './pages/ChangePassword/ChangePassword.jsx'
 import UserList from './pages/UserList/UserList.jsx'
 import ProtectedCheckChildren from './components/ProtectedRoute/ProtectedCheckChildren.jsx'
+import Setlists from './pages/Setlists/Setlists.jsx'
+import Songs from './pages/Songs/Songs.jsx'
+import Tags from './pages/Tags/Tags.jsx'
+import Events from './pages/Events/Events.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -23,11 +27,32 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AuthContextProvider>      
         <Routes>
           <Route path="/" element={<App />}>
+          <Route index element={<h1>This is a homepage</h1>} />
           <Route path="/login" element={ <LoginPage /> } />
           <Route path="/register" element={ <RegisterPage /> } />
           <Route path="/forgotPassword" element={ <ForgotPassword /> } /> 
-          <Route path="/user/:pageReq" element={ <UserList /> } /> 
-          <Route path="/user" element={ <UserList /> } /> 
+          <Route path="/users/:pageReq" element={ <UserList /> } /> 
+          <Route path="/users" element={ <UserList /> } /> 
+          <Route path="/events" element={
+            <ProtectedRoute>
+              <Events />
+            </ProtectedRoute>
+          } />
+          <Route path="/songs" element={
+            <ProtectedRoute>
+              <Songs />
+            </ProtectedRoute>
+          } />
+          <Route path="/tags" element={
+            <ProtectedRoute>
+              <Tags />
+            </ProtectedRoute>
+          } />
+          <Route path="/setlists" element={
+            <ProtectedRoute>
+              <Setlists />
+            </ProtectedRoute>
+          } />
           <Route path="/changePassword" element={
             <ProtectedRoute>            
               <ChangePassword />

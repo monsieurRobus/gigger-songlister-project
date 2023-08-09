@@ -38,8 +38,8 @@ const getAllSetlistsPaginated = async (req, res, next) => {
         const skip = (page - 1) * limit
         const countSetlist = await mongoose.connection.db.collection('setlists').countDocuments()
         const totalPages = Math.ceil(countSetlist / limit)
-        const setlist = await Setlist.find().skip(skip).limit(limit)
-        return res.status(200).json({ message: `${countSetlist} Setlist found, showing page ${page} of ${totalPages}`, setlist, totalPages, currentPage: page, limit })
+        const setlists = await Setlist.find().skip(skip).limit(limit)
+        return res.status(200).json({ message: `${countSetlist} Setlist found, showing page ${page} of ${totalPages}`, setlists, totalPages, currentPage: page, limit })
   
     }
     catch(error)

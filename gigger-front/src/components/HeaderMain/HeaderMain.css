@@ -30,4 +30,9 @@ img.avatar {
     justify-content:center;
     align-items:center;
     margin-left: 10px;
+    gap:1rem;
+}
+
+.active {
+    color:aquamarine
 }
