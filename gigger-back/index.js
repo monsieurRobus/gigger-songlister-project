@@ -9,10 +9,10 @@ const routerSetlist = require('./src/api/routes/Setlist.routes')
 const routerTag = require('./src/api/routes/Tag.routes')
 const routerEvent = require('./src/api/routes/Event.routes');
 const { io, httpServer } = require('./src/utils/socket');
+const { configCloudinary } = require('./src/middlewares/files.middleware');
 
 const endpoint = process.env.ENDPOINT || '/api/v1'
-
-
+configCloudinary()
 
 server.use(express.json())
 server.use(

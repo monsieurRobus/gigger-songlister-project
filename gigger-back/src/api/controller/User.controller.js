@@ -8,6 +8,7 @@ const randomPassword = require('../../utils/randomPassword')
 const Song = require('../models/Song.model')
 const Setlist = require('../models/Setlist.model')
 const Event = require('../models/Event.model')
+const { deleteImgCloudinary } = require('../../middlewares/files.middleware')
 
 
 const PORT = process.env.PORT || 3000
@@ -121,7 +122,7 @@ const resendCode = async (req, res, next) => {
   };
 
 const registerUser = async (req, res, next) => {
-
+  let catchImg = req.file?.path;
     try {
         
         const transporter = nodemailer.createTransport({
@@ -138,6 +139,15 @@ const registerUser = async (req, res, next) => {
         const finalAvatar = `https://api.dicebear.com/6.x/avataaars/svg?seed=${avatar}`
         if (!userExists) {
             const userToAdd = new User({ name, email, password, role, confirmation, avatar: finalAvatar })
+
+            if(req.file) {
+              userToAdd.image = req.file.path
+            }
+            else 
+            {
+              userToAdd.image = 'https://picsum.photos/200'
+            }
+
             const userAdded = await userToAdd.save()
 
             const mailOptions = {
@@ -163,8 +173,8 @@ const registerUser = async (req, res, next) => {
 
         }
         else {
-
-            return res.status(409).json({ message: 'User already exists' })
+          if(req.file) deleteImgCloudinary(catchImg)
+          return res.status(409).json({ message: 'User already exists' })
 
         }
 
@@ -199,8 +209,9 @@ const loginUser = async (req, res, next) => {
                 role: user.role,
                 active: user.active,
                 avatar: user.avatar,
-                token: token
-            
+                chooseImage: user.chooseImage,
+                image: user.image,
+                token
           });
         } else {
             return res.status(404).json('Invalid password');
@@ -274,6 +285,8 @@ const deleteUser = async (req, res, next) => {
             const eventsToDelete = await Event.deleteMany({user: id})
 
             const userDeleted = await User.findByIdAndDelete(id)
+            if(userDeleted.image) deleteImgCloudinary(userDeleted.image)
+
             if (userDeleted) {
                 return res.status(200).json({ message: 'User deleted successfully' })
             }
@@ -452,15 +465,19 @@ const sendPassword = async (req, res, next) => {
 }
 
 const update = async (req, res, next) => {
-  
+  console.log(req.body)
   try {
-
+    delete req.body.password
+    delete req.body.email
     await User.syncIndexes();
-
     try {
       
+      if (req.file) {
+        req.body.image = req.file.path
+      }
       const updateUser = await User.findByIdAndUpdate(req.user?.id, {...req.body})
-
+      
+      
       const updateKeys = Object.keys(req.body);
 
       return res.status(200).json({updated:true , user: req.body})

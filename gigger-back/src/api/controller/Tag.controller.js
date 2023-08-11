@@ -33,7 +33,7 @@ const getAllTagsPaginated = async (req, res, next) => {
         {
             page = parseInt(pageReq)
         }        
-        const limit = 6
+        const limit = 15
         const skip = (page - 1) * limit
         const countTags = await mongoose.connection.db.collection('tags').countDocuments()
         const totalPages = Math.ceil(countTags / limit)

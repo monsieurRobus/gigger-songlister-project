@@ -11,6 +11,7 @@ import useUpdateUserError from '../../hooks/useUpdateUserError'
 
 const Dashboard = () => {
   const [res, setRes] = useState({})
+  
   const [send, setSend] = useState(false)
   const [updateOk, setUpdateOk] = useState(false)
   const [deleteOk, setDeleteOk] = useState(false)
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const { user, userLogin,logout } = useAuth()
   const { register, handleSubmit, errors } = useForm()
   const navigate = useNavigate()
+  const [chooseImg,setChooseImg] = useState(false)
 
   const handleChangePassword = () => {
     return navigate('/changePassword');
@@ -32,7 +34,7 @@ const Dashboard = () => {
       name: formData.name,
       avatar: formData.avatar
     }
-    console.log("hola")
+    
     setSend(true)
     setRes(await update(valuesToSend))
     setSend(false)
@@ -75,6 +77,8 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
+    setChooseImg(user.chooseImage)
+    console.log(chooseImg)
   },[user])
 
   useEffect(() => {
@@ -91,6 +95,10 @@ const Dashboard = () => {
     return <Navigate to="/login" />
   }
 
+  const img2Avatar = ()=> {
+    setChooseImg(!chooseImg)
+  }
+ 
   return (
     <section>
       <form onSubmit={handleSubmit(handleEditProfile)}>
@@ -101,11 +109,17 @@ const Dashboard = () => {
             <label>email:</label>
             <span>{user?.email}</span>
             <button onClick={handleChangePassword}>Change Password</button>
+            <label className={"switch"}>
+              <input type="checkbox" onClick={img2Avatar} value={chooseImg}/>
+              <span className={"slider round"}></span>
+            </label>
           </div>
           <div>
-            <img className={"avatar-dashboard"} src={user?.avatar}/>
+            <img className={"avatar-dashboard"} src={chooseImg? user?.image : user?.avatar }/>
             <label>avatar:</label>
-            <input className={classInput} type="text" name="avatar" disabled={!edit} placeholder={user?.avatar} {...register("avatar")}/>
+            <div> <input className={classInput} type="text" name="avatar" disabled={!edit} hidden={chooseImg} placeholder={user?.avatar} {...register("avatar")}/></div>
+            <div> <input className={classInput} type="file" name="image"  hidden={!chooseImg} placeholder={user?.image} {...register("image")}/></div>
+            
             <label>Role:</label>
             <h3>{user?.role}</h3>
             <button onClick={()=>handleEditProfile} >Save Profile</button>

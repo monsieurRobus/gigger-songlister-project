@@ -13,7 +13,7 @@ const isAuth = async (req, res, next) => {
   try {
     
     const decoded = verifyToken(token, process.env.JWT_SECRET);    
-
+    
     req.user = await User.findById(decoded.id);
     next();
   } catch (error) {
@@ -32,6 +32,7 @@ const isAuthAdmin = async (req, res, next) => {
 
     const decoded = verifyToken(token, process.env.JWT_SECRET);
     req.user = await User.findById(decoded.id);
+    console.log(decoded)
     if (req.user.rol !== 'admin') {
       return next(new Error('Unauthorized, not admin'));
     }
