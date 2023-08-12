@@ -4,20 +4,19 @@ import { useParams } from 'react-router'
 import { getAllTagsPaginated } from '../../services/tags.service'
 import TagForm from '../../components/tagForm/tagForm'
 import TagBubble from './TagBubble'
-
-
-
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Tags = () => {
 
   
-
-    const { pageReq } = useParams()
-    const [tags, setTags] = useState([])
-    const [page, setPage] = useState(()=>
-        pageReq ? parseInt(pageReq) : 1)
-    const [totalPages, setTotalPages] = useState(1)
-    const [paginator, setPaginator] = useState([])
+  const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+  const { pageReq } = useParams()
+  const [tags, setTags] = useState([])
+  const [allowDeleteTag,setAllowDeleteTag] = useState(true)
+  const [page, setPage] = useState(()=>
+      pageReq ? parseInt(pageReq) : 1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [paginator, setPaginator] = useState([])
 
     useEffect(()=>{
         const getTags = async()=> {
@@ -27,14 +26,15 @@ const Tags = () => {
         }
 
         getTags()
-    },[tags])
+    },[])
 
    
   return (
     <div>
-      <div>
-        {tags && tags.map(tag => <TagBubble id={tag._id} key={tag._id} name={tag.name}></TagBubble>)}
-      </div>
+      <h1>Song Tags</h1>
+      <section ref={parent} className={'tag-list'}>
+        {tags && tags.map(tag => <TagBubble description={tag?.description} color={tag?.color} del={allowDeleteTag} setDel={setAllowDeleteTag} page={page} tags={tags} setTags={setTags} id={tag._id} key={tag._id} name={tag.name}></TagBubble>)}
+      </section>
       <TagForm tags={tags} setTags={setTags}/>
     </div>
   )

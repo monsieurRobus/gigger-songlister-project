@@ -76,6 +76,11 @@ const addNewTag = async (req,res,next) => {
         const tagAlreadyAdded = await Tag.findOne({name})
         const user = await User.findById(req.user._id)
 
+        if(user.role != "admin")
+            {
+                return res.status(405).json({message: "Only admin users can add, edit or delete tags"})
+            }
+
         
         if(tagAlreadyAdded) {
             return res.status(200).json({message: "A tag with this name has already been added, please, change it's name"})
@@ -103,8 +108,17 @@ const deleteTag = async (req,res,next) => {
 
     try{
         const {id} = req.query
+        const user = await User.findById(req.user._id)
+
+        if(user.role != "admin")
+        {
+            return res.status(405).json({message: "Only admin users can add, edit or delete tags"})
+        }
 
         const tagDeleted = await Tag.findByIdAndDelete(id)
+
+
+        
 
         // Delete setlist reference in user
 
@@ -139,6 +153,13 @@ const updateTag = async(req,res,next) => {
     {
         const {id} = req.query
         const result = {}
+
+        const user = await User.findById(req.user._id)
+
+        if(user.role != "admin")
+        {
+            return res.status(405).json({message: "Only admin users can add, edit or delete tags"})
+        }
 
         const tag = await Tag.findByIdAndUpdate(id,{...req.body})
         const keysToUpdate = Object.keys(req.body)

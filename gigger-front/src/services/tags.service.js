@@ -4,7 +4,16 @@ import { APIuser } from "./serviceApiUser.config";
 
 
 export const addTag = async (formData) => {
+  
   return APIuser.post("/tags/new", formData, {headers: {
+    Authorization: `Bearer ${token()}`,
+    }})
+  .then((res) => res)
+  .catch((err) => err)
+}
+
+export const deleteTag = async (id) => {
+  return APIuser.delete(`/tags/delete?id=${id}`, {headers: {
     Authorization: `Bearer ${token()}`,
     }})
   .then((res) => res)

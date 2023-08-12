@@ -4,6 +4,7 @@ import { Navigate, Outlet, redirect } from 'react-router-dom'
 import HeaderMain from './components/HeaderMain/HeaderMain'
 // import { socket } from './socket'
 import { useEffect } from 'react'
+import { Toaster } from 'sonner'
 
   
 
@@ -20,6 +21,7 @@ function App() {
   
   return (
     <main>
+      <Toaster position="bottom-right" richColors  />
       <HeaderMain />
       <Outlet />
     </main>

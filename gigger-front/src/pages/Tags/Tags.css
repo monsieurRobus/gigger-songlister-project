@@ -1,11 +1,33 @@
-.tagBubble .close{
-    top:0;
+/* .tagBubble .close{
+    top:-16px;
+    padding: 0.4rem;
     right:0;
-    background-color: red;
-    width:32px;
-    height: 32px;
-    border-radius: 0px;
-}
+    background-color: red;   
+    position:absolute;
+    cursor:pointer; 
+    width:20px;
+    height:20px;
+    align-items: center;
+    justify-content:center;
+    display:flex;
+    border-radius: 50%;
+    
+    box-shadow: 2px 2px 2px black;
+} */
 
-.tagBubble {
+/* .tagBubble {
+    background-color: blueviolet;
+    border-radius: 2rem;
+    padding: 1rem;
+    position:relative;
+    box-shadow: 2px 2px 2px black;
+} */
+
+.tag-list {
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
 }
