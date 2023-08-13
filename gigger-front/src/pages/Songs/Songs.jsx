@@ -2,6 +2,8 @@ import React, { useState, useEffect} from 'react'
 import './Songs.css'
 import { getAllSongsPaginated } from '../../services/songs.service'
 import { useParams } from 'react-router'
+import SongForm from '../../components/songForm/songForm'
+import SongCard from '../../components/SongCard/SongCard'
 
 const Songs = () => {
     const { pageReq } = useParams()
@@ -22,7 +24,15 @@ const Songs = () => {
     },[page])
 
   return (
-    <div>Songs</div>
+    <div>
+      <section>
+        { songs && songs.map(song=>
+          <SongCard key={song._id} song={song} />
+        )}
+      </section>
+      <SongForm songs={songs} setSongs={setSongs} />
+    </div>
+  
   )
 }
 

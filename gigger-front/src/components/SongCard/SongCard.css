@@ -1,0 +1,5 @@
+.song-card {
+    width: 250px;
+    height: 150px;
+    overflow-y: hidden;
+}

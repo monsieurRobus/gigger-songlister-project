@@ -5,17 +5,27 @@ import HeaderMain from './components/HeaderMain/HeaderMain'
 // import { socket } from './socket'
 import { useEffect } from 'react'
 import { Toaster } from 'sonner'
+import { parseJwt, token } from './utils/token'
+import { useAuth } from './hooks/AuthContext'
 
-  
+
 
 
 function App() {
+
+  const {logout} =useAuth()
+
+  const checkValidToken = (decodedJwt)=> {
+    if (decodedJwt.exp * 1000 < Date.now()) {
+      logout()
+    }
+  }
+
   useEffect(()=>{
 
-    // socket.on('connect',console.log("HOLA!!!"))
-    // socket.on('foo',console.log("HEY!!!"))
-    // socket.on('disconnect',console.log("ADIOS!!!"))
-    // socket.on('updated-setlist', console.log("Setlist updated"))
+    const decodedToken= parseJwt(token())
+
+    decodedToken ? checkValidToken(decodedToken) : null
    
   },[])
   

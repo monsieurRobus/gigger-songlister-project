@@ -1,6 +1,16 @@
 import { token } from "../utils/token";
 import { APIuser } from "./serviceApiUser.config";
 
+
+export const addSong = async (formData) => {
+  
+  return APIuser.post("/songs/new", formData, {headers: {
+    Authorization: `Bearer ${token()}`,
+    }})
+  .then((res) => res)
+  .catch((err) => err)
+}
+
 export const getSongById = async (id) => {
     return APIuser.get(`/songs/${id}`, token())
     .then((res) => res)
