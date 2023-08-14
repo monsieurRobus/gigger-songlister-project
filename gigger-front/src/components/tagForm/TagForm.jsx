@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { addTag, getAllTags, getAllTagsPaginated } from '../../services/tags.service'
-import { update } from '../../services/user.service'
-import { toast } from 'sonner'
 import {useTagsError} from '../../hooks/useTagsError'
 import { useAuth } from '../../hooks/AuthContext'
 

@@ -3,19 +3,42 @@ import './Setlists.css'
 import { useParams } from 'react-router'
 import { getAllSetlistsPaginated } from '../../services/setlists.service'
 import { socket } from '../../socket'
+import SetlistCard from '../../components/SetlistCard/SetlistCard'
+import { getAllSongs } from '../../services/songs.service'
+
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import SetlistForm from '../../components/setlistForm/setlistForm'
 
 const Setlists = () => {
-    const { pageReq } = useParams()
+    const { pageReq } = useParams()    
+    const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
     const [setlists, setSetlists] = useState([])
-    const [setlist,setSetlist] = useState({})
+    const [songs,setSongs] = useState([])
+    // const [setlist,setSetlist] = useState({})
     const [page, setPage] = useState(()=>
         pageReq ? parseInt(pageReq) : 1)
     const [totalPages, setTotalPages] = useState(1)
     const [paginator, setPaginator] = useState([])
 
+    useEffect(() => {
+
+      const pages = []
+      for(let i = 1; i <= totalPages; i++){
+        pages.push(<button key={i} onClick={()=>setPage(i)}>{i}</button>)
+      }
+      setPaginator(pages)
+
+
+    },[setlists])
+
     useEffect(()=>{
         const getSetlists = async()=> {
             const res = await getAllSetlistsPaginated(page)
+            if(songs.length == 0){
+              const resSongs = await getAllSongs()
+              setSongs(resSongs.data.songs)
+              
+            }
             setSetlists(res.data.setlists)
             setTotalPages(res.data.totalPages)
         }
@@ -23,7 +46,15 @@ const Setlists = () => {
         getSetlists()
     },[page])
   return (
-    <div>Setlists</div>
+    <main className={'main-setlist'}>
+      <nav>{paginator.map((page)=>page)}</nav>
+      <section ref={parent}>
+        {
+          setlists && setlists.map(setlist => <SetlistCard songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
+        }
+      </section>
+      <SetlistForm setlists={setlists} setSetlists={setSetlists} />
+    </main>
   )
 }
 

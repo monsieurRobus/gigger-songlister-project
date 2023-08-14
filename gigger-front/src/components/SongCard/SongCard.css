@@ -1,5 +1,26 @@
 .song-card {
-    width: 250px;
-    height: 150px;
-    overflow-y: hidden;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    padding:1rem;
+    margin:0;
+    position:relative;
+}
+
+.background {
+    width:100%;
+    height: 100px;
+    position:absolute;
+}
+
+.song-card-content {
+    width:100%;
+    height: 100px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }

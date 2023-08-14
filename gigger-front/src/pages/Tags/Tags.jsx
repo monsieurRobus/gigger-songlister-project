@@ -30,13 +30,13 @@ const Tags = () => {
 
    
   return (
-    <div>
+    <main>
       <h1>Song Tags</h1>
       <section ref={parent} className={'tag-list'}>
         {tags && tags.map(tag => <TagBubble description={tag?.description} color={tag?.color} del={allowDeleteTag} setDel={setAllowDeleteTag} page={page} tags={tags} setTags={setTags} id={tag._id} key={tag._id} name={tag.name}></TagBubble>)}
       </section>
       <TagForm tags={tags} setTags={setTags}/>
-    </div>
+    </main>
   )
 }
 

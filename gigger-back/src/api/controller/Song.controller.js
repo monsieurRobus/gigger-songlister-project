@@ -8,10 +8,7 @@ const getAllSongs = async (req, res, next) => {
 
         const songs = await Song.find()
         
-        const countSongs = await mongoose.connection.db.collection('songs').countDocuments()        
-        const {authorization} = req.headers
-        const token = authorization.split(' ')[1]
-        const decoded = verifyToken(token)
+        const countSongs = await mongoose.connection.db.collection('songs').countDocuments()    
         if(songs.length>0)
             return res.status(200).json({ message: 'Songs found', songs: songs })
         else
@@ -34,7 +31,7 @@ const getAllSongsPaginated = async (req, res, next) => {
         {
             page = parseInt(pageReq)
         }        
-        const limit = 6
+        const limit = 15
         const skip = (page - 1) * limit
         const countSongs = await mongoose.connection.db.collection('songs').countDocuments()
         const totalPages = Math.ceil(countSongs / limit)
