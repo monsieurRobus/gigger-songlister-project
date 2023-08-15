@@ -8,12 +8,14 @@ import { getAllSongs } from '../../services/songs.service'
 
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import SetlistForm from '../../components/setlistForm/setlistForm'
+import { getAllTags } from '../../services/tags.service'
 
 const Setlists = () => {
     const { pageReq } = useParams()    
     const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
     const [setlists, setSetlists] = useState([])
     const [songs,setSongs] = useState([])
+    const [tagList,setTagList] = useState([])
     // const [setlist,setSetlist] = useState({})
     const [page, setPage] = useState(()=>
         pageReq ? parseInt(pageReq) : 1)
@@ -34,11 +36,13 @@ const Setlists = () => {
     useEffect(()=>{
         const getSetlists = async()=> {
             const res = await getAllSetlistsPaginated(page)
+            const tags = await getAllTags()
             if(songs.length == 0){
               const resSongs = await getAllSongs()
               setSongs(resSongs.data.songs)
               
             }
+            setTagList(tags)
             setSetlists(res.data.setlists)
             setTotalPages(res.data.totalPages)
         }
@@ -50,10 +54,12 @@ const Setlists = () => {
       <nav>{paginator.map((page)=>page)}</nav>
       <section ref={parent}>
         {
-          setlists && setlists.map(setlist => <SetlistCard songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
+          setlists && setlists.map(setlist => <SetlistCard tags={tagList} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
         }
       </section>
-      <SetlistForm setlists={setlists} setSetlists={setSetlists} />
+      <SetlistForm tags={tagList} setlists={setlists} setSetlists={setSetlists} />
+      
+      
     </main>
   )
 }

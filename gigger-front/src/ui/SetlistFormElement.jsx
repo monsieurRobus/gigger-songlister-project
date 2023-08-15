@@ -1,5 +1,15 @@
 import { styled } from "styled-components";
 
+
+export const SetlistFormFatherStyled = styled.section`
+
+    width: 100%;
+    height: 90vh;
+    overflow-y: scroll;
+
+
+`
+
 export const SongSelectStyled = styled.div`
     display: flex;
     flex-direction:row;
@@ -9,27 +19,91 @@ export const SongSelectStyled = styled.div`
     gap:1rem;
 `
 
+
+
 export const SelectedSongsStyled = styled.div`
-    width: 40vw;
+    width: 35vw;
+    height: 70vh;
+    overflow: auto;
 `
 
 export const SongSelectionListStyled = styled.div`
 display: flex;
 flex-direction: column;
-justify-content: center;
+justify-content: flex-start;
 align-items: center;
+width: 25vw;
+height: 70vh;
+overflow-y: scroll;
+`
+
+export const SelectedSongListStyled = styled.ol`
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     width: 30vw;
+    background-color: black;
+    margin:0;
+    padding: 0;
+    
+`
+
+export const SetlistInfoStyled = styled.div`
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width:10vw;
+    margin:0;
+    padding: 0;
+    background: linear-gradient(to top bottom, #ffdd00,#ff00dd);
+
+`
+
+export const SongSelectedInListStyled = styled.li`
+
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right bottom, #9fee00,#1c1c1c);
+    padding: 0 1rem;
+    margin: 0.2rem;
+    width: 400px;
+    height: 80px;
+    
+    h3 {
+        font-size: 0.8rem;
+    }
+
+    h4 {
+        font-size: 0.6rem;
+    }
+
+
 `
 
 export const SongToSelectStyled = styled.div`
 
-    background: linear-gradient(to right bottom, #880000,#1c1c1c) ;
+    background: ${props=>props.selected? 'linear-gradient(to right bottom, #7dbb00,#1c1c1c)' :'linear-gradient(to right bottom, '+props?.gradientcolors+')'} ;
     padding: 1rem;
     margin: 0.2rem;
-    border-radius: 10px;
-    transition: all 1s linear 1s;
+    border-inline: ${props=>props.selected? '2px solid #7dff00':null};
     &:hover {
-        background: linear-gradient(to right bottom, #880000,#4f4f4f) ;
+        
+        border-inline: 2px solid #f5f5f5; 
+        background:  ${props=>props.selected? 'linear-gradient(to right bottom, #9fee00,#1c1c1c)' :'linear-gradient(to right bottom, #880000,#4f4f4f)'} ;
+    }
+
+    h3 {
+        font-size: 0.8rem;
+        
+    }
+
+    h4{
+        font-size: 0.6rem;
     }
 
 `
