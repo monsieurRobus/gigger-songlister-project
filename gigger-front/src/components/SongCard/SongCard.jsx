@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SongCardStyled, BackgroundStyled, SpeechSongBubbleStyled } from '../../ui/SongCardElements'
 import './SongCard.css'
 import { getTagById } from '../../services/tags.service'
 const SongCard = (props) => {
     const {song,tagList} = props
     const {name,artist,duration,lyrics,notes,tags} = song
+    const [favourited,setFavourited] = useState(false)
+    const favUnfav = () => {
 
+    }
 
     const backgroundColors = (tags) => {
 
@@ -37,9 +40,14 @@ const SongCard = (props) => {
     <SongCardStyled className={'song-card'}>
         <BackgroundStyled gradientcolors={backgroundColors(tags)} className={'background'} />
         <div className={'song-card-content'}>
-            <h2>{name}</h2>
-            <h3>{artist}</h3>
-            <p>{lyrics}</p>
+            <div>
+                <h2>{name}</h2>
+                <h3>{artist}</h3>
+            </div>
+            <div>
+            {favourited ? <button onClick={favUnfav}>Dislike</button> : <button onClick={favUnfav}>Like</button> }
+            </div>
+            
         </div>
         <SpeechSongBubbleStyled>
             <h4>{duration}</h4>    

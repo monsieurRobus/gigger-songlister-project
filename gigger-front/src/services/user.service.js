@@ -53,7 +53,7 @@ export const checkCodeConfirmationUser = async (formData) => {
       .catch((error) => error);
   }
   export const update = async (formData)=> {
-    return APIuser.post("/user/update", formData,    {headers: {
+    return APIuser.patch("/user/update", formData,    {headers: {
       Authorization: `Bearer ${token()}`,
       }})
       .then((res) => res)

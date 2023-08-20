@@ -209,6 +209,8 @@ const loginUser = async (req, res, next) => {
                 role: user.role,
                 active: user.active,
                 avatar: user.avatar,
+                favouriteSongs: user.favouriteSongs,
+                favouriteSetlists: user.favouriteSetlists,
                 chooseImage: user.chooseImage,
                 image: user.image,
                 token

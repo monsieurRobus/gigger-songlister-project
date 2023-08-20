@@ -123,7 +123,6 @@ const deleteTag = async (req,res,next) => {
         // Delete setlist reference in user
 
         const songsWithTag = await Song.find({tags: id})
-        console.log(songsWithTag)
         songsWithTag.forEach(song=>{
             song.tags = song.tags.filter(tag => tag != id)
             song.save()

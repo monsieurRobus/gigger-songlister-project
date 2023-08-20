@@ -10,8 +10,6 @@ const SetlistCard = (props) => {
     const favUnfav = () => {
         setFavourited(!favourited)
 
-        console.log(favourited)
-
     }
 
     useEffect(()=>(

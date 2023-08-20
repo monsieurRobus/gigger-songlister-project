@@ -38,6 +38,12 @@ const SongSchema = new mongoose.Schema({
             type: mongoose.Types.ObjectId,
             ref: 'Tag'
         }
+    ],
+    favouritedBy: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'User'
+        }
     ]
 
 })

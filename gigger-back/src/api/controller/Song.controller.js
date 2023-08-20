@@ -109,15 +109,29 @@ const deleteSong = async (req,res,next) => {
 
         const songDeleted = await Song.findByIdAndDelete(id)
 
-        // Delete song reference in user
+        // Delete song reference in user favs
 
-        const userSongOwner = await User.findById(new mongoose.Types.ObjectId(songDeleted.user))
-        const indexToDelete = userSongOwner?.ownedSongs?.indexOf(id.toString)
-        if(indexToDelete)
-        {
-            userSongOwner.ownedSongs.splice(indexToDelete,1)
-            await userSongOwner.save()
-        }
+        const users = await User.find({favouriteSongs: id})
+
+        users.forEach(user => {
+            user.favouriteSongs = [...user.favouriteSongs.filter(songId => songId != id)]
+            user.save()
+        })
+
+        const usersOwner = await User.find({ownedSongs: id})
+
+        usersOwner.forEach(user => {
+            user.ownedSongs = [...user.ownedSongs.filter(songId => songId != id)]
+            user.save()
+        })
+
+        // const userSongOwner = await User.findById(new mongoose.Types.ObjectId(songDeleted.user))
+        // const indexToDelete = userSongOwner?.ownedSongs?.indexOf(id.toString)
+        // if(indexToDelete)
+        // {
+        //     userSongOwner.ownedSongs.splice(indexToDelete,1)
+        //     await userSongOwner.save()
+        // }
 
         if(songDeleted)
             {
@@ -171,4 +185,53 @@ const updateSong = async(req,res,next) => {
     }
 }
 
-module.exports = { getAllSongs, addNewSong, getSongById, getAllSongsPaginated, deleteSong, updateSong}
+const favSong = async(req,res,next) => {
+    try 
+    {
+        const {songId} = req.body 
+        const userId = req.user._id
+
+        const songToFav = await Song.findById(songId)
+
+        if(!songToFav)
+        {
+            return res.status(404).json({message: "Song not found"})
+        }
+       
+        
+        const userFav = songToFav.favouritedBy.filter(user => userId.equals(user))
+        const userToUpdate = await User.findById(req.user._id)
+        if(userFav.length<1) 
+        {
+            
+            // SI NO ES FAV; FAV
+            
+            const updatedFavList = [...songToFav.favouritedBy,req.user._id]
+            const updatedSongList = [...req.user.favouriteSongs,songId]
+            songToFav.favouritedBy=[...updatedFavList]
+            userToUpdate.favouriteSongs=[...updatedSongList]
+            songToFav.save()
+            userToUpdate.save()
+            return res.status(200).json({message: "song faved", favouritedBy: updatedFavList})
+        }
+    
+        else
+        {   
+            // SI ES FAV; UNFAV
+            const newUserFavList = songToFav.favouritedBy.filter(user => !userId.equals(user))
+            const newSongFavList = req.user.favouriteSongs.filter(song => !song.equals(songId))
+            
+            userToUpdate.favouriteSongs=[...newSongFavList]
+            songToFav.favouritedBy=[...newUserFavList]
+            songToFav.save()
+            userToUpdate.save()
+            return res.status(200).json({message: "song unfav", favouritedBy: newUserFavList})
+        }
+}
+    catch
+    {
+        next(error)
+    }
+}
+
+module.exports = { getAllSongs, addNewSong, getSongById, getAllSongsPaginated, deleteSong, updateSong, favSong}

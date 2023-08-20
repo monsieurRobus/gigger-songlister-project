@@ -11,6 +11,14 @@ export const addSong = async (formData) => {
   .catch((err) => err)
 }
 
+export const updateSong = async (formData,id)=> {
+  return APIuser.patch(`/songs/update?id=${id}`, formData,    {headers: {
+    Authorization: `Bearer ${token()}`,
+    }})
+    .then((res) => res)
+    .catch((error) => error);
+}
+
 export const getSongById = async (id) => {
     return APIuser.get(`/songs/${id}`, token())
     .then((res) => res)
