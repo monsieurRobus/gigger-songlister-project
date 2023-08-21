@@ -9,6 +9,7 @@ import { ReactSortable } from 'react-sortablejs'
 import ListElement from './ListElement'
 import { secondsToHMS } from '../../utils/swissknife'
 import { addSetlist } from '../../services/setlists.service'
+import { getAllEventsPaginated } from '../../services/events.service'
 
 
 const SetlistForm = (props) => {
@@ -37,6 +38,16 @@ const SetlistForm = (props) => {
      setSend(false)
 
   }
+
+    useEffect(()=>{
+      const getSongs = async()=> {
+          const res = await getAllEventsPaginated(page)
+          setEvents(res.data.events)
+          setTotalPages(res.data.totalPages)
+      }
+
+      getSongs()
+  },[page])
 
   useEffect(()=>{
 
@@ -93,7 +104,7 @@ const SetlistForm = (props) => {
   },[songlist])
 
   useEffect(()=>{
-    console.log(currentSetlist)
+    // console.log(currentSetlist)
   },[currentSetlist])
 
   return (

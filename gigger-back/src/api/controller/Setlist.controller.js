@@ -215,4 +215,54 @@ const updateSetlist = async(req,res,next) => {
     }
 }
 
-module.exports = { getAllSetlists, addNewSetlist, getSetlistById, getAllSetlistsPaginated, deleteSetlist, updateSetlist}
+const favSetlist = async(req,res,next) => {
+    try 
+    {
+        const {setlistId} = req.body 
+        const userId = req.user._id
+
+        const setlistToFav = await Setlist.findById(setlistId)
+
+        if(!setlistToFav)
+        {
+            return res.status(404).json({message: "Setlist not found"})
+        }
+       
+        
+        const userFav = setlistToFav.favouritedBy.filter(user => userId.equals(user))
+        const userToUpdate = await User.findById(req.user._id)
+
+        
+        if(userFav.length<1) 
+        {            
+            // SI NO ES FAV; FAV
+            const updatedFavList = [...setlistToFav.favouritedBy,req.user._id]
+            const updatedSetlistList = [...req.user.favouriteSetlists,setlistId]
+            setlistToFav.favouritedBy=[...updatedFavList]
+            userToUpdate.favouriteSetlists=[...updatedSetlistList]
+            setlistToFav.save()
+            userToUpdate.save()
+            return res.status(200).json({message:"setlist faved", favouritedBy: updatedFavList})
+        }
+    
+        else
+        {   
+            
+            // SI ES FAV; UNFAV
+            const newUserFavList = setlistToFav.favouritedBy.filter(user => !userId.equals(user))
+            const newSetlistFavList = req.user.favouriteSetlists.filter(song => !song.equals(setlistId))
+            
+            userToUpdate.favouriteSetlists=[...newSetlistFavList]
+            setlistToFav.favouritedBy=[...newUserFavList]
+            setlistToFav.save()
+            userToUpdate.save()
+            return res.status(200).json({message: "setlist unfav", favouritedBy: newUserFavList})
+        }
+}
+    catch (error)
+    {
+        next(error)
+    }
+}
+
+module.exports = { getAllSetlists, addNewSetlist, getSetlistById, getAllSetlistsPaginated, deleteSetlist, updateSetlist, favSetlist}

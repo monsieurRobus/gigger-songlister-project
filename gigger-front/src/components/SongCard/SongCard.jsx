@@ -1,13 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SongCardStyled, BackgroundStyled, SpeechSongBubbleStyled } from '../../ui/SongCardElements'
 import './SongCard.css'
 import { getTagById } from '../../services/tags.service'
+import { favSong } from '../../services/songs.service'
+import { useAuth } from '../../hooks/AuthContext'
 const SongCard = (props) => {
     const {song,tagList} = props
-    const {name,artist,duration,lyrics,notes,tags} = song
+    const {name,artist,duration,lyrics,notes,tags,_id} = song
     const [favourited,setFavourited] = useState(false)
-    const favUnfav = () => {
+    const [res,setRes] = useState({})
+    const [send,setSend] = useState(false)
+    const {user} = useAuth()
 
+    const favUnfav = async() => {
+
+        const valuesToSend = {
+            songId: song._id
+        }
+
+        setSend(true)
+        setRes(await favSong(valuesToSend))
+        setSend(false)
     }
 
     const backgroundColors = (tags) => {
@@ -35,6 +48,18 @@ const SongCard = (props) => {
         }
 
 }
+
+useEffect(()=>{
+    if(res.data?.message?.includes("song faved"))
+        setFavourited(true)
+    else
+        setFavourited(false)
+},[res])
+
+useEffect(
+    ()=>{
+        song.favouritedBy == user._id ? setFavourited(true) : setFavourited(false)
+    },[])
 
   return (
     <SongCardStyled className={'song-card'}>

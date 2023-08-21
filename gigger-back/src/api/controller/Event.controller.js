@@ -69,11 +69,11 @@ const getEventById = async(req,res,next) => {
 
 const addNewEvent = async (req,res,next) => {
     try{
-        const {name,date,description,} = req.body
+        const {name,date,description,contactName,contactPhone,contactEmail} = req.body
+        
         const event = new Event({...req.body, user:req.user._id})
         const eventAlreadyAdded = await Event.findOne({name})
         const user = await User.findById(req.user._id)
-        console.log(user)
 
         
         if(eventAlreadyAdded) {

@@ -1,0 +1,50 @@
+.event {
+    background-color: coral;
+}
+
+main .events{
+    display: flex;
+    flex-direction: column;
+
+    .events-main-view {
+        margin:0;
+        padding: 0;
+        flex-direction: row;
+        width:100%;
+
+        .calendar-main {
+            width:60%;
+            flex-direction: column;
+        }
+
+        .calendar-side {
+            width:40%;
+        }
+    
+        .google-map {
+            width: 400px;
+            height: 400px;
+        }
+    }
+
+    
+
+    
+}
+
+@media only screen 
+   and (max-width : 400px) {
+   main {
+
+    display:flex;
+    flex-direction: column;
+    .calendar-main {
+        width:100%;
+    }
+
+    .calendar-side {
+        width:100%;
+    }
+
+   }
+}

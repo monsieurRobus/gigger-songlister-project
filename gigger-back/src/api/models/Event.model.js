@@ -12,6 +12,15 @@ const EventSchema = new mongoose.Schema ({
     description: {
         type: String
     },
+    contactName: {
+        type: String
+    },
+    contactPhone: {
+        type: String
+    },
+    contactMail: {
+        type: String
+    },
     setlist: [{
         type: mongoose.Types.ObjectId,
         ref: 'Setlist'

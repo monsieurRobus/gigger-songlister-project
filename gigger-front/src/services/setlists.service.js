@@ -10,6 +10,16 @@ export const addSetlist = async (formData) => {
   .catch((err) => err)
 }
 
+export const favSetlist = async (formData) => {
+
+  return APIuser.patch("/setlist/favsetlist",formData,{headers: {
+    Authorization: `Bearer ${token()}`,
+    }})
+    .then((res) => res)
+  .catch((err) => err)
+
+}
+
 export const getSetlistById = async (id) => {
     return APIuser.get(`/setlist/${id}`, token())
     .then((res) => res)

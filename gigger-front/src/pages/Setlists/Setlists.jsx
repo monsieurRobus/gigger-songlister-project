@@ -54,7 +54,7 @@ const Setlists = () => {
       <nav>{paginator.map((page)=>page)}</nav>
       <section ref={parent}>
         {
-          setlists && setlists.map(setlist => <SetlistCard tags={tagList} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
+          setlists && setlists.map(setlist => <SetlistCard tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
         }
       </section>
       <SetlistForm tags={tagList} setlists={setlists} setSetlists={setSetlists} />
