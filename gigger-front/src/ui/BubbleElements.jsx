@@ -14,7 +14,7 @@ export const CloseButtonStyled = styled.span`
     height:20px;
     align-items: center;
     justify-content:center;
-    display:flex;
+    display:${(props=>props?.owner) ? 'flex':'none'};
     border-radius: 50%;    
     box-shadow: 2px 2px 2px black;
 `
@@ -43,4 +43,19 @@ export const TagBubbleStyled = styled.div`
     &:hover ${SpeechBubbleStyled} {
         visibility: visible;
     }
+`
+
+export const EventCalendarContentStyled = styled.div`
+    font-size: 0.7em;
+    background-color: yellow;
+    
+    color: black;
+    padding:0;
+    transition: all 0.4s;
+
+    &:hover {
+        background-color: red;
+    }
+
+
 `

@@ -9,6 +9,10 @@ const EventSchema = new mongoose.Schema ({
         type: Date,
         required: [true, 'please insert a date']
     },
+    place: {
+        type: String,
+        required: [true, 'please insert a location']
+    },
     description: {
         type: String
     },
@@ -29,10 +33,10 @@ const EventSchema = new mongoose.Schema ({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     },
-    // location: {
-    //     type: mongoose.Types.ObjectId,
-    //     ref: 'Location'
-    // }
+    type: {
+        type: String,
+        enum: ['boda', 'privada', 'concierto', 'otros']
+    }
     
 })
 

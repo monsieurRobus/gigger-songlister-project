@@ -4,6 +4,11 @@ import { useParams } from 'react-router'
 import { getAllEvents, getAllEventsPaginated } from '../../services/events.service'
 import Calendar from 'react-calendar'
 import EventForm from '../../components/EventForm/EventForm'
+import EventCard from '../../components/EventCard/EventCard'
+import { EventCalendarContentStyled } from '../../ui/BubbleElements'
+import { useEventsError } from '../../hooks/useEventsError'
+import { useAuth } from '../../hooks/AuthContext'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 
 
@@ -12,6 +17,8 @@ import EventForm from '../../components/EventForm/EventForm'
 const Events = () => {
     const { pageReq } = useParams()
     const [date,setDate]=useState(new Date("2023-08-22"))
+  const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+  const [allowDeleteEvents,setAllowDeleteEvents] = useState(true)
     const [events,setEvents]=useState([])
     const [map,setMap] = useState()
     const [page, setPage] = useState(()=>
@@ -20,20 +27,10 @@ const Events = () => {
     const [paginator, setPaginator] = useState([])
     const [filterMonth,setFilterMonth] = useState(false)
     const [filterPast,setFilterPast] = useState(false)
-    
-
-    useEffect(() => {
-
-      if(filterMonth)
-      {
-        if(filterPast)
-        {
-          console.log(Lalala)
-        }
-      }
-
-
-    },[events])
+    const [res,setRes] = useState({})
+    const [ok,setOk] = useState(false)
+    const {user,logout} = useAuth()
+    const [del,setDel] =useState(true)
     
 
   const isSameDay = useCallback((date1,date2) =>{
@@ -53,15 +50,12 @@ const Events = () => {
 
   
 
-  useEffect(()=>{
-    
-  },[])
   
   const nextEvents = ({date,view}) => {
     if(view=='month')
     {
       
-      if(events.find(fecha => isSameDay(fecha.date,date)))
+      if(events?.length>0 && events?.find(fecha => isSameDay(fecha.date,date)))
       {
         return "event"
       }
@@ -70,11 +64,12 @@ const Events = () => {
   }
   const nextEventsContent = ({date,view}) => {
     if(view=='month')
-    {
+    { 
       
-      if(events.find(fecha => isSameDay(fecha.date,date)))
+      if(events?.length>0 && events?.find(fecha => isSameDay(fecha.date,date)))
       {
-        return <h3>Test</h3>
+        const content = events?.filter(fecha => isSameDay(fecha.date,date))
+        return content.map(singleEvent => <EventCalendarContentStyled key={singleEvent._id}>{singleEvent.name}</EventCalendarContentStyled>)
       }
       
     }
@@ -84,16 +79,18 @@ const Events = () => {
         const getEvents = async()=> {
         
             const res = await getAllEvents()
-            setEvents(res.data.event)
-            setTotalPages(res.data.totalPages)
+            setEvents(res?.data?.event)
+            // setTotalPages(res?.data.totalPages)
         }
 
         getEvents()
-    },[page])
+
+    },[res])
 
 
-    useEffect(()=>{
-    },[])
+    const handleClickDay = () => {
+
+    }
 
 
     const handleFilterMonth = () => {
@@ -110,6 +107,7 @@ const Events = () => {
         <Calendar  
         
           value={date}
+          onClickDay={handleClickDay}
           onChange={setDate}
           tileClassName={nextEvents}
           tileContent={nextEventsContent}
@@ -118,13 +116,26 @@ const Events = () => {
       <section className={"calendar-main"}>
       <h1>Eventos:</h1>
       <div>
-        <button onClick={handleFilterMonth}>{filterMonth? "✔️Mes actual":"Mes actual"}</button><button onClick={handleFilterPast}>{filterPast? "✔️Futuros bolos":"Futuros bolos"}</button>
+        <button  onClick={handleFilterMonth}>{filterMonth? "✔️Mes actual":"Mes actual"}</button><button onClick={handleFilterPast}>{filterPast? "✔️Futuros bolos":"Futuros bolos"}</button>
       </div>
-        <div>
-          {events.length >0 && events.map(event => 
-          <div key={event._id}>
-            <h1>{event.name}</h1>
-          </div>
+        <div ref={parent} className={"event-list"}>
+          {events?.length>0 && events.map(event => 
+          <EventCard 
+            key={event._id} 
+            id={event._id}
+            name={event.name} 
+            place={event.place} 
+            date={event.date}
+            userOwner={event.user}
+            setEvents={setEvents}
+            events={events}
+            del={allowDeleteEvents}
+            setDel={setAllowDeleteEvents}
+            res={res}
+            setRes={setRes}
+
+            />
+          
           )}
 
           
@@ -132,7 +143,7 @@ const Events = () => {
         
       </section>
       </section>
-      <section><EventForm /></section>
+      <section><EventForm events={events} setEvents={setEvents} res={res} setRes={setRes}/></section>
       
     </main>
   )

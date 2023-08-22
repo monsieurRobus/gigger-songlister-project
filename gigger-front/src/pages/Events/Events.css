@@ -13,12 +13,12 @@ main .events{
         width:100%;
 
         .calendar-main {
-            width:60%;
+            width:55%;
             flex-direction: column;
         }
 
         .calendar-side {
-            width:40%;
+            width:45%;
         }
     
         .google-map {
@@ -28,8 +28,21 @@ main .events{
     }
 
     
-
     
+}
+
+main .event-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+main .react-calendar__tile {
+    width: 200px;
+    height: 100px;
+    padding: 0.1rem;
+
 }
 
 @media only screen 

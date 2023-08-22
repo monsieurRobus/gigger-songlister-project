@@ -12,7 +12,7 @@ const getAllEvents = async (req, res, next) => {
         if(event.length>0)
             return res.status(200).json({ message: 'Event found', event: event })
         else
-            return res.status(404).json({message: 'No event found'})
+            return res.status(404).json({message: 'No event found', event: []})
     
     }
     catch (error)
@@ -69,13 +69,21 @@ const getEventById = async(req,res,next) => {
 
 const addNewEvent = async (req,res,next) => {
     try{
-        const {name,date,description,contactName,contactPhone,contactEmail} = req.body
+        const {name,date,description,contactName,contactPhone,contactEmail,type} = req.body
         
         const event = new Event({...req.body, user:req.user._id})
         const eventAlreadyAdded = await Event.findOne({name})
         const user = await User.findById(req.user._id)
 
-        
+        if((type!="boda")&&(type!="privada")&&(type!="concierto")&&(type!="otros"))
+        {
+            return res.status(404).json({message: "No type has been selected, please choose an event type."})
+        }
+
+        if (req.files) {
+            console.log(req.files)
+          }
+
         if(eventAlreadyAdded) {
             return res.status(404).json({message: "An event with this name has already been added, please, change it's name"})
         }

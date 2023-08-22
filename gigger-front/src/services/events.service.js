@@ -24,3 +24,11 @@ export const getEventById = async (id) => {
     .then((res) => res)
     .catch((err) => err)
   }
+
+  export const deleteEvent = async (id) => {
+    return APIuser.delete(`/events/delete?id=${id}`, {headers: {
+      Authorization: `Bearer ${token()}`,
+      }})
+    .then((res) => res)
+    .catch((err) => err)
+  }

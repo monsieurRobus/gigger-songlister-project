@@ -24,7 +24,8 @@ const deleteImgCloudinary = (imgUrl) => {
 const configCloudinary = () => {   
     
     try {          
-        cloudinary.config({     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,     api_secret: process.env.CLOUDINARY_API_SECRET,     api_key: process.env.CLOUDINARY_API_KEY,   });   } 
+        cloudinary.config({     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,     api_secret: process.env.CLOUDINARY_API_SECRET,     api_key: process.env.CLOUDINARY_API_KEY,   });   
+        console.log("Cloudinary online")} 
     catch (error) {     console.log(error.message)   }    
 };  
 
