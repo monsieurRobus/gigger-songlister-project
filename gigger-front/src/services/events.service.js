@@ -20,6 +20,7 @@ export const getEventById = async (id) => {
   export const addNewEvent = async (formData) => {
     return APIuser.post("/events/new", formData, {headers: {
       Authorization: `Bearer ${token()}`,
+      "Content-Type": "multipart/form-data"
       }})
     .then((res) => res)
     .catch((err) => err)

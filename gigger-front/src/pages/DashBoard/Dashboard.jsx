@@ -1,4 +1,4 @@
-import React, { useDeferredValue, useEffect, useState } from 'react'
+import React, { memo, useDeferredValue, useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthContext'
 import './Dashboard.css'
@@ -17,10 +17,10 @@ const Dashboard = () => {
   const [deleteOk, setDeleteOk] = useState(false)
   const [edit, setEdit] = useState(false)
   const [classInput, setClassInput] =useState("input-disabled")
-  const { user, userLogin,logout } = useAuth()
-  const { register, handleSubmit, errors } = useForm()
+  const { user, setUser,userLogin,logout } = useAuth()
+  const { register, handleSubmit, errors, isSubmitting } = useForm()
   const navigate = useNavigate()
-  const [chooseImg,setChooseImg] = useState(false)
+  const [chooseImg,setChooseImg] = useState(()=>(user.chooseImage==="true"))
 
   const handleChangePassword = () => {
     return navigate('/changePassword');
@@ -30,25 +30,26 @@ const Dashboard = () => {
 
   const sendEditedProfile = async(id,formData) => {
 
+    if(edit && !isSubmitting){
+   console.log(formData)
     const valuesToSend = {
       name: formData.name,
-      avatar: formData.avatar
+      avatar: formData.avatar,
+      chooseImage: formData.chooseImg,
+      image: formData.image[0]
     }
     
-    setSend(true)
-    setRes(await update(valuesToSend))
-    setSend(false)
-
-
+      setSend(true)
+      setRes(await update(valuesToSend))
+      setSend(false)
+}
+  
   }
 
   const handleEditProfile = (formData) => {
-
-    edit ? sendEditedProfile(user._id,formData) : null
+    sendEditedProfile(user._id,formData) 
 
   }
-
-  const onFormErrors = (errors) => {}
 
   const handleDeleteUser = () => {
 
@@ -62,7 +63,7 @@ const Dashboard = () => {
     
     }).then(result => {
 
-      executeDeleteUser(user._id)
+      result.isConfirmed ? executeDeleteUser(user._id) : console.log("user not deleted")
 
     })
 
@@ -77,14 +78,30 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    setChooseImg(user.chooseImage)
-    console.log(chooseImg)
+    localStorage.setItem('user',JSON.stringify(user))
   },[user])
 
   useEffect(() => {
 
     // useDeleteUserError(res, setRes, setDeleteOk)
     useUpdateUserError(res,setRes,setUpdateOk)
+    setEdit(false)
+
+    if(updateOk)
+    {
+      const user = res.data.user
+      const userToUpdate = localStorage.getItem('user')
+      let parsedUser = JSON.parse(userToUpdate)
+      parsedUser = {...parsedUser,user}
+      Object.keys(user).forEach(element => {
+        parsedUser = {...parsedUser,[element]: user[element]}
+      });
+
+
+      console.log(parsedUser)
+      setUser(()=>parsedUser)
+    }
+    
   },[res])
 
   if(deleteOk) {
@@ -110,20 +127,25 @@ const Dashboard = () => {
             <span>{user?.email}</span>
             <button onClick={handleChangePassword}>Change Password</button>
             <label className={"switch"}>
-              <input type="checkbox" onClick={img2Avatar} value={chooseImg}/>
+              <input type="checkbox" onClick={img2Avatar} checked={chooseImg} {...register("chooseImg")}/>
               <span className={"slider round"}></span>
             </label>
           </div>
           <div>
-            <img className={"avatar-dashboard"} src={chooseImg? user?.image : user?.avatar }/>
+            <img className={"avatar-dashboard"} src={chooseImg? user?.image : `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.avatar}` }/>
             <label>avatar:</label>
             <div> <input className={classInput} type="text" name="avatar" disabled={!edit} hidden={chooseImg} placeholder={user?.avatar} {...register("avatar")}/></div>
             <div> <input className={classInput} type="file" name="image"  hidden={!chooseImg} placeholder={user?.image} {...register("image")}/></div>
             
             <label>Role:</label>
             <h3>{user?.role}</h3>
-            <button onClick={()=>handleEditProfile} >Save Profile</button>
-            <button onClick={()=>setEdit(!edit)}>Edit</button>
+            <button type="submit" disabled={!edit||isSubmitting} onClick={()=>handleSubmit()}>Save Profile</button>
+            <br></br>
+            <label className={"switch"}>
+              <span>Edit profile</span>
+              <input type="checkbox" onClick={()=>setEdit(!edit)} checked={edit}/>
+              <span className={"slider round"}></span>
+            </label>
             {/* <button onClick={handleDeleteUser} className={'delete-button'} disabled={!edit}>Delete User</button>           */}
             
           </div>

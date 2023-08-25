@@ -71,18 +71,21 @@ const addNewEvent = async (req,res,next) => {
     try{
         const {name,date,description,contactName,contactPhone,contactEmail,type} = req.body
         
+        if (req.file) {
+            req.body.file=[req.file.path]
+          }
+
         const event = new Event({...req.body, user:req.user._id})
         const eventAlreadyAdded = await Event.findOne({name})
         const user = await User.findById(req.user._id)
+     
 
         if((type!="boda")&&(type!="privada")&&(type!="concierto")&&(type!="otros"))
         {
             return res.status(404).json({message: "No type has been selected, please choose an event type."})
         }
 
-        if (req.files) {
-            console.log(req.files)
-          }
+        
 
         if(eventAlreadyAdded) {
             return res.status(404).json({message: "An event with this name has already been added, please, change it's name"})

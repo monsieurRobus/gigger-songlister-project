@@ -12,7 +12,7 @@ const UserList = () => {
         pageReq ? parseInt(pageReq) : 1)
     const [totalPages, setTotalPages] = useState(1)
     const [paginator, setPaginator] = useState([])
-    
+    const [res,setRes] = useState({})
 
     useEffect(() => {
 
@@ -24,20 +24,18 @@ const UserList = () => {
 
         getUsers()
 
-        
+    },[page,res])
 
-    },[page])
+    useEffect(() => {
 
-      useEffect(() => {
-
-        const pages = []
+      const pages = []
         for(let i = 1; i <= totalPages; i++){
           pages.push(<button key={i} onClick={()=>setPage(i)}>{i}</button>)
         }
-        setPaginator(pages)
 
+      setPaginator(pages)
 
-      },[users])
+    },[users])
  
 
   return (
@@ -46,7 +44,7 @@ const UserList = () => {
       <nav>{paginator.map((page)=>page)}</nav>
       <div className={'user-list'}>        
         {users.map((user) => (
-          <UserCard key={user._id} name={user.name} role={user.role} avatar={user.avatar}/>
+          <UserCard key={user._id} isActive={user.active} id={user._id} name={user.name} role={user.role} avatar={user.avatar} res={res} setRes={setRes}/>
         ))}
       </div>
     </section>

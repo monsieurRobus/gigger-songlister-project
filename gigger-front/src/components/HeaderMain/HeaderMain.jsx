@@ -9,7 +9,7 @@ const classActivePending = ({isActive,isPending}) => {
     return isActive ? 'active' : isPending ? 'pending' : ''
 }
 
-const LoggedNav =({handleLogout,avatar}) => (
+const LoggedNav =({handleLogout,avatar,img,chooseImage}) => (
     <header className={'main'}>
         <nav className={'loggedNav'}>
             <div>
@@ -24,7 +24,7 @@ const LoggedNav =({handleLogout,avatar}) => (
                 <button onClick={handleLogout}>
                     <FontAwesomeIcon icon={faPowerOff} />
                 </button>
-                <Link to='/dashboard'><img className={'avatar'} src={avatar} alt="user avatar"/></Link>
+                <Link to='/dashboard'><img className={'avatar'} src={chooseImage?img:`https://api.dicebear.com/6.x/avataaars/svg?seed=${avatar}`} alt="user avatar"/></Link>
             </div>
         </nav>
     </header>
@@ -57,7 +57,7 @@ const HeaderMain = () => {
 
     },[user])
 
-    return user ? <LoggedNav handleLogout={logout} avatar={user.avatar}/> : <NotLoggedNav handleLogin={handleLogin}/>
+    return user ? <LoggedNav handleLogout={logout} avatar={user.avatar} img={user.image} chooseImage={user.chooseImage}/> : <NotLoggedNav handleLogin={handleLogin}/>
 
  
     

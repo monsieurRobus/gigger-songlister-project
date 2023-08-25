@@ -12,6 +12,10 @@
     border-radius: 5px;
 }
 
+.user-card div {
+    position:relative;
+}
+
 .user-card h2 {
     font-size: 1.3rem;
     text-align: center;

@@ -5,6 +5,9 @@ const EventSchema = new mongoose.Schema ({
         type: String,
         required: [true, 'Event name needed']
     },
+    file: [{
+        type: String
+    }],
     date: {
         type: Date,
         required: [true, 'please insert a date']

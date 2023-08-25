@@ -136,7 +136,7 @@ const registerUser = async (req, res, next) => {
         const confirmation = confirmationCode()
         const { name, email, password, role, avatar } = req.body
         const userExists = await User.findOne({email: email })
-        const finalAvatar = `https://api.dicebear.com/6.x/avataaars/svg?seed=${avatar}`
+        const finalAvatar =avatar
         if (!userExists) {
             const userToAdd = new User({ name, email, password, role, confirmation, avatar: finalAvatar })
 
@@ -476,6 +476,7 @@ const update = async (req, res, next) => {
       
       if (req.file) {
         req.body.image = req.file.path
+        console.log(req.file)
       }
       const updateUser = await User.findByIdAndUpdate(req.user?.id, {...req.body})
       

@@ -2,7 +2,10 @@ import { token } from "../utils/token";
 import {APIuser} from "./serviceApiUser.config";
 
 export const registerUser = async (formData) => {
-    return APIuser.post("/user/register", formData)
+  return APIuser.patch("/user/register", formData,    {headers: {
+    Authorization: `Bearer ${token()}`,
+    "Content-Type": "multipart/form-data"
+    }})
     .then((res) => res)
     .catch((err) => err)
 }
@@ -55,6 +58,7 @@ export const checkCodeConfirmationUser = async (formData) => {
   export const update = async (formData)=> {
     return APIuser.patch("/user/update", formData,    {headers: {
       Authorization: `Bearer ${token()}`,
+      "Content-Type": "multipart/form-data"
       }})
       .then((res) => res)
       .catch((error) => error);

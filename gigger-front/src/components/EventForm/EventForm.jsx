@@ -18,6 +18,7 @@ const EventForm = (props) => {
     const [ok,setOk] = useState(false)
     const handleAddEvent = async(formData) => {
         const valuesToSend = {
+            file: formData.files[0],
             name: formData.name,
             date: date,
             type: formData.type,
@@ -66,7 +67,7 @@ const EventForm = (props) => {
                 <label>Contacto</label><input type="text" name="event-contact-name" {...register("contactName")}/>
                 <label>Teléfono</label><input type="text" name="event-contact-phone" {...register("contactPhone")}/>
                 <label>eMail</label><input type="text" name="event-contact-email" {...register("contactEmail")}/>
-                <label>Archivos de interés</label><input type="file" name="image" multiple {...register("files")}/>
+                <label>Archivos de interés</label><input type="file" name="files" {...register("files")}/>
             </div>
             <div>
                 <label>Fecha</label>
