@@ -78,7 +78,7 @@ const addNewEvent = async (req,res,next) => {
 
         const event = new Event({...req.body, user:req.user._id})
         const eventAlreadyAdded = await Event.findOne({name})
-        const setlistToUpdate = await Setlist.find(setlist)
+        const setlistToUpdate = await Setlist.findOneAndUpdate(new mongoose.Types.ObjectId(setlist),{events:event._id})
         const user = await User.findById(req.user._id)
      
         
@@ -102,14 +102,14 @@ const addNewEvent = async (req,res,next) => {
                 
                 user.ownedEvents.push(eventSaved._id)
                 await user.save()
-                if (setlistToUpdate) {
-                    setlistToUpdate.events.push(setlist)
-                    await setlistToUpdate.save()
-                }
-                else
-                {
-                    return res.status(404).json({message: "No setlist was found."})
-                }
+                // if (setlistToUpdate) {
+                //     setlistToUpdate.events.push(setlist)
+                //     await setlistToUpdate.save()
+                // }
+                // else
+                // {
+                //     return res.status(404).json({message: "No setlist was found."})
+                // }
                 return res.status(200).json({ message: 'Event was saved uwu ', event: event})
 
             }
@@ -135,7 +135,7 @@ const deleteEvent = async (req,res,next) => {
         // Delete event reference in user
 
         const userEventOwner = await User.findById(new mongoose.Types.ObjectId(eventDeleted.user))
-        const setlistsAssociated = await Setlist.find({events:id})
+        await Setlist.findByIdAndUpdate(eventDeleted.setlist,{$pull: {events: id}})
         const indexToDelete = userEventOwner?.ownedEvent?.indexOf(id.toString)
         if(indexToDelete)
         {
@@ -176,58 +176,41 @@ const deleteEvent = async (req,res,next) => {
 
 }
 
+const deleteSetlistFromEvent = async(req,res,next) => {
+    const {id} = req.query
+    try {
+        const eventToClean = await Event.findById(id)
+        
+        if(eventToClean){
+
+            const setlistId = await Setlist.findByIdAndUpdate(eventToClean.setlist,{$pull: {events: id}})
+            eventToClean.setlist=null
+            await eventToClean.save()
+
+            
+
+
+            return res.status(200).json({updated:true, event: eventToClean})
+        }
+    }
+    catch(error)
+    {
+        next(error)
+    }
+
+}
+
 const updateEvent = async(req,res,next) => {
     try 
     {
         const {id} = req.query
-        const {addsongs, deletesongs} = req.body
-        const result = {}
         
-        if(deletesongs) 
-        {            
-            
-            deletesongs.forEach(async (song)=>{
-                const songReference = await Song.findById(new mongoose.Types.ObjectId(song))
-                indexToDelete = songReference.events?.indexOf(id.toString)
-                if(indexToDelete)
-                {
-                    songReference.events.splice(indexToDelete,1)
-                    await songReference.save()
-                }
-                
-            })
-
-        }
-
-        if(addsongs) 
-        {                        
-
-            addsongs.forEach(async (song)=>{
-                const songReference = await Song.findById(new mongoose.Types.ObjectId(song))
-                if(songReference)
-                {
-                    songReference.events.push(song)                    
-                    await songReference.save()
-                    
-                }
-                else 
-                {
-                    return res.status(404).json({message: `Song ${song} does not exist. Please check your selection.`})
-                }
-                
-                
-            })
-
-        }
-
         const event = await Event.findByIdAndUpdate(id,{...req.body})
         const keysToUpdate = Object.keys(req.body)
 
         const updatedEvent = await Event.findById(id)
         
-        keysToUpdate.forEach((key)=>{
-            console.log(updatedEvent.key)
-        })
+        
 
         
         return res.status(200).json({updated:true , Event: updatedEvent})  
@@ -239,4 +222,4 @@ const updateEvent = async(req,res,next) => {
     }
 }
 
-module.exports = { getAllEvents, addNewEvent, getEventById, getAllEventsPaginated, deleteEvent, updateEvent}
+module.exports = { getAllEvents, addNewEvent, getEventById, getAllEventsPaginated, deleteEvent, deleteSetlistFromEvent, updateEvent}

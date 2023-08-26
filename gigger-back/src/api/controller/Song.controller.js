@@ -1,7 +1,8 @@
 const Song = require('../models/Song.model')
 const mongoose = require('mongoose')
 const User = require('../models/User.model')
-
+const Setlist = require('../models/Setlist.model')
+const Tag = require('../models/Tag.model')
 const getAllSongs = async (req, res, next) => {
 
     try {
@@ -113,6 +114,13 @@ const addNewSong = async (req,res,next) => {
             {
                 
                 user.ownedSongs.push(songSaved._id)
+
+                // Adding songs to each tag object
+
+                songSaved.tags.forEach(async tag => {
+                    await Tag.findByIdAndUpdate(tag,{$push: {song: songSaved._id}})
+                })
+
                 user.save()
                 return res.status(200).json({ message: 'Song was saved uwu ', song: song})
 
@@ -145,11 +153,9 @@ const deleteSong = async (req,res,next) => {
             await user.save()
         })
 
-        // const userOwner = await User.findOne({ownedSongs: id})
-       
-        
-        // userOwner.ownedSongs = userOwner.ownedSongs.filter(song=> song != id)
-        // await userOwner.save()
+        songDeleted.setlists.map(async setlist => {
+            await Setlist.findByIdAndUpdate(setlist,{ $pull: {  songs: id } });
+        })  
 
         const userOwner = await User.findOneAndUpdate(
             { ownedSongs: id },
@@ -158,9 +164,13 @@ const deleteSong = async (req,res,next) => {
           );
           
 
-
         if(songDeleted)
             {
+
+                songDeleted.tags.forEach(async tag => {
+                    await Tag.findByIdAndUpdate(tag,{$pull: {song: songDeleted._id}})
+                })
+
                 const isDeleted = await Song.findById(id)
                 if(!isDeleted)
                 {

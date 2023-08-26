@@ -3,6 +3,7 @@ const Song = require('../models/Song.model')
 const User = require('../models/User.model')
 const Setlist = require('../models/Setlist.model')
 const { io } = require('../../utils/socket')
+const Event = require('../models/Event.model')
 
 const getAllSetlists = async (req, res, next) => {
     try {
@@ -71,12 +72,17 @@ const getSetlistById = async(req,res,next) => {
 
 const addNewSetlist = async (req,res,next) => {
     try{
-        const {name,artist,duration,lyrics,notes,tags} = req.body
+        const {name,songs} = req.body
+        if (songs.length > 0)
+        {
         const setlist = new Setlist({...req.body, user:req.user._id})
         const setlistAlreadyAdded = await Setlist.findOne({name})
         const user = await User.findById(req.user._id)
-
-
+        songs.forEach(async song => {
+            const songToUpdate = await Song.findById(new mongoose.Types.ObjectId(song))
+            songToUpdate.setlists.push(setlist._id)
+            await songToUpdate.save()
+        })
         
         if(setlistAlreadyAdded) {
             return res.status(200).json({message: "A setlist with this name has already been added, please, change it's name"})
@@ -96,6 +102,11 @@ const addNewSetlist = async (req,res,next) => {
             {
                 return res.status(404).json({message: 'Setlist could not be saved :('})
             }
+        }
+        else
+        {
+            return res.status(404).json({message: 'Setlist songlist cannot be empty'})
+        }
 
     }
     catch(error)
@@ -113,7 +124,7 @@ const deleteSetlist = async (req,res,next) => {
 
         // Delete setlist reference in user
 
-        const userSetlistOwner = await User.findById(new mongoose.Types.ObjectId(setlistDeleted.user))
+        const userSetlistOwner = await User.findOne(setlistDeleted.user)
         const users = await User.find({favouriteSetlists: id})
 
         users.forEach(async user => {
@@ -121,6 +132,16 @@ const deleteSetlist = async (req,res,next) => {
             await user.save()
         })
 
+        setlistDeleted.events.map(async event => {
+            
+            const eventToClean = await Event.findById(event)
+            if(eventToClean)
+            {
+                eventToClean.setlist = null
+                await eventToClean.save()
+            }
+
+        })  
        
         const userOwner = await User.findOneAndUpdate(
             { ownedSetlist: id },
@@ -128,6 +149,14 @@ const deleteSetlist = async (req,res,next) => {
             { versionKey: false }
           );
 
+          
+        setlistDeleted.songs.map(async song => {
+            console.log(song)
+            await Song.findByIdAndUpdate(song,{ $pull: {  setlists: id } });
+        })  
+
+        
+            
         if(setlistDeleted)
             {
                 const isDeleted = await Setlist.findById(id)
