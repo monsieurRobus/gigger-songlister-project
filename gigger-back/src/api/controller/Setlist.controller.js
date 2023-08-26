@@ -9,10 +9,8 @@ const getAllSetlists = async (req, res, next) => {
 
         const setlist = await Setlist.find()
         
-        const countSetlist = await mongoose.connection.db.collection('setlist').countDocuments()        
-        const {authorization} = req.headers
-        const token = authorization.split(' ')[1]
-        const decoded = verifyToken(token)
+        const countSetlist = await mongoose.connection.db.collection('setlist').countDocuments()   
+
         if(setlist.length>0)
             return res.status(200).json({ message: 'Setlist found', setlist: setlist })
         else
@@ -116,12 +114,19 @@ const deleteSetlist = async (req,res,next) => {
         // Delete setlist reference in user
 
         const userSetlistOwner = await User.findById(new mongoose.Types.ObjectId(setlistDeleted.user))
-        const indexToDelete = userSetlistOwner?.ownedSetlist?.indexOf(id.toString)
-        if(indexToDelete)
-        {
-            userSetlistOwner.ownedSetlist.splice(indexToDelete,1)
-            await userSetlistOwner.save()
-        }
+        const users = await User.find({favouriteSetlists: id})
+
+        users.forEach(async user => {
+            user.favouriteSetlists = [...user.favouriteSetlists.filter(setlistId => setlistId != id)]
+            await user.save()
+        })
+
+       
+        const userOwner = await User.findOneAndUpdate(
+            { ownedSetlist: id },
+            { $pull: { ownedSetlist: id } },
+            { versionKey: false }
+          );
 
         if(setlistDeleted)
             {
@@ -242,7 +247,7 @@ const favSetlist = async(req,res,next) => {
             userToUpdate.favouriteSetlists=[...updatedSetlistList]
             setlistToFav.save()
             userToUpdate.save()
-            return res.status(200).json({message:"setlist faved", favouritedBy: updatedFavList})
+            return res.status(200).json({message:"setlist faved", favouritedBy: updatedFavList, setlist:setlistId})
         }
     
         else
@@ -256,7 +261,7 @@ const favSetlist = async(req,res,next) => {
             setlistToFav.favouritedBy=[...newUserFavList]
             setlistToFav.save()
             userToUpdate.save()
-            return res.status(200).json({message: "setlist unfav", favouritedBy: newUserFavList})
+            return res.status(200).json({message: "setlist unfav", favouritedBy: newUserFavList, setlist:setlistId})
         }
 }
     catch (error)

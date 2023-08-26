@@ -6,6 +6,8 @@ import SongForm from '../../components/songForm/songForm'
 import SongCard from '../../components/SongCard/SongCard'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { getAllTags } from '../../services/tags.service'
+import { useSongsError } from '../../hooks/useSongsError'
+import { useAuth } from '../../hooks/AuthContext'
 
 const Songs = () => {
     const { pageReq } = useParams()
@@ -17,16 +19,19 @@ const Songs = () => {
         pageReq ? parseInt(pageReq) : 1)
     const [totalPages, setTotalPages] = useState(1)
     const [paginator, setPaginator] = useState([])
-
+    const [res,setRes] = useState({})
+    const {user,logout} = useAuth()
     useEffect(()=>{
         const getSongs = async()=> {
-            const res = await getAllSongsPaginated(page)
-            setSongs(res.data.songs)
-            setTotalPages(res.data.totalPages)
+            const resSongs = await getAllSongsPaginated(page)
+            setSongs(resSongs.data.songs)
+            setTotalPages(resSongs.data.totalPages)
         }
 
         getSongs()
-    },[page])
+
+        useSongsError(res,setOk,setRes,logout)
+    },[page,res])
 
     useEffect(() => {
 
@@ -55,10 +60,10 @@ const Songs = () => {
       <nav>{paginator.map((page)=>page)}</nav>
       <section ref={parent}>
         { songs && songs.map(song=>
-          <SongCard  tagList={tags} key={song._id} song={song} />
+          <SongCard  tagList={tags} res={res} setRes={setRes} key={song._id} song={song} />
         )}
       </section>
-      <SongForm  page={page} songs={songs} setSongs={setSongs} />
+      <SongForm  page={page}  songs={songs} setSongs={setSongs} />
     </main>
   
   )

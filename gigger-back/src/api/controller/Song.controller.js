@@ -22,6 +22,33 @@ const getAllSongs = async (req, res, next) => {
 
 }
 
+const getSongsFilteredPaginated = async(req,res,next) => {
+    try{
+        
+        const {tagFilters,durationFilter,bandFilter} = req.query
+
+        console.log(tagFilters,durationFilter,bandFilter)
+
+        let page = 1
+        const { pageReq } = req.params
+        if(pageReq)
+        {
+            page = parseInt(pageReq)
+        }        
+        const limit = 15
+        const skip = (page - 1) * limit
+        const countSongs = await mongoose.connection.db.collection('songs').countDocuments()
+        const totalPages = Math.ceil(countSongs / limit)
+        const songs = await Song.find().skip(skip).limit(limit)
+        return res.status(200).json({ message: `${countSongs} Songs found, showing page ${page} of ${totalPages}`, songs, totalPages, currentPage: page, limit })
+  
+    }
+    catch(error)
+    {
+      return next(error)
+    }
+}
+
 const getAllSongsPaginated = async (req, res, next) => {
 
     try{
@@ -106,32 +133,31 @@ const deleteSong = async (req,res,next) => {
 
     try{
         const {id} = req.query
-
+        console.log(id)
         const songDeleted = await Song.findByIdAndDelete(id)
 
         // Delete song reference in user favs
 
         const users = await User.find({favouriteSongs: id})
 
-        users.forEach(user => {
+        users.forEach(async user => {
             user.favouriteSongs = [...user.favouriteSongs.filter(songId => songId != id)]
-            user.save()
+            await user.save()
         })
 
-        const usersOwner = await User.find({ownedSongs: id})
+        // const userOwner = await User.findOne({ownedSongs: id})
+       
+        
+        // userOwner.ownedSongs = userOwner.ownedSongs.filter(song=> song != id)
+        // await userOwner.save()
 
-        usersOwner.forEach(user => {
-            user.ownedSongs = [...user.ownedSongs.filter(songId => songId != id)]
-            user.save()
-        })
+        const userOwner = await User.findOneAndUpdate(
+            { ownedSongs: id },
+            { $pull: { ownedSongs: id } },
+            { versionKey: false }
+          );
+          
 
-        // const userSongOwner = await User.findById(new mongoose.Types.ObjectId(songDeleted.user))
-        // const indexToDelete = userSongOwner?.ownedSongs?.indexOf(id.toString)
-        // if(indexToDelete)
-        // {
-        //     userSongOwner.ownedSongs.splice(indexToDelete,1)
-        //     await userSongOwner.save()
-        // }
 
         if(songDeleted)
             {

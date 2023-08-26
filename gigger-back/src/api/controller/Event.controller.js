@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Song = require('../models/Song.model')
 const User = require('../models/User.model')
 const Event = require('../models/Event.model')
+const Setlist = require('../models/Setlist.model')
 
 const getAllEvents = async (req, res, next) => {
     try {
@@ -69,7 +70,7 @@ const getEventById = async(req,res,next) => {
 
 const addNewEvent = async (req,res,next) => {
     try{
-        const {name,date,description,contactName,contactPhone,contactEmail,type} = req.body
+        const {name,date,description,contactName,contactPhone,contactEmail,type,setlist} = req.body
         
         if (req.file) {
             req.body.file=[req.file.path]
@@ -77,8 +78,11 @@ const addNewEvent = async (req,res,next) => {
 
         const event = new Event({...req.body, user:req.user._id})
         const eventAlreadyAdded = await Event.findOne({name})
+        const setlistToUpdate = await Setlist.find(setlist)
         const user = await User.findById(req.user._id)
      
+        
+        
 
         if((type!="boda")&&(type!="privada")&&(type!="concierto")&&(type!="otros"))
         {
@@ -97,7 +101,15 @@ const addNewEvent = async (req,res,next) => {
             {
                 
                 user.ownedEvents.push(eventSaved._id)
-                user.save()
+                await user.save()
+                if (setlistToUpdate) {
+                    setlistToUpdate.events.push(setlist)
+                    await setlistToUpdate.save()
+                }
+                else
+                {
+                    return res.status(404).json({message: "No setlist was found."})
+                }
                 return res.status(200).json({ message: 'Event was saved uwu ', event: event})
 
             }
@@ -123,11 +135,14 @@ const deleteEvent = async (req,res,next) => {
         // Delete event reference in user
 
         const userEventOwner = await User.findById(new mongoose.Types.ObjectId(eventDeleted.user))
+        const setlistsAssociated = await Setlist.find({events:id})
         const indexToDelete = userEventOwner?.ownedEvent?.indexOf(id.toString)
         if(indexToDelete)
         {
+            setlistsAssociated.forEach(setlist.event.filter(event => event != id))
             userEventOwner.ownedEvent.splice(indexToDelete,1)
             await userEventOwner.save()
+            await setlistsAssociated.save()
         }
 
         if(eventDeleted)
@@ -143,6 +158,8 @@ const deleteEvent = async (req,res,next) => {
                     return res.status(404).json({deleted: false})
             
                 }
+
+               
             }
         else 
             {

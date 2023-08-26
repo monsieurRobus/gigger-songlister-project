@@ -12,12 +12,12 @@ const SetlistSchema = new mongoose.Schema({
             ref: 'Songs'
         }
     ],
-    // events: [
-    //     {
-    //         type: mongoose.Types.ObjectId,
-    //         ref: 'Events'
-    //     }
-    // ],
+    events: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Events'
+        }
+    ],
     user: {
         type: mongoose.Types.ObjectId,
         ref: 'User'

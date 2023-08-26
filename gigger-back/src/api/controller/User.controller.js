@@ -478,6 +478,10 @@ const update = async (req, res, next) => {
         req.body.image = req.file.path
         console.log(req.file)
       }
+
+      if(req.body.chooseImage){
+        req.body.chooseImage= (req.body.chooseImage =="true") ? true : false
+      }
       const updateUser = await User.findByIdAndUpdate(req.user?.id, {...req.body})
       
       

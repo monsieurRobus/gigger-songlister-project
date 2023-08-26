@@ -20,7 +20,7 @@ const Dashboard = () => {
   const { user, setUser,userLogin,logout } = useAuth()
   const { register, handleSubmit, errors, isSubmitting } = useForm()
   const navigate = useNavigate()
-  const [chooseImg,setChooseImg] = useState(()=>(user.chooseImage==="true"))
+  const [chooseImg,setChooseImg] = useState(user.chooseImage)
 
   const handleChangePassword = () => {
     return navigate('/changePassword');
@@ -35,8 +35,12 @@ const Dashboard = () => {
     const valuesToSend = {
       name: formData.name,
       avatar: formData.avatar,
-      chooseImage: formData.chooseImg,
-      image: formData.image[0]
+      chooseImage: formData.chooseImg
+      
+    }
+    if (formData.image)
+    {
+      valuesToSend.image = formData.image[0]
     }
     
       setSend(true)
@@ -96,10 +100,9 @@ const Dashboard = () => {
       Object.keys(user).forEach(element => {
         parsedUser = {...parsedUser,[element]: user[element]}
       });
-
-
       console.log(parsedUser)
       setUser(()=>parsedUser)
+      localStorage.setItem('user',parsedUser)
     }
     
   },[res])
@@ -127,7 +130,7 @@ const Dashboard = () => {
             <span>{user?.email}</span>
             <button onClick={handleChangePassword}>Change Password</button>
             <label className={"switch"}>
-              <input type="checkbox" onClick={img2Avatar} checked={chooseImg} {...register("chooseImg")}/>
+              <input type="checkbox" onClick={img2Avatar} disabled={!edit} defaultChecked={chooseImg} {...register("chooseImg")}/>
               <span className={"slider round"}></span>
             </label>
           </div>
@@ -135,7 +138,7 @@ const Dashboard = () => {
             <img className={"avatar-dashboard"} src={chooseImg? user?.image : `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.avatar}` }/>
             <label>avatar:</label>
             <div> <input className={classInput} type="text" name="avatar" disabled={!edit} hidden={chooseImg} placeholder={user?.avatar} {...register("avatar")}/></div>
-            <div> <input className={classInput} type="file" name="image"  hidden={!chooseImg} placeholder={user?.image} {...register("image")}/></div>
+            <div> <input className={classInput} type="file" name="image"  disabled={!edit} hidden={!chooseImg} placeholder={user?.image} {...register("image")}/></div>
             
             <label>Role:</label>
             <h3>{user?.role}</h3>
@@ -143,7 +146,7 @@ const Dashboard = () => {
             <br></br>
             <label className={"switch"}>
               <span>Edit profile</span>
-              <input type="checkbox" onClick={()=>setEdit(!edit)} checked={edit}/>
+              <input type="checkbox" onChange={()=>setEdit(!edit)}  checked={edit}/>
               <span className={"slider round"}></span>
             </label>
             {/* <button onClick={handleDeleteUser} className={'delete-button'} disabled={!edit}>Delete User</button>           */}

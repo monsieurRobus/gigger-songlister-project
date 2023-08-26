@@ -21,6 +21,7 @@ const Setlists = () => {
         pageReq ? parseInt(pageReq) : 1)
     const [totalPages, setTotalPages] = useState(1)
     const [paginator, setPaginator] = useState([])
+    const [res,setRes] = useState()
 
     useEffect(() => {
 
@@ -37,9 +38,9 @@ const Setlists = () => {
         const getSetlists = async()=> {
             const res = await getAllSetlistsPaginated(page)
             const tags = await getAllTags()
-            if(songs.length == 0){
+            if(songs?.length == 0){
               const resSongs = await getAllSongs()
-              setSongs(resSongs.data.songs)
+              setSongs(resSongs?.data?.songs)
               
             }
             setTagList(tags)
@@ -48,13 +49,13 @@ const Setlists = () => {
         }
 
         getSetlists()
-    },[page])
+    },[page,res])
   return (
     <main className={'main-setlist'}>
       <nav>{paginator.map((page)=>page)}</nav>
       <section ref={parent}>
         {
-          setlists && setlists.map(setlist => <SetlistCard tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
+          setlists && setlists.map(setlist => <SetlistCard res={res} setRes={setRes} setlistOwner={setlist.user} tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
         }
       </section>
       <SetlistForm tags={tagList} setlists={setlists} setSetlists={setSetlists} />

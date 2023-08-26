@@ -35,3 +35,12 @@ export const getSetlistById = async (id) => {
     .then((res) => res)
     .catch((err) => err)
   }
+
+  export const deleteSetlist = async (id) => {
+    return APIuser.delete(`/setlist/delete?id=${id}`, {headers: {
+      Authorization: `Bearer ${token()}`,
+      }})
+    .then((res) => res)
+    .catch((err) => err)
+  }
+  

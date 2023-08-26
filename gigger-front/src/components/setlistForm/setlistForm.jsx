@@ -39,15 +39,15 @@ const SetlistForm = (props) => {
 
   }
 
-    useEffect(()=>{
-      const getSongs = async()=> {
-          const res = await getAllEventsPaginated(page)
-          setEvents(res.data.events)
-          setTotalPages(res.data.totalPages)
-      }
+  //   useEffect(()=>{
+  //     const getSongs = async()=> {
+  //         const res = await getAllEventsPaginated(page)
+  //         setEvents(res?.data?.events)
+  //         setTotalPages(res.data.totalPages)
+  //     }
 
-      getSongs()
-  },[page])
+  //     getSongs()
+  // },[page])
 
   useEffect(()=>{
 
@@ -82,7 +82,7 @@ const SetlistForm = (props) => {
   const getSongList = async (page) => {
   
     const songs = await getAllSongs()
-    setSonglist(songs.data.songs)    
+    setSonglist(songs?.data?.songs)    
   }
 
   useEffect(()=>{
@@ -136,7 +136,7 @@ const SetlistForm = (props) => {
               <div>a</div>
               <SongSelectionListStyled>
                 <div ref={parent}>
-                  {songlist.map(  (songToSelect, index)=> 
+                  {songlist?.map(  (songToSelect, index)=> 
                     <SongToAddCard 
                     tagList={tagList}
                       currentSetlist={currentSetlist} 

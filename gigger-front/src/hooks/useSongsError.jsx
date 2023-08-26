@@ -15,20 +15,20 @@ export const useSongsError = (res,setOk,setRes, logout) => {
         return toast.error("You have no permissions to add, delete or edit any tags. Contact your band admin.")
     }
 
-    if(res.status == 200 && res?.data.message.includes("saved"))
+    if(res.status == 200 && res?.data?.message?.includes("saved"))
     {
         setOk(() => true)
         return toast.success(res.data.message)
         
     }
-    if(res.status == 200 && res?.data.message.includes("deleted"))
+    if(res.status == 200 && res?.data?.message?.includes("deleted"))
     {
         
         setOk(() => true)
         return toast.success(res.data.message)
         
     }
-    if(res.status == 200 && res?.data.message.includes("already been added"))
+    if(res.status == 200 && res?.data?.message?.includes("already been added"))
     {
         
         setOk(() => true)

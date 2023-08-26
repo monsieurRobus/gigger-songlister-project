@@ -28,10 +28,10 @@ const EventSchema = new mongoose.Schema ({
     contactMail: {
         type: String
     },
-    setlist: [{
+    setlist: {
         type: mongoose.Types.ObjectId,
         ref: 'Setlist'
-    }],
+    },
     user: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
