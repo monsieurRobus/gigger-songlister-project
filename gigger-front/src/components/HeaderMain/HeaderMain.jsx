@@ -4,16 +4,19 @@ import { useAuth } from '../../hooks/AuthContext'
 import { Link, NavLink, Navigate, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons'
+import { useDarkMode } from '../../hooks/useDarkMode'
+import Toggle from '../../ui/Toggler'
 
 const classActivePending = ({isActive,isPending}) => {
     return isActive ? 'active' : isPending ? 'pending' : ''
 }
 
-const LoggedNav =({handleLogout,avatar,img,chooseImage}) => (
+const LoggedNav =({handleLogout,avatar,img,chooseImage,theme,toggleTheme}) => (
     <header className={'main'}>
         <nav className={'loggedNav'}>
             <div>
                 <NavLink to="/" className={classActivePending}><span>RegisterFull</span></NavLink>
+                <Toggle theme={theme} toggleTheme={toggleTheme} />
             </div>     
             <div className={'navMenu'}>
             <NavLink to='/users' className={classActivePending}>Users</NavLink>
@@ -42,10 +45,9 @@ const NotLoggedNav = ({handleLogin}) => (
     </header>
 )
 
-const HeaderMain = () => {
+const HeaderMain = ({theme,themeToggler}) => {
     
     const navigate = useNavigate()
-
     const handleLogin = () => {
         console.log('login')
         navigate('/login')
@@ -57,7 +59,7 @@ const HeaderMain = () => {
 
     },[user])
 
-    return user ? <LoggedNav handleLogout={logout} avatar={user.avatar} img={user.image} chooseImage={user.chooseImage}/> : <NotLoggedNav handleLogin={handleLogin}/>
+    return user ? <LoggedNav handleLogout={logout} theme={theme} toggleTheme={themeToggler} avatar={user.avatar} img={user.image} chooseImage={user.chooseImage}/> : <NotLoggedNav theme={theme} toggleTheme={themeToggler} handleLogin={handleLogin}/>
 
  
     
