@@ -6,7 +6,7 @@ import LoginForm from '../../components/LoginForm/LoginForm'
 const LoginPage = () => {
   return (
     <main>
-        <FontAwesomeIcon className="logo" icon={faCircleNotch} />
+        <FontAwesomeIcon className={"logo"} icon={faCircleNotch} />
         <h1>registerFull</h1>
         <LoginForm />
     </main>

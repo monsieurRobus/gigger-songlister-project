@@ -19,6 +19,7 @@ import Setlists from './pages/Setlists/Setlists.jsx'
 import Songs from './pages/Songs/Songs.jsx'
 import Tags from './pages/Tags/Tags.jsx'
 import Events from './pages/Events/Events.jsx'
+import HomeLoggedOut from './pages/HomeLoggedOut/HomeLoggedOut.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -27,7 +28,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AuthContextProvider>      
         <Routes>
           <Route path="/" element={<App />}>
-          <Route index element={<h1>This is a homepage</h1>} />
+          <Route index element={<HomeLoggedOut />} />
+          <Route path="/home" element={ 
+            <ProtectedRoute>
+              <h1>This is another homepage</h1>
+            </ProtectedRoute>
+           } />
           <Route path="/login" element={ <LoginPage /> } />
           <Route path="/register" element={ <RegisterPage /> } />
           <Route path="/forgotPassword" element={ <ForgotPassword /> } /> 

@@ -14,9 +14,7 @@ import { useDarkMode } from './hooks/useDarkMode'
 
 
 
-
 function App() {
-  
   const {logout} =useAuth()
   const [theme,themeToggler] = useDarkMode()
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
