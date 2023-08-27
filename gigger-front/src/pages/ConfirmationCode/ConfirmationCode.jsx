@@ -6,6 +6,7 @@ import { checkCodeConfirmationUser } from '../../services/user.service'
 import { useCheckCodeError } from '../../hooks/useCheckCodeError'
 import {useAutoLogin } from '../../hooks/useAutoLogin'
 import ButtonResend from '../../components/ButtonResend/ButtonResend'
+import { ConfirmationCodeStyled, ConfirmationCodeDivisionStyled, ConfirmationCodeContentStyled } from '../../ui/ConfirmationCodeElements'
 
 
 export const ConfirmationCode = () => {
@@ -77,17 +78,26 @@ if(reloadPageError){
   return <Navigate to="/login" />
 }
   return (
-    <div>
+
+    <ConfirmationCodeStyled >
+      <ConfirmationCodeContentStyled className={'verification-code'}>
         <h1>Verify your code</h1>
         <h2>A code has been sent to your email, please, enter your code bellow:</h2>
-        <form onSubmit={handleSubmit(onFormSubmit)}>
-            <input type="text" name="name" id="code" {...register('confirmationCode', {required: false})} />
-            <label htmlFor="custom-input" className="custom-placeholder">
-              Registration code
-            </label>
-            <button type="submit" disabled={send}>Verify Code</button>
-        </form>
-        <h3>Didn't receive your code?</h3><ButtonResend />
-    </div>
+        <ConfirmationCodeDivisionStyled>
+          <form onSubmit={handleSubmit(onFormSubmit)}>
+              <input type="text" name="name" id="code" {...register('confirmationCode', {required: false})} />
+              <label htmlFor="custom-input" className="custom-placeholder">
+                Registration code
+              </label>
+              <button className={'btn secondary'} type="submit" disabled={send}>Verify Code</button>
+          </form>
+        </ConfirmationCodeDivisionStyled>
+        <ConfirmationCodeDivisionStyled>
+          <h3>Didn't receive your code?</h3>
+          <ButtonResend/>
+        </ConfirmationCodeDivisionStyled>
+        
+        </ConfirmationCodeContentStyled>
+    </ConfirmationCodeStyled>
   )
 }

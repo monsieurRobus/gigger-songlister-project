@@ -9,6 +9,11 @@ export const GlobalStyles = createGlobalStyle`
     transition: all 0.50s linear;
   }
 
+input {
+    border-radius: 8px;
+    line-height: 2em;
+
+}
   a {
     color: ${({theme})=>theme.link};
 
@@ -17,7 +22,9 @@ export const GlobalStyles = createGlobalStyle`
     }
 
   }
-
+  .verification-code {
+    background-color: ${({theme})=>theme.verifyCodeBackground};
+  }
   .fade-in-title { animation: fadeIn 5s; }
 
   @keyframes fadeIn {
@@ -60,6 +67,7 @@ export const GlobalStyles = createGlobalStyle`
         display: flex;
         flex-direction:column;
         justify-content: center;
+        
     }
 
     .login-form-inside,.register-form-inside {
@@ -87,6 +95,16 @@ export const GlobalStyles = createGlobalStyle`
         gap:1rem;
     }
 
+    .btn-tables {
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            box-shadow: 2px 2px 0 #1c1c1c;
+        }
+
+        &:active {
+            transform: translateX(2px) translateY(2px);
+        }
+    }
     .btn {
 
         padding: 1em 3em;

@@ -102,7 +102,9 @@ const addNewSong = async (req,res,next) => {
         const songAlreadyAdded = await Song.findOne({name})
         const user = await User.findById(req.user._id)
 
-
+        const limit = 15
+        const countSongs = await mongoose.connection.db.collection('songs').countDocuments()
+        const totalPages = Math.ceil(countSongs / limit)
         
         if(songAlreadyAdded) {
             return res.status(200).json({message: "A song with this name has already been added, please, change it's name"})
@@ -122,7 +124,7 @@ const addNewSong = async (req,res,next) => {
                 })
 
                 user.save()
-                return res.status(200).json({ message: 'Song was saved uwu ', song: song})
+                return res.status(200).json({ message: 'Song was saved uwu ', song: song, totalPages: totalPages})
 
             }
         else 

@@ -40,7 +40,7 @@ const ButtonResend = ({setReloadPageError}) => {
 
   return (
     <button
-        className="btn"
+        className="btn primary"
         disabled={send}
         onClick={handleResend}
     >ButtonResend</button>

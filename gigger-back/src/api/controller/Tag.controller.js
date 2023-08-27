@@ -33,7 +33,7 @@ const getAllTagsPaginated = async (req, res, next) => {
         {
             page = parseInt(pageReq)
         }        
-        const limit = 15
+        const limit = 8
         const skip = (page - 1) * limit
         const countTags = await mongoose.connection.db.collection('tags').countDocuments()
         const totalPages = Math.ceil(countTags / limit)
@@ -87,10 +87,12 @@ const addNewTag = async (req,res,next) => {
         }
 
         const tagSaved = await tag.save()
-        
+        const limit = 8
+        const countTags = await mongoose.connection.db.collection('tags').countDocuments()
+        const totalPages = Math.ceil(countTags / limit)
         if(tagSaved)
             {
-                return res.status(200).json({ message: 'Tag was saved uwu ', tag: tag})
+                return res.status(200).json({ message: 'Tag was saved uwu ', tag: tag, totalPages})
             }
         else 
             {

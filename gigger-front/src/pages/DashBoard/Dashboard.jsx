@@ -7,6 +7,7 @@ import { deleteUser,update } from '../../services/user.service'
 import useDeleteUserError from '../../hooks/useDeleteUserError'
 import { useForm } from 'react-hook-form'
 import useUpdateUserError from '../../hooks/useUpdateUserError'
+import { DashboardSectionStyled, DashboardButtonDivStyled, DashboardAvatarImageSelectionStyled, DashboardAvatarThumbnailDivStyled, DashboardDivWrapperStyled, DashboardEditProfileDivStyled, DashboardRowDivStyled } from '../../ui/DashboardElements'
 
 
 const Dashboard = () => {
@@ -120,40 +121,60 @@ const Dashboard = () => {
   }
  
   return (
-    <section>
+    <DashboardSectionStyled>
       <form onSubmit={handleSubmit(handleEditProfile)}>
-          <div>
-          
-            <label>username:</label>
-            <input className={classInput} type="text" name="Name" disabled={!edit} placeholder={user?.name} {...register("name")}/>
-            <label>email:</label>
-            <span>{user?.email}</span>
-            <button onClick={handleChangePassword}>Change Password</button>
-            <label className={"switch"}>
-              <input type="checkbox" onClick={img2Avatar} disabled={!edit} defaultChecked={chooseImg} {...register("chooseImg")}/>
-              <span className={"slider round"}></span>
-            </label>
-          </div>
-          <div>
-            <img className={"avatar-dashboard"} src={chooseImg? user?.image : `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.avatar}` }/>
-            <label>avatar:</label>
-            <div> <input className={classInput} type="text" name="avatar" disabled={!edit} hidden={chooseImg} placeholder={user?.avatar} {...register("avatar")}/></div>
-            <div> <input className={classInput} type="file" name="image"  disabled={!edit} hidden={!chooseImg} placeholder={user?.image} {...register("image")}/></div>
+          <DashboardDivWrapperStyled>
+            <DashboardAvatarThumbnailDivStyled>
+              <img className={"avatar-dashboard"} src={chooseImg? user?.image : `https://api.dicebear.com/6.x/avataaars/svg?seed=${user?.avatar}` }/>
+              
+              <div>                 
+                <input className={classInput} type="text" name="avatar" disabled={!edit} hidden={chooseImg} placeholder={user?.avatar} {...register("avatar")}/>
+              </div>
+              <div> 
+                <input className={classInput} type="file" name="image"  disabled={!edit} hidden={!chooseImg} placeholder={user?.image} {...register("image")}/>
+              </div>
+              <DashboardAvatarImageSelectionStyled>
+                <h3>Avatar</h3>
+                <label className={"switch"}>
+                  <input type="checkbox" onClick={img2Avatar} disabled={!edit} defaultChecked={chooseImg} {...register("chooseImg")}/>
+                  <span className={"slider round"}></span>
+                </label>
+                <h3>Image</h3>
+              </DashboardAvatarImageSelectionStyled>
+              
+            </DashboardAvatarThumbnailDivStyled>
+            <div>
+              <DashboardEditProfileDivStyled>
+                <h3>Edit your profile</h3>
+                <label className={"switch"}>
+                  <input type="checkbox" onChange={()=>setEdit(!edit)}  checked={edit}/>
+                  <span className={"slider round"}></span>
+                </label>
+              </DashboardEditProfileDivStyled>
+              <DashboardRowDivStyled>
+                <label>username:</label>
+                <input className={classInput} type="text" name="Name" disabled={!edit} placeholder={user?.name} {...register("name")}/>
+              </DashboardRowDivStyled>
+              <DashboardRowDivStyled>
+                <label>Role:</label>
+                <h3>{user?.role}</h3>
+              </DashboardRowDivStyled>
+              <DashboardRowDivStyled>                
+                <label>email:</label>
+                <span>{user?.email}</span>
+              </DashboardRowDivStyled>
+              <button onClick={handleChangePassword}>Change Password</button>
             
-            <label>Role:</label>
-            <h3>{user?.role}</h3>
+            </div>            
+            
+          </DashboardDivWrapperStyled>
+                      
+          <DashboardButtonDivStyled>            
             <button type="submit" disabled={!edit||isSubmitting} onClick={()=>handleSubmit()}>Save Profile</button>
-            <br></br>
-            <label className={"switch"}>
-              <span>Edit profile</span>
-              <input type="checkbox" onChange={()=>setEdit(!edit)}  checked={edit}/>
-              <span className={"slider round"}></span>
-            </label>
-            {/* <button onClick={handleDeleteUser} className={'delete-button'} disabled={!edit}>Delete User</button>           */}
-            
-          </div>
+           
+          </DashboardButtonDivStyled>
         </form>
-    </section>
+    </DashboardSectionStyled>
   )
 }
 

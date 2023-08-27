@@ -2,7 +2,7 @@ import { token } from "../utils/token";
 import {APIuser} from "./serviceApiUser.config";
 
 export const registerUser = async (formData) => {
-  return APIuser.patch("/user/register", formData,    {headers: {
+  return APIuser.post("/user/register", formData,    {headers: {
     Authorization: `Bearer ${token()}`,
     "Content-Type": "multipart/form-data"
     }})

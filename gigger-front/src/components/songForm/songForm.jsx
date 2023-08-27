@@ -6,10 +6,11 @@ import { ReactTags } from 'react-tag-autocomplete'
 import { getAllTags } from '../../services/tags.service'
 import { TagBubbleStyled } from '../../ui/BubbleElements'
 import { useSongsError } from '../../hooks/useSongsError'
+import { SongsFormSectionStyled } from '../../ui/SongElements'
+
 
 const SongForm = (props) => {
-  const [res,setRes] = useState({})
-  const {songs,setSongs,page} = props
+  const {songs,setSongs,page,setPage,res,setRes} = props
   const [send,setSend] =useState(false)
   const [ok,setOk] = useState(false)
   const { register, handleSubmit, errors, reset } = useForm()
@@ -25,7 +26,6 @@ const SongForm = (props) => {
   },[tagSelected])
 
   const handleDeleteTag = useCallback((tagIndex) => {
-    console.log(tagIndex)
     setTagsSelected(tagSelected.filter((tag,i) => i !== tagIndex))
   },[tagSelected])
 
@@ -67,8 +67,8 @@ useEffect(()=>{
         notes: ""        
     })
     setTagsSelected([])
-    res?.data?.song ? setSongs([...songs,res?.data?.song]) : null
-
+    setPage(res?.data?.totalPages)
+    console.log(res?.data?.totalPages)
 },[res])
 
 useEffect(()=>{
@@ -90,7 +90,7 @@ const optionTagStyled = ({ children, classNames, option, ...optionProps }) => {
 
 
   return (
-    <section>
+    <SongsFormSectionStyled>
         {user.role==="admin"? <form onSubmit={handleSubmit(handleAddSong)}>
             <label>Song Name</label><input type="text" name="song-name" {...register("name")}/>
             <label>Artist</label><input type="text" name="artist-name" {...register("artist")}/>
@@ -100,7 +100,7 @@ const optionTagStyled = ({ children, classNames, option, ...optionProps }) => {
             <ReactTags onAdd={handleAddTag} onDelete={handleDeleteTag} selected={tagSelected} suggestions={suggestions} renderTag={selectedTagsStyled}/>
             <input type="submit" />
         </form>: null}
-    </section>
+    </SongsFormSectionStyled>
   )
 }
 

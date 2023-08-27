@@ -1,24 +1,25 @@
 .song-card {
     width: 100%;
-    height: 100px;
+    height: 90px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
-    gap: 2rem;
-    padding:1rem;
+    gap: 1rem;
+    padding:0.5rem;
     margin:0;
     position:relative;
 }
 
 .background {
     width:100%;
-    height: 100px;
+    height: 90px;
     position:absolute;
 }
 
 .song-card-content {
-    width:100%;
-    height: 100px;
+    width:80%;
+    height: 90px;
     position: absolute;
     display: flex;
     align-items: center;

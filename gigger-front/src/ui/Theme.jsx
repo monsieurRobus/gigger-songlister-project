@@ -14,7 +14,8 @@ export const lightTheme = {
     registerBox: '#f5f5f5',    
     link: 'coral',
     linkActive: '#ff007d',
-    headerBackground: '#d0d0d0'
+    headerBackground: '#d0d0d0',
+    verifyCodeBackground: '#d0d0d0'
 }
 
 export const darkTheme = {
@@ -33,5 +34,6 @@ export const darkTheme = {
     registerBox: '#4f4f4f',
     link: 'coral',    
     linkActive: '#ffffff',
-    headerBackground: '#0b0b0b'
+    headerBackground: '#0b0b0b',
+    verifyCodeBackground: '#0b0b0b',
 }

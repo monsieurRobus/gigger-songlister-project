@@ -113,8 +113,8 @@ const RegisterForm = () => {
                   <input type="text" name="avatar" {...register("avatar", {})} />
                 </div>
                 <div className={'register-buttons-row'}>
-                  <button className={'primary btn'} type="submit" disabled={send}>Register</button>  
-                  <button className={'secondary btn'} onClick={handleLogin} >Login!</button>
+                <button className={'primary btn'} type="submit" disabled={send}>Register</button>  
+                <button className={'secondary btn'} onClick={handleLogin} >Login!</button>
                 </div>
                 
             </form>

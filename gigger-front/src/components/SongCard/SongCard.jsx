@@ -5,6 +5,7 @@ import { getTagById } from '../../services/tags.service'
 import { deleteSong, favSong } from '../../services/songs.service'
 import { useAuth } from '../../hooks/AuthContext'
 import Swal from 'sweetalert2'
+import { secondsToHMS } from '../../utils/swissknife'
 
 const SongCard = (props) => {
     const {song,tagList,res,setRes} = props
@@ -119,7 +120,11 @@ useEffect(
         <div className={'song-card-content'}>
             <div>
                 <h2>{name}</h2>
-                <h3>{artist}</h3>
+                <div>
+                    <h3>{artist}</h3>
+                    <h3>{secondsToHMS(duration)}</h3>
+                </div>
+                
             </div>
             <div>
             {favourited ? <button onClick={favUnfav}>💗</button> : <button onClick={favUnfav}>🖤</button> }
@@ -127,10 +132,6 @@ useEffect(
             </div>
             
         </div>
-        <SpeechSongBubbleStyled>
-            <h4>{duration}</h4>    
-            <p>{notes}</p>
-        </SpeechSongBubbleStyled>
     </SongCardStyled>
   )
 }

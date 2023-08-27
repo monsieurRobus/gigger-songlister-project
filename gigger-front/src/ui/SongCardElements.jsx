@@ -20,8 +20,13 @@ export const SpeechSongBubbleStyled = styled.div`
 
 
 export const SongCardStyled = styled.figure`
-    padding: 0;
-    margin: 0.4rem;
+    padding: 0.1em;
+    margin: 0.2rem;
+
+    h1 , h2 , h3, div {
+        margin: 0;
+        padding: 0;
+    }
     &:hover ${SpeechSongBubbleStyled} {
         visibility: visible;
     }

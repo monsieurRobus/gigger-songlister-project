@@ -6,8 +6,8 @@ import { useAuth } from '../../hooks/AuthContext'
 
 const TagForm = (props) => {
 
-    const [res,setRes] = useState({})
-    const {tags,setTags} = props
+    
+    const {tags,setTags,res,setRes} = props
     const [send,setSend] =useState(false)
     const [ok,setOk] = useState(false)
     const { register, handleSubmit, errors } = useForm()
@@ -32,7 +32,7 @@ const TagForm = (props) => {
         useTagsError(res,setOk,setRes,logout)
         
         res?.data?.tag ? setTags([...tags,res?.data?.tag]) :null
-
+        
     },[res])
 
    return (
