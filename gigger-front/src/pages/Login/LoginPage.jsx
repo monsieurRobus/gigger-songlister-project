@@ -5,10 +5,12 @@ import LoginForm from '../../components/LoginForm/LoginForm'
 
 const LoginPage = () => {
   return (
-    <main>
+    <main className={'login-wrapper'}>
+      <div className={'login-box'}>
         <FontAwesomeIcon className={"logo"} icon={faCircleNotch} />
-        <h1>registerFull</h1>
+        <h1 className={'feature'}>gigger</h1>
         <LoginForm />
+      </div>        
     </main>
   )
 }

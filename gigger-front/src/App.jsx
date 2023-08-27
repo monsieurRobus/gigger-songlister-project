@@ -11,6 +11,7 @@ import { ThemeProvider } from 'styled-components'
 import { GlobalStyles } from './ui/GlobalStyles'
 import { darkTheme, lightTheme } from './ui/Theme'
 import { useDarkMode } from './hooks/useDarkMode'
+import FooterMain from './components/FooterMain/FooterMain'
 
 
 
@@ -40,6 +41,7 @@ function App() {
       <Toaster position="bottom-right" richColors  />
       <HeaderMain theme={theme} themeToggler={themeToggler}/>
       <Outlet />
+      <FooterMain />
     </main>
     </ThemeProvider>
   )

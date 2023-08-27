@@ -2,6 +2,7 @@ import React from 'react'
 import { HomeCardStyled, HomeIntroCardsSectionStyled, HomeIntroSectionStyled, HomeTitleStyled } from '../../ui/HomeElements'
 import { faCalendar, faGuitar, faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import GeneralButtonElement from '../../ui/GeneralButtonElement'
 
 const HomeLoggedOut = () => {
   return (
@@ -25,7 +26,6 @@ const HomeLoggedOut = () => {
 
         </HomeIntroSectionStyled>
         <HomeIntroSectionStyled className={'alternate'}>
-          <h1>What is <span className={'gigger'}>gigger</span>?</h1>
           <HomeIntroCardsSectionStyled >
             <HomeCardStyled className={'card-main'}>
               <FontAwesomeIcon icon={faCalendar}/>
@@ -43,11 +43,8 @@ const HomeLoggedOut = () => {
               <p>Amplify your live communication with <span className={'gigger'}>gigger</span>. Engage seamlessly with fans and clients, enhancing the concert experience through real-time interaction and personalized connections. Elevate your performance engagement.</p>
             </HomeCardStyled>
           </HomeIntroCardsSectionStyled>
-        </HomeIntroSectionStyled>
-        <HomeIntroSectionStyled>
-          <h1>Want to try?</h1>
-          <p>Join today, totally free</p>
-          <p>Join today, totally free y to</p>
+          
+          <GeneralButtonElement type={'primary'} label={'Contact us'}/>
         </HomeIntroSectionStyled>
     </>
   )

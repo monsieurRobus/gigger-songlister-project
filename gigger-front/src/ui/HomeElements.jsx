@@ -46,48 +46,22 @@ export const HomeTitleStyled = styled.div`
         height: 100%;
         background-size: cover;
         background-position: center;
-        animation: slider 16.5s infinite;
 
     }
 
     .hero-section-background .slide:nth-child(1) {
    background-image: url(${header1});
-   animation-delay: 0s;
 }
 
-    .hero-section-background .slide:nth-child(2) {
-    background-image: url(${header2});
-    animation-delay: -5.5s;
-    }
 
-    .hero-section-background .slide:nth-child(3) {
-    background-image: url(${header3});
-    animation-delay: -11s;
-    }
-
-    @keyframes slider {
-        0%, 20%, 100% {
-            opacity: 1;
-            animation-timing-function: ease-in-out;
-            z-index: 0;
-        }
-        33% {
-            opacity: 0;
-            animation-timing-function: step-end;
-            z-index: 0;
-        }
-        90% {
-            opacity: 1;
-            animation-timing-function: ease-in-out;
-            z-index: -1;
-        }
-    }
+    
 `
 
 export const HomeIntroSectionStyled = styled.section`
 
+    padding: 1em 0;
     
-width: 100%;
+    width: 100%;
     p {
         max-width: 80%;
         font-size: 3em;
@@ -99,7 +73,15 @@ width: 100%;
 
     @media (max-width: 700px) {
 
-        padding:0;
+        padding:1em 0;
+
+        h1 {
+            font-size: 3em;
+        }
+
+        p {
+            font-size: 1em;
+        }
 
     }
 

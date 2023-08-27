@@ -77,17 +77,18 @@ const LoginForm = () => {
     }
 
   return (
-    <section>        
-        <form onSubmit={handleSubmit(onFormSubmit, onFormErrors)}>
-            <div>
+    <section className={'login-box-inside'}>        
+        <form  onSubmit={handleSubmit(onFormSubmit, onFormErrors)}>
+            <div className={'login-form-row'}>
                 <label>Email</label>
                 <input type="text" name="email" {...register("username", {
                     required: true,
                     minLength: 3,
                 })} />
             </div>
-            <div>
-                <label>Password</label>
+            <div >
+            <div className={'login-form-row'}>
+            <label>Password</label>
                 <input type="password" name="password" placeholder= "Password" {...register("password", {
                     required: true,
                     minLength: 8,
@@ -102,12 +103,15 @@ const LoginForm = () => {
                     }
                 })} />
             </div>
-            <Link to="/forgotPassword">Forgot Password?</Link>
-            
-            <button type="submit">Login</button>
+            <Link to="/forgotPassword">Forgot Password?</Link>    
+                <div className={'login-buttons-row'}>                        
+                    <button className={'primary btn'} type="submit">Login</button>
+                    <button className={'secondary btn'} disabled={send} onClick={handleRegister}>Register</button>
+                </div>
+            </div>            
            
         </form>
-        <button disabled={send} onClick={handleRegister}>Register</button>
+        
     </section>
   )
 }

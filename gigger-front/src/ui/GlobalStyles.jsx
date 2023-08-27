@@ -9,6 +9,15 @@ export const GlobalStyles = createGlobalStyle`
     transition: all 0.50s linear;
   }
 
+  a {
+    color: ${({theme})=>theme.link};
+
+    &:hover {
+        color: #ffdf77;
+    }
+
+  }
+
   .fade-in-title { animation: fadeIn 5s; }
 
   @keyframes fadeIn {
@@ -28,6 +37,74 @@ export const GlobalStyles = createGlobalStyle`
         text-shadow: 2px 2px 2px ${({theme})=> theme.featureShadow};
     }
 
+    .login-wrapper,.register-wrapper {
+        width: 100%;
+        margin-top: 10vh;
+        height:70vh;
+    }
+
+    .login-box,.register-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: ${({theme})=>theme.registerBox};
+        align-items: center;
+        padding: 1rem;
+        border-radius: 10px;
+        width: 30%;
+        box-shadow: 4px 4px 2px #1c1c1c;
+    }
+
+    .login-box-inside,.register-box-inside {
+        padding: 1rem;
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+    }
+
+    .login-form-inside,.register-form-inside {
+        width: 20vw;
+        display:flex;
+        flex-direction:column;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-form-row,.register-form-row {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+
+    }
+
+    .login-buttons-row,.register-buttons-row {
+        padding: 1rem 0;
+        display: flex;
+        justify-content: space-between;
+        gap:1rem;
+    }
+
+    .btn {
+
+        padding: 1em 3em;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            box-shadow: 2px 2px 0 #1c1c1c;
+        }
+
+        &:active {
+            transform: translateX(2px) translateY(2px);
+        }
+
+    }
+
+    .primary {
+        background-color: coral;
+    }
+
   header {
     background: ${({ theme }) => theme.headerBody};
     transition: all 0.50s linear;
@@ -36,6 +113,8 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({theme}) => theme.headerTytle };
         font-size: 1.5em;
     }
+
+    
 
     .loggedNav, .notLoggedNav {
     display:flex;
@@ -89,7 +168,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .active {
-        color:aquamarine
+        color:${({theme})=>theme.linkActive};
     }
 
     .menu-button-container {
@@ -175,6 +254,62 @@ export const GlobalStyles = createGlobalStyle`
 
 @media (max-width: 700px) {
 
+    .loggedNav, .notLoggedNav {
+        background-color: ${({theme})=>theme.headerBackground};
+    }
+
+    .login-wrapper,.register-wrapper {
+        width: 100%;
+        margin-top: 10vh;
+        height:70vh;
+        
+        gap: 0;
+    }
+
+    .login-box,.register-box {
+        padding:0;
+        display: flex;
+        background-color: ${({theme})=>theme.registerBox};
+        align-items: center;
+        border-radius: 0;
+        gap: 0;
+        height: inherit;
+        width: 100%;
+    }
+
+    .login-box-inside,.register-box-inside {
+        
+        gap: 0;
+        padding:0;
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+    }
+
+    .login-form-inside,.register-form-inside {
+        width: 20vw;
+        display:flex;
+        flex-direction:column;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-form-row,.register-form-row {
+        display: flex;
+        gap: 0;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+
+    }
+
+    .login-buttons-row,.register-buttons-row {
+        padding: 1rem 0;
+        display: flex;
+        justify-content: space-between;
+        gap:1rem;
+    }
 
     .logout-responsive-menu, .dashboard-menu {
         display:none;

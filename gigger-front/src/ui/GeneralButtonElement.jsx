@@ -5,9 +5,9 @@ const GeneralButtonElementStyled = styled.button`
 `
 
 const GeneralButtonElement = (props) => {
-    const {label,handleClick} = props
+    const {label,handleClick,type} = props
   return (
-    <GeneralButtonElementStyled onClick={handleClick}>
+    <GeneralButtonElementStyled className={`btn ${type}`} onClick={handleClick}>
         {label}
     </GeneralButtonElementStyled>
   )

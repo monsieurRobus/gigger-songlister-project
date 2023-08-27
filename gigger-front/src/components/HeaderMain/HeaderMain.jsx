@@ -81,10 +81,7 @@ const NotLoggedNav = ({handleLogin,handleRegister, theme, toggleTheme}) => (
             
             <li>
                 <NavLink to='/#what' className={classActivePending}>What is gigger?</NavLink>
-            </li>            
-            <li>
-                <NavLink to='/songs' className={classActivePending}>Songs</NavLink>
-            </li>
+            </li>     
            
             <li className={"logout-responsive-dropdown"}>
                 

@@ -44,13 +44,11 @@ const RegisterForm = () => {
 
       const errorFields = document.querySelectorAll(".error")
 
-      console.log(errors)
         for(const errorField of errorFields) {
             errorField.classList.remove("error")
         }
     
         for(const error in errors) {
-            console.log(errors)
             errors[error].ref.classList.add("error")
         }
     }
@@ -64,17 +62,17 @@ const RegisterForm = () => {
     }
 
   return (
-    <div>
-        <section>
+    
+        <section className={'register-box-inside'}>
             <form onSubmit={handleSubmit(onFormSubmit, onFormErrors)}>
-                <div>                  
+                <div className={'register-form-row'}>                  
                   <label>Username</label>
                   <input type="text" name="name" {...register("username", {
                     required: true,
                     minLength: 3,
                 })} />
                 </div>
-                <div>
+                <div className={'register-form-row'}>
                   <label>Password</label>
                   <input type="password" name="password" {...register("password", {
                     required: true,
@@ -90,7 +88,7 @@ const RegisterForm = () => {
                     }
                 })} />
                 </div>
-                <div>
+                <div className={'register-form-row'}>
                   <label>Confirm Password</label>
                   <input type="password" name="confirmPassword" {...register("confirmPassword", {
                     required: true,
@@ -106,25 +104,23 @@ const RegisterForm = () => {
                     }
                 })} />
                 </div>
-                <div>
+                <div className={'register-form-row'}>
                   <label>Email</label>
                   <input type="email" name="email" {...register("email", {})} />
                 </div>
-                <div>
+                <div className={'register-form-row'}>
                   <label>Avatar seed</label>
                   <input type="text" name="avatar" {...register("avatar", {})} />
                 </div>
+                <div className={'register-buttons-row'}>
+                  <button className={'primary btn'} type="submit" disabled={send}>Register</button>  
+                  <button className={'secondary btn'} onClick={handleLogin} >Login!</button>
+                </div>
                 
-                <button 
-                  type="submit"
-                  disabled={send}                 
-                >
-                
-                Register</button>
             </form>
-            <button onClick={handleLogin} >Login!</button>
+            
         </section>
-    </div>
+    
   )
 }
 

@@ -10,7 +10,11 @@ export const lightTheme = {
     heroTitle: '#f5f5f5',
     featureShadow: '#1c1c1c',
     alternateBackground: '#f1f1f1',
-    cardBackground: '#e0e0e0'
+    cardBackground: '#e0e0e0',
+    registerBox: '#f5f5f5',    
+    link: 'coral',
+    linkActive: '#ff007d',
+    headerBackground: '#d0d0d0'
 }
 
 export const darkTheme = {
@@ -25,5 +29,9 @@ export const darkTheme = {
     heroTitle: '#f5f5f5',    
     featureShadow: '#f5f5f5',
     alternateBackground: '#242325',
-    cardBackground: '#1c1c1c'
+    cardBackground: '#1c1c1c',
+    registerBox: '#4f4f4f',
+    link: 'coral',    
+    linkActive: '#ffffff',
+    headerBackground: '#0b0b0b'
 }
