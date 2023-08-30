@@ -9,7 +9,11 @@ import { getAllSongs } from '../../services/songs.service'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import SetlistForm from '../../components/setlistForm/setlistForm'
 import { getAllTags } from '../../services/tags.service'
-import { SetlistMainStyled } from '../../ui/SetlistElements'
+import { SetlistMainSectionStyled, SetlistMainStyled } from '../../ui/SetlistElements'
+import { ModalWrapperStyled } from '../../ui/ModalElements'
+import { NumberOfSetlistStyled, OpenModalStyled } from '../../ui/BubbleElements'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 
 const Setlists = () => {
     const { pageReq } = useParams()    
@@ -23,6 +27,9 @@ const Setlists = () => {
     const [totalPages, setTotalPages] = useState(1)
     const [paginator, setPaginator] = useState([])
     const [res,setRes] = useState()
+    const [visible, setVisible] =useState("false")
+    const [editMode,setEditMode] =useState(false)
+    const [editSetlist,setEditSetlist] = useState({})
 
     useEffect(() => {
 
@@ -55,15 +62,24 @@ const Setlists = () => {
   return (
     
     <SetlistMainStyled className={'main-setlist'}>
-      <nav>{paginator.map((page)=>page)}</nav>
-      <section ref={parent}>
-        {
-          setlists && setlists.map(setlist => <SetlistCard res={res} setRes={setRes} setlistOwner={setlist.user} tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} events={setlist.events} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
-        }
-      </section>
-      <SetlistForm tags={tagList} setlists={setlists} res={res} setRes={setRes} setSetlists={setSetlists} />
+      <NumberOfSetlistStyled>
+        <h3>Setlists:</h3> <h2>{setlists?.length}</h2>
+      </NumberOfSetlistStyled>
+      
+      <SetlistMainSectionStyled>
+        <nav>{paginator.map((page)=>page)}</nav>
+        <section ref={parent}>
+          {
+            setlists?.length>0 ? setlists.map(setlist => <SetlistCard res={res} setRes={setRes} setlistOwner={setlist.user} tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} events={setlist.events} description={setlist.description} favouritedBy={setlist.favouritedBy}/>) :"No setlist at all 😞"
+          }
+        </section>
+      </SetlistMainSectionStyled>
+      <ModalWrapperStyled visible={visible}>
+        <SetlistForm tags={tagList} setlists={setlists} res={res} setRes={setRes} setSetlists={setSetlists} visible={visible} setVisible={setVisible} editMode={editMode} setEditMode={setEditMode}/>
+      </ModalWrapperStyled>
       
       
+      <OpenModalStyled onClick={()=>setVisible(visible=="true"?"false":"true")}><FontAwesomeIcon icon={faPlusSquare}/></OpenModalStyled>
     </SetlistMainStyled>
   )
 }

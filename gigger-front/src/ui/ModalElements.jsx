@@ -37,9 +37,9 @@ export const ModalContentStyled = styled.div`
   justify-content: center;
   align-items:center;
   border: 1px solid #888;
-  min-width: 50vw;
+  min-width: 70vw;
   min-height: 50vh;
-  max-width: 60vw;
+  max-width: 90vw;
   border-radius: 20px;
 
 
@@ -48,13 +48,13 @@ export const ModalContentStyled = styled.div`
 export const ModalContentFormStyled = styled.form`
 
   display: flex;
-  width: 50vw;
+  width: 70vw;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
   gap: 2em;
   padding:1em;
-  max-width:50vw;
+  max-width:90vw;
   label {
     display: flex;
     justify-content: space-between;

@@ -40,7 +40,7 @@ const TagForm = (props) => {
     }
 
     const handleEditTag = async (formData) => {
-        console.log(formData)
+        
         const valuesToSend = {
             name: formData.name,
             description: formData.description,

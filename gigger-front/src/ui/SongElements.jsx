@@ -3,15 +3,49 @@ import { styled } from "styled-components";
 export const SongsMainStyled = styled.main`
 
     display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: start;
     margin-top: 10vh;
+    width:100%;
+    
+
+`
+
+export const TagsFilterSwitchDivStyled = styled.div`
+
+    display: flex;
+    width: 30vw;
+    flex-direction:row;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+
+`
+
+export const TagsFilterSwitchStyled = styled.button`
+
+    width: 3rem;
+    height: 2rem;
+    flex-shrink: 1;
+    font-size: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 1px 1px 1px #1c1c1c;
+    box-shadow: 2px 2px 2px #1c1c1c;
+    background-color: ${({colour})=>colour};
+    transition: all 0.2s ease-in-out;
+
 
 `
 
 export const SongsSectionStyled = styled.section`
 
     display: flex;
-    width: 40vw;
+    width: 50vw;
     min-height: 70vh;
+    overflow-y: auto;
 
     @media (max-width: 700px) {
 
@@ -37,6 +71,15 @@ export const SongsSectionStyled = styled.section`
 
 
     }
+
+`
+
+export const FilterSectionStyled = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    gap:1rem;
+    align-items: center;
 
 `
 

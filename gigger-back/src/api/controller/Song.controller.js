@@ -50,6 +50,33 @@ const getSongsFilteredPaginated = async(req,res,next) => {
     }
 }
 
+const getFilteredSongsPaginated = async (req,res,next) => {
+    try {
+
+        let page = 1
+        const { pageReq } = req.params
+
+        const nameFilter = req.body.name
+        const tagsFilter = req.body.tags?.map(tag=>tag.id)
+
+        const filterMounted = nameFilter!=="" ? tagsFilter.length>0? {artist: nameFilter, tags: { $in: tagsFilter}} : {artist:nameFilter} : {tags: {$in: tagsFilter}}     
+        console.log(filterMounted)
+        if(pageReq)
+        {
+            page = parseInt(pageReq)
+        }        
+        const limit = 15
+        const skip = (page - 1) * limit
+        const countSongs = await mongoose.connection.db.collection('songs').countDocuments()
+        const totalPages = Math.ceil(countSongs / limit)
+        const songs = await Song.find(filterMounted).skip(skip).limit(limit)
+        return res.status(200).json({ message: `${countSongs} Songs found, showing page ${page} of ${totalPages}`, songs, totalPages, currentPage: page, limit })
+
+    }catch(error){
+        return next(error)
+    }
+}
+
 const getAllSongsPaginated = async (req, res, next) => {
 
     try{
@@ -272,4 +299,4 @@ const favSong = async(req,res,next) => {
     }
 }
 
-module.exports = { getAllSongs, addNewSong, getSongById, getAllSongsPaginated, deleteSong, updateSong, favSong}
+module.exports = { getAllSongs, addNewSong, getSongById, getAllSongsPaginated, getFilteredSongsPaginated, deleteSong, updateSong, favSong}

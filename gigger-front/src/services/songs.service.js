@@ -44,6 +44,14 @@ export const getSongById = async (id) => {
     .then((res) => res)
     .catch((err) => err)
   }
+
+  export const getFilteredSongsPaginated = async(page,filters) => {
+    return APIuser.post(`/songs/filtered/${page}`, filters,{headers: {
+      Authorization: `Bearer ${token()}`,
+      }})
+    .then((res) => res)
+    .catch((err) => err)
+  }
   export const deleteSong = async (id) => {
     return APIuser.delete(`/songs/delete?id=${id}`, {headers: {
       Authorization: `Bearer ${token()}`,

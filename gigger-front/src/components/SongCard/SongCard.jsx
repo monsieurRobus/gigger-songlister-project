@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 import { secondsToHMS } from '../../utils/swissknife'
 
 const SongCard = (props) => {
-    const {song,tagList,res,setRes} = props
+    const {song,tagList,res,setRes,setEditSong,setEditMode,setVisible} = props
     const {name,artist,duration,lyrics,notes,tags,_id,setlists} = song
     const songOwner = song.user
     const [favourited,setFavourited] = useState(false)
@@ -16,6 +16,15 @@ const SongCard = (props) => {
     const [send,setSend] = useState(false)
     const {user,logout} = useAuth()
     console.log()
+
+    const updateSongQuestion =  () => {
+
+        setEditSong(song)        
+        setEditMode(true)    
+        setVisible("true")
+    
+      }
+
     const favUnfav = async() => {
 
         const valuesToSend = {
@@ -56,9 +65,7 @@ const SongCard = (props) => {
 
 }
 
-const updateSongQuestion = () => {
-    
-}
+
 
 const deleteSongQuestion = () => {
 
@@ -112,6 +119,8 @@ useEffect(()=>{
     else
         setFavourited(false)
 },[resFav])
+
+
 
 useEffect(
     ()=>{

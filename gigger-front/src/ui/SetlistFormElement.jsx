@@ -10,12 +10,44 @@ export const SetlistFormFatherStyled = styled.section`
 
 `
 
+export const SongsBubbleStyled = styled.div`
+
+    position: fixed; 
+    
+
+`
+export const DurationBubbleStyled = styled.div`
+
+z-index: 99990;
+    position: fixed;
+    bottom: 184px;
+    left: 20px;
+    width: 64px;
+    height: 64px;
+    background-color: #ff007d;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px #1c1c1c;
+    h2 {
+        margin: 0;
+        font-size: 1em;
+    }
+    h3 {
+        margin: 0;
+        font-size: 0.8em;
+    }
+
+
+`
+
 export const SongSelectStyled = styled.div`
     display: flex;
     flex-direction:row;
     justify-content: center;
     margin:2rem 0 0 0;
-    background: linear-gradient(to left bottom, #ff007d, #ff7d00);
     gap:1rem;
 `
 
@@ -59,6 +91,31 @@ export const SetlistInfoStyled = styled.div`
     margin:0;
     padding: 0;
     background: linear-gradient(to top bottom, #ffdd00,#ff00dd);
+
+`
+
+export const SetlistBubbleMain = styled.div`
+    z-index: 99990;
+    position: fixed;
+    bottom: 104px;
+    left: 20px;
+    width: 64px;
+    height: 64px;
+    background-color: #007dff;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px #1c1c1c;
+    h2 {
+        margin: 0;
+        font-size: 1em;
+    }
+    h3 {
+        margin: 0;
+        font-size: 0.8em;
+    }
 
 `
 

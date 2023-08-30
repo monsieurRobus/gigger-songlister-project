@@ -12,3 +12,10 @@ section {
     flex-direction: row;
     padding:0
 }
+
+.active {
+    border-color: yellow;
+    border-width: 4px;
+    box-shadow: 4px 4px 4px yellow;
+    transform: translateX(2px) translateY(2px);
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../hooks/AuthContext'
-import { SelectedSongListStyled, SetlistInfoStyled, SetlistFormFatherStyled, SelectedSongsStyled, SongSelectionListStyled, SongSelectStyled, SongToSelectStyled } from '../../ui/SetlistFormElement'
+import { SelectedSongListStyled, SetlistInfoStyled, SetlistFormFatherStyled, SelectedSongsStyled, SongSelectionListStyled, SongSelectStyled, SongToSelectStyled, SetlistBubbleMain, DurationBubbleStyled } from '../../ui/SetlistFormElement'
 import { getAllSongs, getAllSongsPaginated } from '../../services/songs.service'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import SongToAddCard from '../SongCard/SongToAddCard'
@@ -10,11 +10,13 @@ import ListElement from './ListElement'
 import { secondsToHMS } from '../../utils/swissknife'
 import { addSetlist } from '../../services/setlists.service'
 import { getAllEventsPaginated } from '../../services/events.service'
-
+import { ModalCloseButton, ModalContentFormStyled, ModalContentStyled } from '../../ui/ModalElements'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 
 const SetlistForm = (props) => {
   const [songlist,setSonglist] = useState([])
-  const {setlists, setSetlists, tagList, res, setRes} = props  
+  const {setlists, setSetlists, tagList, res, setRes,setVisible,editMode,setEditMode} = props  
   const [send,setSend] =useState(false)
   const [ok,setOk] = useState(false)
   const { register, handleSubmit, errors, reset } = useForm()
@@ -37,6 +39,13 @@ const SetlistForm = (props) => {
      setSend(false)
 
   }
+
+  const closeForm = () => {
+    setVisible("false")
+    setEditMode(false)
+    setCurrentSetlist([])
+    reset()
+}
 
   //   useEffect(()=>{
   //     const getSongs = async()=> {
@@ -109,32 +118,28 @@ const SetlistForm = (props) => {
   },[currentSetlist])
 
   return (
-    <SetlistFormFatherStyled>
-        {user.role==="admin"? <form onSubmit={handleSubmit(handeAddSetlist)}>
+    <ModalContentStyled>
+    <DurationBubbleStyled>
+        <h2>Duration</h2>
+        <h3>{secondsToHMS(setlistDuration())}</h3>
+      </DurationBubbleStyled>
+      <SetlistBubbleMain>
+        <h2>Songs</h2>
+        <h3>{currentSetlist.length}</h3>
+    </SetlistBubbleMain>
+    <ModalCloseButton onClick={closeForm}><FontAwesomeIcon icon={faCircleXmark}/></ModalCloseButton>
+        {user.role==="admin"? <ModalContentFormStyled onSubmit={handleSubmit(handeAddSetlist)}>
             <label>Setlis Name</label><input type="text" name="song-name" {...register("name")}/>
             <label>Description</label><input type="text" name="artist-name" {...register("artist")}/>
             
             <label>Notes</label><input type="text" name="notes" {...register("notes")}/>
-
-            <div>filters</div>
-
+              
             <SongSelectStyled>
-              <SetlistInfoStyled>
-                <div>
-                  <h2>Songs</h2>
-                  <h3>{currentSetlist.length}</h3>
-                </div>
-                <div>
-                  <h2>Duration</h2>
-                  <h3>{secondsToHMS(setlistDuration())}</h3>
-                </div>
-              </SetlistInfoStyled>
               <SelectedSongsStyled>
                 <ReactSortable tag={SelectedSongListStyled} list={currentSetlist} setList={setCurrentSetlist}>
                   {currentSetlist.map((song, index) => <ListElement index={index} key={song} songlist={songlist} id={song}/>)}
                 </ReactSortable>
               </SelectedSongsStyled>
-              <div>a</div>
               <SongSelectionListStyled>
                 <div ref={parent}>
                   {songlist?.map(  (songToSelect, index)=> 
@@ -154,8 +159,8 @@ const SetlistForm = (props) => {
               </SongSelectionListStyled>
             </SongSelectStyled>
             <input disabled={send} type="submit" />
-        </form>: null}
-    </SetlistFormFatherStyled>
+        </ModalContentFormStyled>: null}
+    </ModalContentStyled>
   )
 }
 
