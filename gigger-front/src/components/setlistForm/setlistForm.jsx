@@ -13,9 +13,8 @@ import { getAllEventsPaginated } from '../../services/events.service'
 
 
 const SetlistForm = (props) => {
-  const [res,setRes] = useState({})
   const [songlist,setSonglist] = useState([])
-  const {setlists, setSetlists, tagList} = props  
+  const {setlists, setSetlists, tagList, res, setRes} = props  
   const [send,setSend] =useState(false)
   const [ok,setOk] = useState(false)
   const { register, handleSubmit, errors, reset } = useForm()
@@ -58,7 +57,7 @@ const SetlistForm = (props) => {
         notes: ""        
     })
     setCurrentSetlist([])
-    res?.data?.setlist ? setSetlists([...setlists,res?.data?.setlist]) : null
+    
 
 },[res])
 
@@ -71,7 +70,9 @@ const SetlistForm = (props) => {
       selection.push(foundSong)
     })
     
-    return selection.reduce((acc, song) => (acc + song.duration),0)
+    return selection.reduce((acc, song) => 
+      
+       (acc + song?.duration),0)
     
 }
   else {

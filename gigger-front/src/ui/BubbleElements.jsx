@@ -1,8 +1,42 @@
 
 import styled from 'styled-components';
 
+export const OpenModalStyled = styled.button`
+
+    position:fixed;
+    z-index: 999999;
+    right: 20px;
+    bottom: 20px;
+    width: 64px;
+    height: 64px;
+    padding:0;
+    margin: 0;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px #1c1c1c;
+    color: #1c1c1c;
+    font-size: 1em;
+    transition: all 0.1s ease-in;
+    &:hover {
+        background-color:coral;
+        font-weight: bolder;
+        color: #ffdf66;
+        border-color: none;
+    }
+
+    &:active {
+        background-color: #ff7d00;
+        transform: translateX(2px) translateY(2px);
+    }
+
+`
+
 export const NumberOfSongsStyled = styled.div`
-    z-index: 99999;
+    z-index: 9999;
     position: fixed;
     bottom: 20px;
     left: 20px;
@@ -58,10 +92,9 @@ export const SpeechBubbleStyled = styled.div`
 `
 export const TagBubbleStyled = styled.div`
 	background-color: ${props=>props?.color};
+    max-width: 60px;
     border-radius: 2rem;
-    padding: 1rem;
-    text-shadow: 1px 1px 1px black;
-    position:relative;
+    padding: 0.5rem;
     box-shadow: 2px 2px 2px black;
     &:hover ${SpeechBubbleStyled} {
         visibility: visible;

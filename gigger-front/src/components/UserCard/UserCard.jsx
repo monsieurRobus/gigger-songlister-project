@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import { deleteUser } from '../../services/user.service'
 import useDeleteUserError from '../../hooks/useDeleteUserError'
 
-const UserCard = ({name,role,avatar,id,res,setRes,isActive}) => {
+const UserCard = ({name,role,avatar,id,res,setRes,isActive,chooseImage, image}) => {
   const {user,logout} = useAuth()
   
   const shouldBeRemoved = () => {
@@ -39,9 +39,8 @@ const UserCard = ({name,role,avatar,id,res,setRes,isActive}) => {
   return (
     <figure className={'user-card'}>
       <div>{shouldBeRemoved()?<CloseButtonStyled onClick={handlerDelete}>✖️</CloseButtonStyled>:null}</div>
-        <h2>{name}</h2>
-        <h2>{role}</h2>
-        <img src={avatar} alt="user avatar"/>
+        <div><h2>{role=='admin'?'👑':null}</h2><h2>{name}</h2></div>
+        <img src={chooseImage ? image :`https://api.dicebear.com/6.x/avataaars/svg?seed=${avatar}`} alt="user avatar"/>
         <div>Status {isActive?<span>🟢</span>:<span>🔴</span>}</div>
     </figure>
   )

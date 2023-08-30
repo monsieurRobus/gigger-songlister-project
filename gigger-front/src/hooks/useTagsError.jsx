@@ -15,10 +15,16 @@ export const useTagsError = (res,setOk,setRes, logout) => {
         return toast.error("You have no permissions to add, delete or edit any tags. Contact your band admin.")
     }
 
-    if(res.status == 200 && res?.data.message.includes("saved"))
+    if(res.status == 200 && res?.data?.message?.includes("saved"))
     {
         setOk(() => true)
         return toast.success(res.data.message)
+        
+    }
+    if(res.status == 200 && res?.data?.updated?.toString("true"))
+    {
+        setOk(() => true)
+        return toast.success("tag edited succesfully")
         
     }
     if(res.status == 200 && res?.data.message.includes("deleted"))

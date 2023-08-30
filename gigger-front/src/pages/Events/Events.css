@@ -7,18 +7,22 @@ main .events{
     flex-direction: column;
 
     .events-main-view {
+        display: flex;
+        justify-content: space-around;
         margin:0;
-        padding: 0;
+        padding: 2rem;
         flex-direction: row;
         width:100%;
 
         .calendar-main {
-            width:55%;
+            width:45%;
             flex-direction: column;
         }
 
         .calendar-side {
-            width:45%;
+            width:35%;
+
+
         }
     
         .google-map {
@@ -42,7 +46,44 @@ main .react-calendar__tile {
     width: 200px;
     height: 100px;
     padding: 0.1rem;
+    transition: all 0.2s ease-in-out;
+    background-color: #d1d1d1;
+    color: #1c1c1c;
 
+    &:hover {
+        border-color: #ffdf66;
+        background-color: #eece22;
+    }
+
+}
+.react-calendar__navigation__arrow {
+    background-color: #c0c0c0;
+    color: #1c1c1c;
+    font-weight: bolder;
+
+    &:hover {
+        background-color: #eece22;
+        border-color: #ffdf66;
+        
+    }
+}
+.react-calendar__navigation__label {
+    background-color: #c0c0c0;
+    color: #1c1c1c;
+    font-weight: bolder;
+
+    &:hover {
+        background-color: #eece22;
+        border-color: #ffdf66;
+        
+    }
+}
+.react-calendar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 @media only screen 

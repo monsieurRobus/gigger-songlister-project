@@ -9,6 +9,7 @@ import { getAllSongs } from '../../services/songs.service'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import SetlistForm from '../../components/setlistForm/setlistForm'
 import { getAllTags } from '../../services/tags.service'
+import { SetlistMainStyled } from '../../ui/SetlistElements'
 
 const Setlists = () => {
     const { pageReq } = useParams()    
@@ -34,9 +35,10 @@ const Setlists = () => {
 
     },[setlists])
 
+   
     useEffect(()=>{
         const getSetlists = async()=> {
-            const res = await getAllSetlistsPaginated(page)
+            const resSetlist = await getAllSetlistsPaginated(page)
             const tags = await getAllTags()
             if(songs?.length == 0){
               const resSongs = await getAllSongs()
@@ -44,24 +46,25 @@ const Setlists = () => {
               
             }
             setTagList(tags)
-            setSetlists(res.data.setlists)
-            setTotalPages(res.data.totalPages)
+            setSetlists(resSetlist.data.setlists)
+            setTotalPages(resSetlist.data.totalPages)
         }
 
         getSetlists()
     },[page,res])
   return (
-    <main className={'main-setlist'}>
+    
+    <SetlistMainStyled className={'main-setlist'}>
       <nav>{paginator.map((page)=>page)}</nav>
       <section ref={parent}>
         {
-          setlists && setlists.map(setlist => <SetlistCard res={res} setRes={setRes} setlistOwner={setlist.user} tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
+          setlists && setlists.map(setlist => <SetlistCard res={res} setRes={setRes} setlistOwner={setlist.user} tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} events={setlist.events} description={setlist.description} favouritedBy={setlist.favouritedBy}/>)
         }
       </section>
-      <SetlistForm tags={tagList} setlists={setlists} setSetlists={setSetlists} />
+      <SetlistForm tags={tagList} setlists={setlists} res={res} setRes={setRes} setSetlists={setSetlists} />
       
       
-    </main>
+    </SetlistMainStyled>
   )
 }
 

@@ -5,7 +5,7 @@ import { deleteSetlist, favSetlist } from '../../services/setlists.service'
 import Swal from 'sweetalert2'
 
 const SetlistCard = (props) => {
-    const {name,description,favouritedBy,songs,songList,id,setlistOwner,res,setRes} = props
+    const {name,description,favouritedBy,songs,songList,id,setlistOwner,res,setRes,events} = props
     const {user} = useAuth()
     const [favourited,setFavourited] = useState(false)
     const [send,setSend] = useState(false)
@@ -43,7 +43,27 @@ const SetlistCard = (props) => {
 
 
         const executeDelete = async() => {
-            setRes(await deleteSetlist(id))
+            
+            if(events.length >0){
+                Swal.fire({
+                    title: 'Attention!',
+                    text: "This setlist is assigned to an event. Do you want to proceed?",
+                    icon: 'info',
+                    confirmButtonText: 'Yes, go on!',
+                    showCancelButton: true,
+                    cancelButtonText: 'No, my bad!',
+                
+                }).then(async result => 
+            
+                    result.isConfirmed ? setRes(await deleteSetlist(id)) : console.log("do not delete song")
+                    
+                )
+                
+                }
+                else 
+                {
+                    setRes(await deleteSetlist(id))
+                }
         }
     
     

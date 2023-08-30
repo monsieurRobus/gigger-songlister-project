@@ -1,7 +1,7 @@
 .user-card {
     display: flex;
     width: 200px;
-    height: 200x;    
+    height: 300px;    
     flex-direction: row;
     gap:1rem;
     flex-wrap: wrap;
@@ -9,7 +9,7 @@
     align-items: center;
     padding: 1rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 20px;
 }
 
 .user-card div {

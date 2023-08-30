@@ -4,6 +4,7 @@ import { getAllUsers, getAllUsersPaginated } from '../../services/user.service'
 import { useParams } from 'react-router-dom'
 import UserCard from '../../components/UserCard/UserCard'
 import './UserList.css'
+import { UserListSectionStyled } from '../../ui/UserListStyled'
 const UserList = () => {
     const { pageReq } = useParams()
     const [users, setUsers] = useState([])
@@ -39,15 +40,15 @@ const UserList = () => {
  
 
   return (
-    <section>
+    <UserListSectionStyled>
       Soy usuario tipo: {user.role}
       <nav>{paginator.map((page)=>page)}</nav>
       <div className={'user-list'}>        
         {users.map((user) => (
-          <UserCard key={user._id} isActive={user.active} id={user._id} name={user.name} role={user.role} avatar={user.avatar} res={res} setRes={setRes}/>
+          <UserCard key={user._id} image={user.image} chooseImage={user.chooseImage} isActive={user.active} id={user._id} name={user.name} role={user.role} avatar={user.avatar} res={res} setRes={setRes}/>
         ))}
       </div>
-    </section>
+    </UserListSectionStyled>
   )
 }
 export default UserList

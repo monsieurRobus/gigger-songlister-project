@@ -22,9 +22,10 @@ const EventCard = (props) => {
    
 
   return (
-    <EventCardStyled>
+    <EventCardStyled title={setlist?'':'Warning: no setlist assigned.'}>
+        
         <div><CloseButtonStyled onClick={handlerDelete} owner={user._id === userOwner? 'true': null}>✖️</CloseButtonStyled></div>
-        <h3>{name}</h3>
+        <h3>{name}:{setlist?'✅':'⚠️'}</h3>
         <h4>{place}</h4>
         <h4>{dateToDDMMYYYYHHMM(date)}</h4>
         

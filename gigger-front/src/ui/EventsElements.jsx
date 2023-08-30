@@ -1,5 +1,9 @@
 import { styled } from "styled-components";
 
+export const EventMainStyled= styled.main`
+    margin-top: 10vh;
+`
+
 export const EventCardStyled= styled.div`
     background-color: white;
     

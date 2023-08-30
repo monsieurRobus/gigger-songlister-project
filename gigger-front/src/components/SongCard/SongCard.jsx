@@ -56,6 +56,10 @@ const SongCard = (props) => {
 
 }
 
+const updateSongQuestion = () => {
+    
+}
+
 const deleteSongQuestion = () => {
 
 
@@ -127,8 +131,10 @@ useEffect(
                 
             </div>
             <div>
+            
+            <button onClick={updateSongQuestion} disabled={(user._id !== songOwner) || (user.role != "admin")}>✏️</button>
             {favourited ? <button onClick={favUnfav}>💗</button> : <button onClick={favUnfav}>🖤</button> }
-            <button onClick={deleteSongQuestion} disabled={user._id !== songOwner}>🗑️</button>
+            <button onClick={deleteSongQuestion} disabled={(user._id !== songOwner) || (user.role != "admin")}>🗑️</button>
             </div>
             
         </div>

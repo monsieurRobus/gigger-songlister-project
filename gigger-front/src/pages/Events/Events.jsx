@@ -9,6 +9,7 @@ import { EventCalendarContentStyled } from '../../ui/BubbleElements'
 import { useEventsError } from '../../hooks/useEventsError'
 import { useAuth } from '../../hooks/AuthContext'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { EventMainStyled } from '../../ui/EventsElements'
 
 
 
@@ -101,7 +102,8 @@ const Events = () => {
     }
 
   return (
-    <main className={"events"}>
+    
+    <EventMainStyled className={"events"}>
       <section className={"events-main-view"}>
       <aside className={"calendar-side"}>
         <Calendar  
@@ -114,7 +116,7 @@ const Events = () => {
           />
       </aside>
       <section className={"calendar-main"}>
-      <h1>Eventos:</h1>
+      <h1>Events:</h1>
       <div>
         <button  onClick={handleFilterMonth}>{filterMonth? "✔️Mes actual":"Mes actual"}</button><button onClick={handleFilterPast}>{filterPast? "✔️Futuros bolos":"Futuros bolos"}</button>
       </div>
@@ -126,6 +128,7 @@ const Events = () => {
             name={event.name} 
             place={event.place} 
             date={event.date}
+            setlist={event.setlist}
             userOwner={event.user}
             setEvents={setEvents}
             events={events}
@@ -145,7 +148,7 @@ const Events = () => {
       </section>
       <section><EventForm events={events} setEvents={setEvents} res={res} setRes={setRes}/></section>
       
-    </main>
+    </EventMainStyled>
   )
 }
 

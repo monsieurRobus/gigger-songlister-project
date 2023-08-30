@@ -92,7 +92,11 @@ const Dashboard = () => {
     useUpdateUserError(res,setRes,setUpdateOk)
     setEdit(false)
 
-    if(updateOk)
+    
+    
+  },[res])
+
+  if(updateOk)
     {
       const user = res.data.user
       const userToUpdate = localStorage.getItem('user')
@@ -103,10 +107,9 @@ const Dashboard = () => {
       });
       console.log(parsedUser)
       setUser(()=>parsedUser)
-      localStorage.setItem('user',parsedUser)
+      localStorage.setItem('user',JSON.stringify(parsedUser))
+      setUpdateOk(false)
     }
-    
-  },[res])
 
   if(deleteOk) {
     logout()

@@ -21,7 +21,9 @@ export const deleteTag = async (id) => {
 }
 
 export const getTagById = async (id) => {
-    return APIuser.get(`/tags/${id}`, token())
+    return APIuser.get(`/tags/${id}`, {headers: {
+      Authorization: `Bearer ${token()}`,
+      }})
     .then((res) => res)
     .catch((err) => err)
   }
@@ -34,4 +36,13 @@ export const getTagById = async (id) => {
     return APIuser.get(`/tags/page/${page}`, token())
     .then((res) => res)
     .catch((err) => err)
+  }
+
+  export const updateTag = async (formData,id)=> {
+    console.log(formData)
+    return APIuser.patch(`/tags/update?id=${id}`, formData,    {headers: {
+      Authorization: `Bearer ${token()}`
+      }})
+      .then((res) => res)
+      .catch((error) => error);
   }

@@ -23,7 +23,7 @@ export const TagsTableStyled = styled.table`
     tr {
 
         padding:2rem;
-
+        cursor: pointer;
         &:hover {
             background-color: coral;
         }

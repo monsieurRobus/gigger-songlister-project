@@ -7,7 +7,8 @@ import { getAllTags } from '../../services/tags.service'
 import { TagBubbleStyled } from '../../ui/BubbleElements'
 import { useSongsError } from '../../hooks/useSongsError'
 import { SongsFormSectionStyled } from '../../ui/SongElements'
-
+import { ModalContentFormStyled, ModalContentStyled } from '../../ui/ModalElements'
+import './SongForm.css'
 
 const SongForm = (props) => {
   const {songs,setSongs,page,setPage,res,setRes} = props
@@ -81,26 +82,30 @@ const selectedTagsStyled = ({ classNames, tag, ...tagProps })=> (
   <TagBubbleStyled color={tag.color}>{tag.name}</TagBubbleStyled>
 )
 
+
 const optionTagStyled = ({ children, classNames, option, ...optionProps }) => {
-  <div>
-    
-  </div>
+  <label>
+    {children}
+  </label>
 }
 
 
 
   return (
-    <SongsFormSectionStyled>
-        {user.role==="admin"? <form onSubmit={handleSubmit(handleAddSong)}>
-            <label>Song Name</label><input type="text" name="song-name" {...register("name")}/>
-            <label>Artist</label><input type="text" name="artist-name" {...register("artist")}/>
-            <label>Durationr</label><input type="number" name="duration" {...register("duration")}/>
-            <label>Lyrics</label><input type="text" name="lyrics" {...register("lyrics")}/>
-            <label>Notes</label><input type="text" name="notes" {...register("notes")}/>
+    
+    <ModalContentStyled>
+    
+        {user.role==="admin"? <ModalContentFormStyled onSubmit={handleSubmit(handleAddSong)}>
+        <h3>Input song</h3>
+            <label>Song Name<input type="text" name="song-name" {...register("name")}/></label>
+            <label>Artist<input type="text" name="artist-name" {...register("artist")}/></label>
+            <label>Duration<input type="number" name="duration" {...register("duration")}/></label>
+            <label>Lyrics<input type="text" name="lyrics" {...register("lyrics")}/></label>
+            <label>Notes<input type="text" name="notes" {...register("notes")}/></label>
             <ReactTags onAdd={handleAddTag} onDelete={handleDeleteTag} selected={tagSelected} suggestions={suggestions} renderTag={selectedTagsStyled}/>
             <input type="submit" />
-        </form>: null}
-    </SongsFormSectionStyled>
+        </ModalContentFormStyled>: null}
+    </ModalContentStyled>
   )
 }
 

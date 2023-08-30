@@ -153,8 +153,8 @@ const updateTag = async(req,res,next) => {
     try 
     {
         const {id} = req.query
-        const result = {}
-
+        // const result = {}
+        console.log(req.body)
         const user = await User.findById(req.user._id)
 
         if(user.role != "admin")
