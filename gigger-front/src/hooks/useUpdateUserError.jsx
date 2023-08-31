@@ -3,11 +3,10 @@ import Swal from "sweetalert2"
 
 
 const useUpdateUserError = (res, setRes, setOk) => {
-    console.log(res)
-    if(res?.data?.updated?.toString() == "true")
+    if(res?.status == 200 && res?.data?.updated?.toString() === "true")
     {
     
-       setOk(true)
+       setOk(()=>true)
         return Swal.fire({
             icon: "success",
             title: "user updated succesfully ✅",
@@ -17,6 +16,7 @@ const useUpdateUserError = (res, setRes, setOk) => {
             
     }
     
+
 }
 
 export default useUpdateUserError

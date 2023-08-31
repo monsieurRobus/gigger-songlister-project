@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SongToSelectStyled } from '../../ui/SetlistFormElement'
+import { secondsToMS } from '../../utils/swissknife'
 
 const SongToAddCard = (props) => {
     const { 
@@ -8,6 +9,7 @@ const SongToAddCard = (props) => {
         artist,
         currentSetlist, 
         tags, 
+        duration,
         setCurrentSetlist,
         alreadySelected, 
         tagList,
@@ -15,12 +17,27 @@ const SongToAddCard = (props) => {
     } = props
     const [selected,setSelected] = useState(alreadySelected)
 
+    
 
     useEffect(()=>{
 
-        if(currentSetlist.length==0)
-            setSelected(false)
 
+        if(currentSetlist.length==0)
+            {
+                setSelected(false)
+            }
+        else
+        {
+            if(currentSetlist.find(song => song === id))
+            {
+                setSelected(true)
+            }
+        }
+       
+        // Find if this song was selected in the current selection (setlist)
+
+        
+            
     }, [currentSetlist])
 
     const backgroundColors = (tags) => {
@@ -52,10 +69,11 @@ const SongToAddCard = (props) => {
     const addSong = () => {
         
         const songFound = currentSetlist.find(song=>song === id)
+        
         if(!songFound) {
             setCurrentSetlist([...currentSetlist,id])
         }
-
+        
     }
 
     const deleteSong = () => {
@@ -75,7 +93,7 @@ const SongToAddCard = (props) => {
     },[selected])
 
   return (
-    <SongToSelectStyled gradientcolors={backgroundColors(tags)} onClick={()=>setSelected(!selected)} selected={selected} title={name}><h3 selected={selected}>{name}</h3><h4>{artist}</h4></SongToSelectStyled>
+    <SongToSelectStyled gradientcolors={backgroundColors(tags)} onClick={()=>setSelected(!selected)} selected={selected} title={name}><h3 className={'song-tag'} selected={selected}>{name}</h3><div className={'bottom-line'}><h4 className={'band-tag'}>{artist}</h4><h5 className={'duration'}>{secondsToMS(duration)}</h5></div></SongToSelectStyled>
   )
 }
 

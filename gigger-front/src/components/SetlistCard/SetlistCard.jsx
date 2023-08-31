@@ -3,12 +3,24 @@ import { useAuth } from '../../hooks/AuthContext'
 import { SetlistBackgroundStyled, SetlistBandBackgroundStyled, SetlistCardStyled } from '../../ui/SetlistCardElement'
 import { deleteSetlist, favSetlist } from '../../services/setlists.service'
 import Swal from 'sweetalert2'
+import { SetlistBodyCardStyled, SetlistFooterButtonsStyled } from '../../ui/SetlistElements'
 
 const SetlistCard = (props) => {
-    const {name,description,favouritedBy,songs,songList,id,setlistOwner,res,setRes,events} = props
+    const {name,description,favouritedBy,songs,songList,id,setlistOwner,res,setRes,events,setVisible,setEditMode,setEditSetlist} = props
     const {user} = useAuth()
     const [favourited,setFavourited] = useState(false)
     const [send,setSend] = useState(false)
+
+
+
+    const handleEdit =  () => {
+
+        setEditSetlist({name,description,songs,id})        
+        setEditMode(true)    
+        setVisible("true")
+    
+      }
+
 
     const favUnfav = async() => {
 
@@ -39,6 +51,7 @@ const SetlistCard = (props) => {
 
     },[])
 
+    
     const deleteSetlistQuestion = () => {
 
 
@@ -84,14 +97,17 @@ const SetlistCard = (props) => {
 
   return (
     <SetlistCardStyled>
-        <SetlistBackgroundStyled>
-            {
-                songs && songs?.map(song => <SetlistBandBackgroundStyled key={song}>{songList?.find(songOriginal=> songOriginal._id === song.name)}</SetlistBandBackgroundStyled>)
-            }   
-        </SetlistBackgroundStyled>
-        <h1>{name}</h1>
-        <h2>{description}</h2>
-        <div>{favourited ? <button onClick={favUnfav}>💗</button> : <button onClick={favUnfav}>🖤</button> }<button onClick={deleteSetlistQuestion} disabled={user._id !== setlistOwner}>🗑️</button></div>
+        <SetlistBackgroundStyled className={'setlist-card-background'} />           
+        
+        <SetlistBodyCardStyled>
+            <h1>{name}</h1>
+            <p>{description}</p>            
+            <label>Songs: {songs.length}</label>            
+            
+        </SetlistBodyCardStyled>
+        <SetlistFooterButtonsStyled>
+            <button onClick={handleEdit} disabled={user.role!="admin" || user._id != setlistOwner}>✏️</button>{favourited ? <button onClick={favUnfav}>💗</button> : <button onClick={favUnfav}>🖤</button> }<button onClick={deleteSetlistQuestion} disabled={user.role!="admin" || user._id != setlistOwner}>🗑️</button>
+        </SetlistFooterButtonsStyled>
     </SetlistCardStyled>
   )
 }

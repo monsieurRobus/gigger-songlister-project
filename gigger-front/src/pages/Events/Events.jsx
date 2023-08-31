@@ -5,11 +5,14 @@ import { getAllEvents, getAllEventsPaginated } from '../../services/events.servi
 import Calendar from 'react-calendar'
 import EventForm from '../../components/EventForm/EventForm'
 import EventCard from '../../components/EventCard/EventCard'
-import { EventCalendarContentStyled } from '../../ui/BubbleElements'
+import { EventCalendarContentStyled, NumberOfEventsStyled, OpenModalStyled } from '../../ui/BubbleElements'
 import { useEventsError } from '../../hooks/useEventsError'
 import { useAuth } from '../../hooks/AuthContext'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { EventMainStyled } from '../../ui/EventsElements'
+import { ModalWrapperStyled } from '../../ui/ModalElements'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 
 
 
@@ -32,7 +35,9 @@ const Events = () => {
     const [ok,setOk] = useState(false)
     const {user,logout} = useAuth()
     const [del,setDel] =useState(true)
-    
+    const [visible,setVisible]=useState("false")
+    const [editMode,setEditMode]=useState(false)
+    const [editEvent,setEditEvent]=useState({})
 
   const isSameDay = useCallback((date1,date2) =>{
     const d1 = new Date(date1).getDate()
@@ -106,6 +111,9 @@ const Events = () => {
     <EventMainStyled className={"events"}>
       <section className={"events-main-view"}>
       <aside className={"calendar-side"}>
+      <NumberOfEventsStyled>
+        <h3>Events:</h3> <h2>{events?.length}</h2>
+      </NumberOfEventsStyled>
         <Calendar  
         
           value={date}
@@ -117,17 +125,22 @@ const Events = () => {
       </aside>
       <section className={"calendar-main"}>
       <h1>Events:</h1>
-      <div>
+      {/* <div>
         <button  onClick={handleFilterMonth}>{filterMonth? "✔️Mes actual":"Mes actual"}</button><button onClick={handleFilterPast}>{filterPast? "✔️Futuros bolos":"Futuros bolos"}</button>
-      </div>
+      </div> */}
         <div ref={parent} className={"event-list"}>
           {events?.length>0 && events.map(event => 
           <EventCard 
             key={event._id} 
             id={event._id}
             name={event.name} 
+            file={event.file}
             place={event.place} 
             date={event.date}
+            type={event.type}
+            contactName={event.contactName}
+            contactPhone={event.contactPhone}
+            contactEmail={event.contactEmail}
             setlist={event.setlist}
             userOwner={event.user}
             setEvents={setEvents}
@@ -136,6 +149,9 @@ const Events = () => {
             setDel={setAllowDeleteEvents}
             res={res}
             setRes={setRes}
+            setEditMode={setEditMode}
+            setVisible={setVisible}
+            setEditEvent={setEditEvent}
 
             />
           
@@ -146,8 +162,10 @@ const Events = () => {
         
       </section>
       </section>
-      <section><EventForm events={events} setEvents={setEvents} res={res} setRes={setRes}/></section>
-      
+      <ModalWrapperStyled visible={visible}>
+        <EventForm setVisible={setVisible} setEditMode={setEditMode} editEvent={editEvent} editMode={editMode} events={events} setEvents={setEvents} res={res} setRes={setRes}/>
+      </ModalWrapperStyled>
+      <OpenModalStyled onClick={()=>setVisible(visible=="true"?"false":"true")}><FontAwesomeIcon icon={faPlusSquare}/></OpenModalStyled>
     </EventMainStyled>
   )
 }

@@ -190,45 +190,45 @@ const updateSetlist = async(req,res,next) => {
     try 
     {
         const {id} = req.query
-        const {addsongs, deletesongs} = req.body
-        const result = {}
+        // // const {addsongs, deletesongs} = req.body
+        // const result = {}
         
-        if(deletesongs) 
-        {            
+        // if(deletesongs) 
+        // {            
             
-            deletesongs.forEach(async (song)=>{
-                const songReference = await Song.findById(new mongoose.Types.ObjectId(song))
-                indexToDelete = songReference.setlists?.indexOf(id.toString)
-                if(indexToDelete)
-                {
-                    songReference.setlists.splice(indexToDelete,1)
-                    await songReference.save()
-                }
+        //     deletesongs.forEach(async (song)=>{
+        //         const songReference = await Song.findById(new mongoose.Types.ObjectId(song))
+        //         indexToDelete = songReference.setlists?.indexOf(id.toString)
+        //         if(indexToDelete)
+        //         {
+        //             songReference.setlists.splice(indexToDelete,1)
+        //             await songReference.save()
+        //         }
                 
-            })
+        //     })
 
-        }
+        // }
 
-        if(addsongs) 
-        {                        
+        // if(addsongs) 
+        // {                        
 
-            addsongs.forEach(async (song)=>{
-                const songReference = await Song.findById(new mongoose.Types.ObjectId(song))
-                if(songReference)
-                {
-                    songReference.setlists.push(song)                    
-                    await songReference.save()
+        //     addsongs.forEach(async (song)=>{
+        //         const songReference = await Song.findById(new mongoose.Types.ObjectId(song))
+        //         if(songReference)
+        //         {
+        //             songReference.setlists.push(song)                    
+        //             await songReference.save()
                     
-                }
-                else 
-                {
-                    return res.status(404).json({message: `Song ${song} does not exist. Please check your selection.`})
-                }
+        //         }
+        //         else 
+        //         {
+        //             return res.status(404).json({message: `Song ${song} does not exist. Please check your selection.`})
+        //         }
                 
                 
-            })
+        //     })
 
-        }
+        // }
 
         const setlist = await Setlist.findByIdAndUpdate(id,{...req.body})
         const keysToUpdate = Object.keys(req.body)

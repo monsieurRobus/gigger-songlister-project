@@ -7,7 +7,8 @@ export const TagFilter = (props) => {
     const {name,id,colour,filterTags,setFilterTags,applyFilters} = props
     const [active,setActive] = useState(false)
     
-    const handleActive = () => {
+    const handleActive = (e) => {
+      e.preventDefault()
       setActive(!active)
     }
 
@@ -15,8 +16,6 @@ export const TagFilter = (props) => {
       setFilterTags([...filterTags,tag])
     }
     const handleDeleteTag = (tag) =>{
-        console.log(tag)
-        console.log(id)
       setFilterTags(filterTags.filter(tag=> tag.id !== id))
     }
 

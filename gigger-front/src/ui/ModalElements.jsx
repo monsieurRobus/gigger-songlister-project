@@ -30,10 +30,9 @@ export const ModalWrapperStyled = styled.div`
 export const ModalContentStyled = styled.div`
 
 
-  background-color: #fefefe;
   margin: auto;
   display: flex;
-    position: relative;
+  position: relative;
   justify-content: center;
   align-items:center;
   border: 1px solid #888;
@@ -52,13 +51,216 @@ export const ModalContentFormStyled = styled.form`
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  gap: 2em;
+  gap: 3em;
   padding:1em;
   max-width:90vw;
   label {
     display: flex;
-    justify-content: space-between;
+    gap: 15rem;
+    justify-content: space-around;
+    align-items: center;
+    input {
+    width: 40%;
+  }
   }
 
+  @media (max-width: 700px) {
+
+    width:90vw;
+
+    }
+
+   
+    
+
+
+`
+export const ModalSectionWrapperStyled = styled.div`
+display: flex;
+width: inherit;
+flex-direction: row;
+.modal-vertical {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 50%;
+    }
+@media (max-width: 700px) {
+  flex-direction: column;
+
+}
+
+`
+
+export const ModalSectionStyled = styled.div`
+  margin: 1rem;
+  border-color: black; 
+  border-width: 2px;
+  border-style: solid;
+  border-radius:16px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+
+  
+  @media (max-width: 700px) {
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+
+
+
+}
+
+
+  input {
+    width: 80%;
+  }
+
+  .basic-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+
+    @media (max-width: 700px) {
+
+      width:100%;
+
+    }
+  }
+
+  .base-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+
+    @media (max-width: 700px) {
+
+      width:100%;
+
+      }
+  }
+  .tags-filters {
+    width: 50%;
+    height: inherit;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    
+
+    .tags {
+      display: flex;
+      justify-content: center;
+      gap:1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 700px) {
+
+    width:100%;
+
+  }
+  }
+
+`
+export const ModalSectionStyled2 = styled.div`
+  margin: 0.1em;
+  padding: 1em;
+  border-color: black; 
+  border-width: 2px;
+  border-style: solid;
+  border-radius:16px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  div.horizontal{
+    margin: 1em;
+    display: flex;
+    flex-direction: row;
+    width:100%;
+  }
+
+
+  @media (max-width: 700px) {
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+
+
+
+}
+
+
+  input {
+    width: 80%;
+  }
+
+  .basic-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+
+    @media (max-width: 700px) {
+
+      width:100%;
+
+    }
+  }
+
+  .base-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+
+    @media (max-width: 700px) {
+
+      width:100%;
+
+      }
+  }
+  .tags-filters {
+    width: 50%;
+    height: inherit;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    
+
+    .tags {
+      display: flex;
+      justify-content: center;
+      gap:1rem;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 700px) {
+
+    width:100%;
+
+  }
+  }
 
 `

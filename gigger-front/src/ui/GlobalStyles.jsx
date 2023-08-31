@@ -22,6 +22,8 @@ input {
     }
 
   }
+
+
   .verification-code {
     background-color: ${({theme})=>theme.verifyCodeBackground};
   }
@@ -32,6 +34,12 @@ input {
     100% { opacity: 1; }
     }
 
+    .setlist-card-background {
+        background: linear-gradient(to right top, #ff7d00,#ff007d);
+    }
+    .event-editor{
+        flex-direction: column;
+    }
     .gigger {
             color: coral;
         }
@@ -268,9 +276,89 @@ input {
     padding: 1em 0;
 }
 
+.duration {
+        background-color: ${({theme})=> theme.durationBackground};
+        padding: 0.1rem 0.4rem;
+        border-radius: 8px;
+        color: ${({theme})=> theme.durationColor};
+    }
+.band-tag {
+        background-color: ${({theme})=> theme.bandTagBackground};
+        padding: 0.1rem 0.4rem;
+        border-radius: 8px;
+        color: ${({theme})=> theme.bandTagColor};
+    }
+.song-tag {
+        background-color: ${({theme})=> theme.bandTagBackground};
+        padding: 0.1rem 0.4rem;
+        border-radius: 8px;
+        color: ${({theme})=> theme.bandTagColor};
+    }
 
+.modal-styles {
+    background-color: ${({theme})=> theme.modalBackground};
+    color: ${({theme})=> theme.modalColor};
+}
+
+.modal-close {
+    color: ${({theme})=> theme.closeColor};
+}
+
+.multi-range-slider .bar-left {
+	width: 25%;
+	background-color: #f0f0f0;
+	border-radius: 10px 0px 0px 10px;
+	padding: 4px 0px;
+}
+.multi-range-slider .bar-right {
+	width: 25%;
+	background-color: #f0f0f0;
+	border-radius: 0px 10px 10px 0px;
+}
+
+.multi-range-slider {
+	display: flex;
+    width: 70%;
+	position: relative;
+	border: solid 1px gray;
+	border-radius: 10px;
+	padding: 20px 10px;
+	flex-direction: column;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge,*/
+}
+.multi-range-slider .bar-inner {
+	background-color: coral;
+	display: flex;
+	flex-grow: 1;
+	flex-shrink: 1;
+	justify-content: space-between;
+	position: relative;
+	border: solid 1px black;
+	justify-content: space-between;
+}
+
+.multi-range-slider .thumb .caption * {
+	position: absolute;
+	min-width: 30px;
+	height: 30px;
+	font-size: 75%;
+	text-align: center;
+	line-height: 30px;
+	background-color: coral;
+	border-radius: 15px;
+	color: white;
+	box-shadow: 0px 0px 5px black;
+	padding: 0px 5px;
+	white-space: nowrap;
+}
 
 @media (max-width: 700px) {
+    
 
     .loggedNav, .notLoggedNav {
         background-color: ${({theme})=>theme.headerBackground};

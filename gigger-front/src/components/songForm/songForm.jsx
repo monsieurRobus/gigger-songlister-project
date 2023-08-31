@@ -172,8 +172,8 @@ const optionTagStyled = ({ children, classNames, option, ...optionProps }) => {
   return (
     
     <ModalContentStyled>
-      <ModalCloseButton onClick={closeForm}><FontAwesomeIcon icon={faCircleXmark}/></ModalCloseButton>
-        {user.role==="admin"? <ModalContentFormStyled onSubmit={editMode? handleSubmit(handleEditSong):handleSubmit(handleAddSong)}>
+      <ModalCloseButton className={'modal-close'} onClick={closeForm}><FontAwesomeIcon icon={faCircleXmark}/></ModalCloseButton>
+        {user.role==="admin"? <ModalContentFormStyled className={'modal-styles'} onSubmit={editMode? handleSubmit(handleEditSong):handleSubmit(handleAddSong)}>
         <h3>Input song</h3>
             <label>Song Name<input type="text" name="song-name" {...register("name")}/></label>
             <label>Artist<input type="text" name="artist-name" {...register("artist")}/></label>

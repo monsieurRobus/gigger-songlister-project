@@ -10,32 +10,39 @@ main .events{
         display: flex;
         justify-content: space-around;
         margin:0;
-        padding: 2rem;
         flex-direction: row;
         width:100%;
+        
 
         .calendar-main {
             width:45%;
+            display: flex;
+            height: 50vh;
             flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            
+            
         }
 
+        
+        
         .calendar-side {
             width:35%;
 
 
         }
     
-        .google-map {
-            width: 400px;
-            height: 400px;
-        }
+        height: 70vh;
+        max-height: 70vh;
     }
-
+    
     
     
 }
 
 main .event-list{
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

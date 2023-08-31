@@ -7,6 +7,14 @@ export const secondsToHMS = (seconds) => {
     const minutesFinal = minutes - hours*60
     return `${hours}:${minutesFinal<10?'0'+minutesFinal:minutesFinal}:${secondsFinal<10?'0'+secondsFinal:secondsFinal}`
 }
+export const secondsToMS = (seconds) => {
+    const extraZero = '0'
+    const minutes = Math.floor(seconds/60)    
+    const secondsFinal = seconds - minutes*60
+
+    const minutesFinal = minutes 
+    return `${minutesFinal<10?'0'+minutesFinal:minutesFinal}:${secondsFinal<10?'0'+secondsFinal:secondsFinal}`
+}
 
 export const dateToDDMMYYYYHHMM = (date) => {
     const dateToConvert = new Date(date)

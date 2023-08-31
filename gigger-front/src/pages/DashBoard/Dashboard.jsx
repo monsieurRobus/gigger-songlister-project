@@ -88,11 +88,9 @@ const Dashboard = () => {
 
   useEffect(() => {
 
-    // useDeleteUserError(res, setRes, setDeleteOk)
+    useDeleteUserError(res, setRes, setDeleteOk)
     useUpdateUserError(res,setRes,setUpdateOk)
     setEdit(false)
-
-    
     
   },[res])
 
@@ -172,11 +170,16 @@ const Dashboard = () => {
             
           </DashboardDivWrapperStyled>
                       
-          <DashboardButtonDivStyled>            
-            <button type="submit" disabled={!edit||isSubmitting} onClick={()=>handleSubmit()}>Save Profile</button>
-           
+          <DashboardButtonDivStyled>
+            <button type="submit" disabled={!edit||isSubmitting} onClick={()=>handleSubmit()}>Save Profile</button>  
           </DashboardButtonDivStyled>
         </form>
+        <DashboardButtonDivStyled>            
+            
+            <button className={'delete'} disabled={!edit||isSubmitting} onClick={()=>handleDeleteUser()}>Delete Profile</button>
+           
+          </DashboardButtonDivStyled>
+        
     </DashboardSectionStyled>
   )
 }

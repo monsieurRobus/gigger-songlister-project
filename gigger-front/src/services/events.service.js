@@ -26,6 +26,14 @@ export const getEventById = async (id) => {
     .catch((err) => err)
   }
 
+  export const updateEvent = async (formData,id)=> {
+    return APIuser.patch(`/events/update?id=${id}`, formData,    {headers: {
+      Authorization: `Bearer ${token()}`
+      }})
+      .then((res) => res)
+      .catch((error) => error);
+  }
+
   export const deleteEvent = async (id) => {
     return APIuser.delete(`/events/delete?id=${id}`, {headers: {
       Authorization: `Bearer ${token()}`,

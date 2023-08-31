@@ -15,7 +15,16 @@ export const lightTheme = {
     link: 'coral',
     linkActive: '#ff007d',
     headerBackground: '#d0d0d0',
-    verifyCodeBackground: '#d0d0d0'
+    verifyCodeBackground: '#d0d0d0',    
+    durationBackground:'#fcfcfc',
+    duration:'#1c1c1c',
+    bandTagBackground:'#fcfcfc',
+    bandTagColor:'#1c1c1c',
+    songTagBackground:'#fcfcfc',
+    songTagColor:'#1c1c1c',
+    modalBackground:'#fcfcfc',
+    modalColor:'#1c1c1c',
+    closeColor:'#1c1c1c'
 }
 
 export const darkTheme = {
@@ -36,4 +45,13 @@ export const darkTheme = {
     linkActive: '#ffffff',
     headerBackground: '#0b0b0b',
     verifyCodeBackground: '#0b0b0b',
+    durationBackground:'#1c1c1c',
+    duration:'#fcfcfc',
+    bandTagBackground:'#1c1c1c',
+    bandTagColor:'#fcfcfc',
+    songTagBackground:'#1c1c1c',
+    songTagColor:'#fcfcfc',
+    modalBackground:'#1c1c1c',
+    modalColor:'#fcfcfc',
+    closeColor:'#fcfcfc'
 }

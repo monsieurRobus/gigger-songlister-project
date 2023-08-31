@@ -25,7 +25,7 @@ const EventSchema = new mongoose.Schema ({
     contactPhone: {
         type: String
     },
-    contactMail: {
+    contactEmail: {
         type: String
     },
     setlist: {

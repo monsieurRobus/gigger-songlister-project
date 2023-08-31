@@ -80,9 +80,9 @@ const TagForm = (props) => {
     },[editTag])
 
    return (
-    <ModalContentStyled>
-        <ModalCloseButton onClick={closeForm}><FontAwesomeIcon icon={faCircleXmark}/></ModalCloseButton>
-        {user.role==="admin"? <ModalContentFormStyled onSubmit={editMode? handleSubmit(handleEditTag):handleSubmit(handleAddTag)}>
+    <ModalContentStyled className={'modal-styles'}>
+        <ModalCloseButton className={'modal-close'} onClick={closeForm}><FontAwesomeIcon icon={faCircleXmark}/></ModalCloseButton>
+        {user.role==="admin"? <ModalContentFormStyled className={'modal-styles'} onSubmit={editMode? handleSubmit(handleEditTag):handleSubmit(handleAddTag)}>
         
             <h3>Input tag</h3>
             <label>Tag name<input type="text" name="tag-name" {...register("name")}/></label>

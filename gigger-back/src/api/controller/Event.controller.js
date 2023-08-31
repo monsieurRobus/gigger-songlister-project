@@ -3,7 +3,10 @@ const Song = require('../models/Song.model')
 const User = require('../models/User.model')
 const Event = require('../models/Event.model')
 const Setlist = require('../models/Setlist.model')
+const nodemailer = require('nodemailer')
 
+const EMAIL = process.env.EMAIL || ''
+const PASSWORD = process.env.PASSWORD_EMAIL || ''
 const getAllEvents = async (req, res, next) => {
     try {
 
@@ -97,19 +100,42 @@ const addNewEvent = async (req,res,next) => {
 
         const eventSaved = await event.save()
         
-        if(eventSaved)
+        if(eventSaved && req.body.contactEmail)
             {
                 
                 user.ownedEvents.push(eventSaved._id)
                 await user.save()
-                // if (setlistToUpdate) {
-                //     setlistToUpdate.events.push(setlist)
-                //     await setlistToUpdate.save()
-                // }
-                // else
-                // {
-                //     return res.status(404).json({message: "No setlist was found."})
-                // }
+                
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user: EMAIL,
+                      pass: PASSWORD,
+                    },
+                  });
+
+                  const mailOptions = {
+                    from: EMAIL,
+                    to: req.body.contactEmail,
+                    subject: `Your ${req.body.type} has been registered! 🎉`,
+                    html: `<h1>Gigger</h1><h2>Hi there!</h2><p>We've registered your event in our plattform, that is: we will start peparing everything for your ${req.body.type} next ${req.body.date} at ${req.body.place}.</p>
+                    <p>If you've registered nothing, ignore this email!</p></span>`,
+                  };
+
+                  transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                      return res.status(200).json({
+                        resend: true,
+                      });
+                    }
+                  });
+
+
+
+
                 return res.status(200).json({ message: 'Event was saved uwu ', event: event})
 
             }
@@ -204,8 +230,12 @@ const updateEvent = async(req,res,next) => {
     try 
     {
         const {id} = req.query
+        console.log(req.body)
+        const event = await Event.findByIdAndUpdate(id,{
+            ...req.body
+        })
+
         
-        const event = await Event.findByIdAndUpdate(id,{...req.body})
         const keysToUpdate = Object.keys(req.body)
 
         const updatedEvent = await Event.findById(id)

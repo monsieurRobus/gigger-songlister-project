@@ -2,7 +2,7 @@ import Swal from "sweetalert2"
 
 
 
-const useDeleteUserError = (res, setRes) => {
+const useDeleteUserError = (res, setRes,setOk) => {
   
     if(res?.response?.data?.message?.includes('User not found')){
         return Swal.fire({
@@ -16,7 +16,7 @@ const useDeleteUserError = (res, setRes) => {
     }
 
     if(res?.status == 200) {
-        
+        setOk(()=>true)
         return Swal.fire({
             icon: "success",
             title: "User deleted",
@@ -26,8 +26,6 @@ const useDeleteUserError = (res, setRes) => {
             
         })
     }
-
-
 
 }
 

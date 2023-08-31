@@ -2,15 +2,14 @@ import { styled } from "styled-components"
 
 
 export const SetlistBackgroundStyled = styled.div`
-  background: linear-gradient(to right top, #ff7d00,#ff007d);
+  background: linear-gradient(to right top, #ff7d00,#ff007d) ;
   width: 100%;
   height: 100%;
-  opacity:0.4;
   color: rgba(255,255,255,0.2);
   font-size: 5rem;
   overflow:hidden;
   border-radius: 30px;
-  z-index: -1;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;

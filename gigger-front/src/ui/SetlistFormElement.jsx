@@ -9,6 +9,22 @@ export const SetlistFormFatherStyled = styled.section`
 
 
 `
+export const PaginationSelectStyled = styled.div`
+
+    display: flex;
+    justify-content: column;
+    align-items: center;
+    min-width:5vw;
+
+`
+export const NavigationPageSelectStyled = styled.nav`
+
+button {
+    font-size: 0.5rem;
+    
+}
+
+`
 
 export const SongsBubbleStyled = styled.div`
 
@@ -57,6 +73,27 @@ export const SelectedSongsStyled = styled.div`
     width: 35vw;
     height: 70vh;
     overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    ol {
+        background-color: transparent;
+    }
+
+    @media (max-width: 700px) {
+        width: 45vw;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+
+        .duration {
+            display:none;
+        }
+
+        
+    }
+
+    
 `
 
 export const SongSelectionListStyled = styled.div`
@@ -66,7 +103,24 @@ justify-content: flex-start;
 align-items: center;
 width: 25vw;
 height: 70vh;
-overflow-y: scroll;
+overflow-y: auto;
+
+div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (max-width: 700px) {
+
+    width:40%;
+
+    div {
+        gap:0.1rem;
+    }
+    gap:0.1rem;
+
+  }
 `
 
 export const SelectedSongListStyled = styled.ol`
@@ -122,21 +176,51 @@ export const SetlistBubbleMain = styled.div`
 export const SongSelectedInListStyled = styled.li`
 
     display: flex;
-    gap: 1rem;
+    border-radius: 16px;
     justify-content: space-between;
+    box-shadow: 1px 1px 1px #1c1c1c;
     align-items: center;
-    background: linear-gradient(to right bottom, #9fee00,#1c1c1c);
+    background: ${props=>'linear-gradient(to right bottom,'+props?.gradientcolors+')'};
     padding: 0 1rem;
     margin: 0.2rem;
-    width: 400px;
-    height: 80px;
-    
+    width: 100%;
+    max-height: 80px;
     h3 {
-        font-size: 0.8rem;
+        font-size: 1rem;
+        max-height: 70px;
+        overflow: hidden;
     }
 
     h4 {
         font-size: 0.6rem;
+    }
+
+    .label {
+        display: flex;
+        background-color: black;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        color: white;
+        text-shadow: none;
+        border-radius: 50%;
+        width: 1rem;
+        height: 1rem;
+        box-shadow: 1px 1px 1px white;
+    
+    }
+
+    @media (max-width: 700px) {
+        
+        h4{
+            display: none;
+        }
+        
+        .label {
+            width: 0.5rem;
+            height: 0.5rem;
+        }
+        
     }
 
 
@@ -144,15 +228,41 @@ export const SongSelectedInListStyled = styled.li`
 
 export const SongToSelectStyled = styled.div`
 
+    transition: all 0.1s ease-in-out;
     background: ${props=>props.selected? 'linear-gradient(to right bottom, #7dbb00,#1c1c1c)' :'linear-gradient(to right bottom, '+props?.gradientcolors+')'} ;
     padding: 1rem;
     margin: 0.2rem;
+    border-radius: 16px;
+    box-shadow: ${props=>props.selected? '1px 1px 1px black':'5px 5px 5px black'};
     border-inline: ${props=>props.selected? '2px solid #7dff00':null};
+    
+    transform: ${props=>props.selected? 'translateX(4px) translateY(4px)' : 'translateX(0) translateY(0)' };
     &:hover {
         
         border-inline: 2px solid #f5f5f5; 
         background:  ${props=>props.selected? 'linear-gradient(to right bottom, #9fee00,#1c1c1c)' :'linear-gradient(to right bottom, #880000,#4f4f4f)'} ;
+    
     }
+
+    h3 {
+        font-size: 1rem;
+        
+    }
+
+    h4{
+        font-size: 0.6rem;
+    }
+
+    .bottom-line{
+        display: flex;
+        flex-direction:row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @media (max-width: 700px) {
+
+    width:20vw;
 
     h3 {
         font-size: 0.8rem;
@@ -162,5 +272,19 @@ export const SongToSelectStyled = styled.div`
     h4{
         font-size: 0.6rem;
     }
+
+    .bottom-line{
+        gap:0;
+        margin:0;
+        padding:0;
+        display: flex;
+        flex-direction:column;
+        align-items: start;
+        justify-content: center;
+    }
+
+    }
+
+
 
 `

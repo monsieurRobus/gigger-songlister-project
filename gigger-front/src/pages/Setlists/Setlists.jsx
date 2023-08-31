@@ -42,23 +42,38 @@ const Setlists = () => {
 
     },[setlists])
 
+    useEffect(()=>{
+      
+      const getTags = async ()=> {
+        const tags = await getAllTags()
+        setTagList(tags.data?.tags)
+      }
+
+      getTags()
+      
+    },[])
+
    
     useEffect(()=>{
         const getSetlists = async()=> {
             const resSetlist = await getAllSetlistsPaginated(page)
-            const tags = await getAllTags()
+            
             if(songs?.length == 0){
               const resSongs = await getAllSongs()
               setSongs(resSongs?.data?.songs)
               
             }
-            setTagList(tags)
+            
             setSetlists(resSetlist.data.setlists)
             setTotalPages(resSetlist.data.totalPages)
         }
 
         getSetlists()
     },[page,res])
+
+
+
+
   return (
     
     <SetlistMainStyled className={'main-setlist'}>
@@ -70,12 +85,12 @@ const Setlists = () => {
         <nav>{paginator.map((page)=>page)}</nav>
         <section ref={parent}>
           {
-            setlists?.length>0 ? setlists.map(setlist => <SetlistCard res={res} setRes={setRes} setlistOwner={setlist.user} tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} events={setlist.events} description={setlist.description} favouritedBy={setlist.favouritedBy}/>) :"No setlist at all 😞"
+            setlists?.length>0 ? setlists.map(setlist => <SetlistCard setVisible={setVisible} setEditSetlist={setEditSetlist} setEditMode={setEditMode} res={res} setRes={setRes} setlistOwner={setlist.user} tags={tagList} id={setlist._id} songList={songs} key={setlist._id} name={setlist.name} songs={setlist.songs} events={setlist.events} description={setlist.description} favouritedBy={setlist.favouritedBy}/>) :"No setlist at all 😞"
           }
         </section>
       </SetlistMainSectionStyled>
       <ModalWrapperStyled visible={visible}>
-        <SetlistForm tags={tagList} setlists={setlists} res={res} setRes={setRes} setSetlists={setSetlists} visible={visible} setVisible={setVisible} editMode={editMode} setEditMode={setEditMode}/>
+        <SetlistForm setEditMode={setEditMode} editMode={editMode} editSetlist={editSetlist} setEditSetlist={setEditSetlist} tags={tagList} setlists={setlists} res={res} setRes={setRes} setSetlists={setSetlists} visible={visible} setVisible={setVisible} editMode={editMode} setEditMode={setEditMode}/>
       </ModalWrapperStyled>
       
       

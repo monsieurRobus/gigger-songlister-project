@@ -34,8 +34,14 @@ export const DashboardAvatarThumbnailDivStyled = styled.div`
 export const DashboardButtonDivStyled = styled.div`
     display: flex;
     width: 100%;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
+
+    button.delete {
+        background-color: red;
+        color: white;
+    }
 `
 
 export const DashboardRowDivStyled = styled.div`

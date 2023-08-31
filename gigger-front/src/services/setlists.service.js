@@ -36,6 +36,14 @@ export const getSetlistById = async (id) => {
     .catch((err) => err)
   }
 
+  export const updateSetlist = async (formData,id)=> {
+    return APIuser.patch(`/setlist/update?id=${id}`, formData,    {headers: {
+      Authorization: `Bearer ${token()}`,
+      }})
+      .then((res) => res)
+      .catch((error) => error);
+  }
+  
   export const deleteSetlist = async (id) => {
     return APIuser.delete(`/setlist/delete?id=${id}`, {headers: {
       Authorization: `Bearer ${token()}`,
