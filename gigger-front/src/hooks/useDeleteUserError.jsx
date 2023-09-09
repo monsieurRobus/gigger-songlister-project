@@ -15,7 +15,7 @@ const useDeleteUserError = (res, setRes,setOk) => {
         })
     }
 
-    if(res?.status == 200) {
+    if(res?.status == 200 && res?.data?.message?.includes("User deleted successfully")) {
         setOk(()=>true)
         return Swal.fire({
             icon: "success",

@@ -121,8 +121,25 @@ const addNewEvent = async (req,res,next) => {
                     html: `<h1>Gigger</h1><h2>Hi there!</h2><p>We've registered your event in our plattform, that is: we will start peparing everything for your ${req.body.type} next ${req.body.date} at ${req.body.place}.</p>
                     <p>If you've registered nothing, ignore this email!</p></span>`,
                   };
+                  const mailOptionsAdmin = {
+                    from: EMAIL,
+                    to: EMAIL,
+                    subject: `Hello bro! A new ${req.body.type} has been registered! 🎉`,
+                    html: `<h1>Gigger</h1><h2>Hi there!</h2><p>We've registered your event in our plattform, that is: we will start peparing everything for your ${req.body.type} next ${req.body.date} at ${req.body.place}.</p>
+                    <p>If you've registered nothing, ignore this email!</p></span>`,
+                  };
 
                   transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {s
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                      return res.status(200).json({
+                        resend: true,
+                      });
+                    }
+                  });
+                  transporter.sendMail(mailOptionsAdmin, (error, info) => {
                     if (error) {
                       console.log(error);
                     } else {
