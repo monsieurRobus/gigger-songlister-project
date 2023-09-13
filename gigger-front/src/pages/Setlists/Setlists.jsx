@@ -90,7 +90,7 @@ const Setlists = () => {
         </section>
       </SetlistMainSectionStyled>
       <ModalWrapperStyled visible={visible}>
-        <SetlistForm setEditMode={setEditMode} editMode={editMode} editSetlist={editSetlist} setEditSetlist={setEditSetlist} tags={tagList} setlists={setlists} res={res} setRes={setRes} setSetlists={setSetlists} visible={visible} setVisible={setVisible} editMode={editMode} setEditMode={setEditMode}/>
+        <SetlistForm editSetlist={editSetlist} setEditSetlist={setEditSetlist} tags={tagList} setlists={setlists} res={res} setRes={setRes} setSetlists={setSetlists} visible={visible} setVisible={setVisible} editMode={editMode} setEditMode={setEditMode}/>
       </ModalWrapperStyled>
       
       
